@@ -1,7 +1,8 @@
 namespace SGE.Repositorios;
 using SGE.Aplicacion;
+using SQLitePCL;
 
-public class RepositorioExpedienteTXT : IExpedienteRepositorio
+public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
@@ -18,25 +19,27 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     private List<Expediente> ListarExpedientes()
     {
         var resultado = new List<Expediente>();
-        using (StreamReader sr = new StreamReader(_nomArchivo))
+        using (var context = new DatosContext())
         {
-            while(!sr.EndOfStream)
+           
+            foreach(var t in context.Expedientes)
             {
-                Expediente expedienteCopia = new Expediente();
-                string st = sr.ReadLine() ?? "";
-                string[]? exp = (st.Split(" || ")) ?? null;
-                if(exp != null)
-                {
-                    expedienteCopia.ID = int.Parse(exp[0]);
-                    expedienteCopia.caratula = exp[1];
-                    expedienteCopia.fechaYHoraCreacion = DateTime.Parse(exp[2]);
-                    expedienteCopia.fechaYHoraActualizacion = DateTime.Parse(exp[3]);
-                    expedienteCopia.Estado = (EstadoExpediente) Enum.Parse(typeof(EstadoExpediente), exp[4]);
-                    expedienteCopia.usuarioID = int.Parse(exp[5]);
 
-                    resultado.Add(expedienteCopia);
-                }
+                //Damian quiere verlo con yield
+
+                Expediente expedienteCopia = new Expediente();
+            
+                expedienteCopia.ID = t.ID;
+                expedienteCopia.caratula = t.caratula;
+                expedienteCopia.fechaYHoraCreacion = t.fechaYHoraCreacion;
+                expedienteCopia.fechaYHoraActualizacion = t.fechaYHoraActualizacion;
+                expedienteCopia.Estado = t.Estado;
+                expedienteCopia.usuarioID = t.usuarioID;
+
+                resultado.Add(expedienteCopia);
+
             }
+                
         }
         return resultado;
     }
@@ -44,164 +47,73 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     public void EliminarExpediente(int eID)
     {
 
-        Expediente e = BuscarExpedientePorId(eID);
-        List<Expediente> listaExpedientes = ListarExpedientes();
-        Expediente aux;
-        int i = 0;
-
-        bool encontre = false;
-
-        while((i <= listaExpedientes.Count) && (!encontre))
+        using(var context = new DatosContext())
         {
 
-            aux = listaExpedientes[i];
-            
-            if(aux.ID == e.ID)
-            {
-                listaExpedientes.Remove(aux);
-                encontre = true;
-            }
-            
-            i++;
-
-        }
-  
+            var expedienteBorrar = context.Expedientes.Where(e => e.ID == eID).SingleOrDefault();
     
-        if(!encontre)
-        {
-            throw new RepositorioException("El expediente buscado no existe.");
-        }
-        else
-        {
-            SobrescribirListaExpediente(listaExpedientes);
-        }
-
-    }
-
-    private void SobrescribirListaExpediente(List<Expediente> lista)
-    {
-
-        if(File.Exists(_nomArchivo))
-        {    
-            using (var sw = new StreamWriter(_nomArchivo))
-            {
-
-                foreach(Expediente e in lista)
-                {
-
-                    sw.WriteLine($"{e.ID} || {e.caratula} || {e.fechaYHoraCreacion} || {e.fechaYHoraActualizacion.ToString()} || {e.Estado} || {e.usuarioID}");
-
-                }
-
-            }
-        }
-
-    }
-
-    public void ModificarEstadoExpediente(Expediente e, EstadoExpediente estado)
-    {
-
-        List<Expediente> lista = ListarExpedientes();
-        Expediente aux;
-        int i = 0;
-        bool encontre = false;
         
-
-        while((i <= lista.Count) && (!encontre))
-        {
-
-            aux = lista[i];
-
-            if(aux.ID == e.ID)
+            if(expedienteBorrar != null)
             {
-
-                aux.Estado =  estado;
-                aux.fechaYHoraActualizacion = DateTime.Now;
-                encontre = true;
-
+                context.Remove(expedienteBorrar);
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
             }
 
-            i++;
+        }
 
-        }        
+    }
 
-        SobrescribirListaExpediente(lista);
+    public void ModificarExpediente(Expediente exp) //Actualizar casos de uso 8(
+    {
+
+        using(var context = new DatosContext())
+        {
+
+            var expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
+    
+        
+            if(expedienteModificar != null)
+            {
+                
+                expedienteModificar = exp;
+                context.SaveChanges();
+
+            }
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
+            }
+
+        }  
 
     }
 
     public Expediente BuscarExpedientePorId(int eId)
     {
 
-        List<Expediente> lista = ListarExpedientes();
-
-        foreach(Expediente eAux in lista)
+        using(var context = new DatosContext())
         {
 
-            if(eAux.ID == eId)
-            {
-
-                return eAux;
-
-            } 
-
-        }
-
-        throw new RepositorioException("El expediente buscado no existe.");
-
-    }
-
-    public void ImprimirPantalla()
-    {
-        List<Expediente> lista = ListarExpedientes();
-        foreach(Expediente e in lista)
-        {
-            Console.WriteLine(e.ToString());
-        }
-    }
-
-    public void ImprimirPantallaPorId(Expediente e)
-    {
-        Console.WriteLine(e);
-        foreach(Tramite t in e.TramiteList)
-        {
-            Console.WriteLine(t);
-        }
-    }
-
-    public void CambioDeInfo(int idE, string caratula, string estado)
-    {
-        List<Expediente> lista = ListarExpedientes();
-        Expediente aux;
-        int i = 0;
-        bool encontre = false;
-
-        while((i <= lista.Count) && (!encontre))
-        {
-
-            aux = lista[i];
-
-            if(aux.ID == idE)
+            var expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
+    
+        
+            if(expedienteBusqueda != null)
             {
                 
-                if(Enum.IsDefined(typeof(EstadoExpediente), estado))
-                {
-
-                    EstadoExpediente est = (EstadoExpediente) Enum.Parse(typeof(EstadoExpediente), estado);
-                    aux.Estado = est;
-                    
-                }
-
-                    aux.caratula =  caratula;
-                    encontre = true;
-
+                return expedienteBusqueda;
+                //Se hace el close con el using al hacer return?
             }
-
-            i++;
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
+            }
 
         }
 
-        SobrescribirListaExpediente(lista);
-        
     }
 
 }
