@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {}
+    "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {}
   },
   "projects": {
-    "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
+    "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
         "projectName": "SGE.Aplicacion",
-        "projectPath": "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
-        "packagesPath": "C:\\Users\\adrie\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\obj\\",
+        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\adrie\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -64,40 +53,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {
+    "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj",
         "projectName": "SGE.Repositorios",
-        "projectPath": "C:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj",
-        "packagesPath": "C:\\Users\\adrie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Repositorios\\obj\\",
+        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Repositorios\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\adrie\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
-                "projectPath": "c:\\Users\\adrie\\Desktop\\Facultad\\2º año\\Seminario - entrega.NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj"
+              "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
+                "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Entrega2-NET\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj"
               }
             }
           }
@@ -106,16 +89,17 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -132,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

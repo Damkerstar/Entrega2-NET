@@ -17,6 +17,9 @@ public class Expediente
         get => _estado;
         set => _estado = value;
     }
+
+    // ------------------------------------------------------------------
+
     private List<Tramite> _tramiteList = new List<Tramite>();
     public List<Tramite> TramiteList
     {
