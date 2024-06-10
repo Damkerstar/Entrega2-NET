@@ -9,5 +9,5 @@ public enum Permiso
     TramiteAlta, // Puede realizar altas de trámites
     TramiteBaja, // Puede realizar bajas de trámites
     TramiteModificacion, // Puede realizar modificaciones de trámites
-
+    
 }

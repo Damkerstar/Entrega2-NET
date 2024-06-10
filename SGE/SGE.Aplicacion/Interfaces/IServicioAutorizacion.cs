@@ -2,7 +2,7 @@ namespace SGE.Aplicacion;
 
 public interface IServicioAutorizacion
 {
-
-    bool PoseeElPermiso(int IdUsuario, Permiso permiso);
+    // La pregunta del millon
+    bool PoseeElPermiso(Usuario user, Permiso permiso);
 
 }
