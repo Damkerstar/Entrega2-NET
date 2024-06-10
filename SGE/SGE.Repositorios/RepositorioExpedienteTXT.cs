@@ -2,28 +2,15 @@ namespace SGE.Repositorios;
 using SGE.Aplicacion;
 
 public class RepositorioExpedienteTXT : IExpedienteRepositorio
-{
-    
-    readonly string _nomArchivo = @"..\SGE.Repositorios\expedientes.txt";    
-
-    public void AgregarExpediente(Expediente e)
-    {
-        
-        int id = RepositorioExpedienteID.conseguirID();
-        e.ID = id;
-        EscribirExpediente(e);
-
-    }
+{  
 
     public void EscribirExpediente(Expediente e)
     {
 
-        if(File.Exists(_nomArchivo))
-        {    
-            using (var sw = new StreamWriter(_nomArchivo, true))
-            {
-                sw.WriteLine($"{e.ID} || {e.caratula} || {e.fechaYHoraCreacion} || {e.fechaYHoraActualizacion.ToString()} || {e.Estado} || {e.usuarioID}");
-            }
+        using (var context = new DatosContext())
+        {
+            context.Add(e);
+            context.SaveChanges();
         }
 
     }

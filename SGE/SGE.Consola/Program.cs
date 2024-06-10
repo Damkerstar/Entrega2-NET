@@ -46,7 +46,7 @@ class Program
             BajaExpediente.Ejecutar(2, 1);
 
             TodosExpedientes.Ejecutar();
-            ExpedientesPorID.Ejecutar(1);*/
+            ExpedientesPorID.Ejecutar(1);*/            
 
         }
         catch (Exception ex)
