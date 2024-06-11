@@ -10,7 +10,6 @@ public class Expediente
     public string? caratula;
     public DateTime fechaYHoraCreacion {get; set;} = DateTime.Now;
     public DateTime fechaYHoraActualizacion {get; set;}
-    public int usuarioID {get; set;}
     private EstadoExpediente _estado {get; set;} = EstadoExpediente.Recien_Iniciado;
     public EstadoExpediente Estado
     {

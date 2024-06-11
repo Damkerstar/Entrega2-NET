@@ -18,30 +18,21 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
 
     private List<Expediente> ListarExpedientes()
     {
-        var resultado = new List<Expediente>();
+        return Metodo().ToList();
+    }
+    public IEnumerable<Expediente> Metodo()
+    {
         using (var context = new DatosContext())
         {
            
-            foreach(var t in context.Expedientes)
+            foreach(Expediente t in context.Expedientes)
             {
 
-                //Damian quiere verlo con yield
-
-                Expediente expedienteCopia = new Expediente();
-            
-                expedienteCopia.ID = t.ID;
-                expedienteCopia.caratula = t.caratula;
-                expedienteCopia.fechaYHoraCreacion = t.fechaYHoraCreacion;
-                expedienteCopia.fechaYHoraActualizacion = t.fechaYHoraActualizacion;
-                expedienteCopia.Estado = t.Estado;
-                expedienteCopia.usuarioID = t.usuarioID;
-
-                resultado.Add(expedienteCopia);
+                yield return t;
 
             }
                 
         }
-        return resultado;
     }
 
     public void EliminarExpediente(int eID)

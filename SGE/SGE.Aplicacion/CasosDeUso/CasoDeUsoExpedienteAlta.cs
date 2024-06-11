@@ -16,7 +16,7 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, ExpedienteVali
 
             }
             
-            repo.AgregarExpediente(e);
+            repo.EscribirExpediente(e);
 
         }
         else
