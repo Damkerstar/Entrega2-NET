@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, IServicioAutorizacion autorizacion)
+public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, ITramiteRepositorio repoTramite, IServicioAutorizacion autorizacion)
 {
 
     public void Ejecutar(int idExpediente, int idUsuario)
@@ -9,7 +9,8 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, ISer
         if(autorizacion.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
         {
 
-            // Deberia eliminar los expedientes y Tramites desde la base de datos sin necesidad de llamar al repoTramite
+            repoTramite.EliminarCompleto(idExpediente);
+
             repoExpediente.EliminarExpediente(idExpediente);
 
         }
