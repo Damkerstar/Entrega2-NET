@@ -1,75 +1,200 @@
 ﻿namespace SGE.Repositorios;
 using SGE.Aplicacion;
-using SQLitePCL;
 
-public class RepositorioTramite : ITramiteRepositorio
+public class RepositorioTramiteTXT : ITramiteRepositorio
 {
+
+    readonly string _nombreArch = @"..\SGE.Repositorios\tramites.txt";
 
     public void AgregarTramite(Tramite tramite)
     {
-       using (var cotext = new DatosContext()) 
-       {
-            context.Add(tramite);
-            context.SaveChanges();
-       }
+        int id = RepositorioTramiteID.conseguirID();
+        tramite.IDTramite = id;
+        EscribirTramite(tramite);
     }
 
+        private void EscribirTramite(Tramite tramite)
+    {
+        if(File.Exists(_nombreArch))
+        {    
+            using (var sw = new StreamWriter(_nombreArch, true))
+            {
+                sw.WriteLine($"{tramite.IDTramite} || {tramite.ExpedienteId} || {tramite.idUsuario} || {tramite.Etiqueta} || {tramite.descripcion} || {tramite.fechaYhoraCreacion} || {tramite.fechaYhoraModificacion} || {tramite.idUsuario}");
+            }
+        }    
+    }
 
     public List<Tramite> ListarTramite()
     {
-        List<Tramite> tramites = new List<Tramite>();
-        using (var context = new DatosContext())
+        var resultado = new List<Tramite>();
+        using (var sr = new StreamReader(_nombreArch))
         {
-            foreach(Tramite tramite in context)
+            while(!sr.EndOfStream)
             {
-                tramites.Add(tramite);
+                Tramite tramiteCopi = new Tramite();
+                string st = sr.ReadLine() ?? "";
+                string[]? tr = (st.Split(" || ")) ?? null;
+                if(tr != null)
+                {
+                    tramiteCopi.IDTramite = int.Parse(tr[0]);
+                    tramiteCopi.ExpedienteId = int.Parse(tr[1]);
+                    tramiteCopi.idUsuario = int.Parse(tr[2]);
+                    tramiteCopi.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), tr[3]);
+                    tramiteCopi.descripcion = tr[4];
+                    tramiteCopi.fechaYhoraCreacion = DateTime.Parse(tr[5]);
+                    tramiteCopi.fechaYhoraModificacion = DateTime.Parse(tr[6]);
+                    tramiteCopi.idUsuario = int.Parse(tr[7]);
+
+                    resultado.Add(tramiteCopi);
+                }
             }
-            
         }
-
-        return tramites;
+        return resultado;
     }
-
 
     public void EliminarTramite(int idtramite)
     {
-        using (var context = new DatosContext())
+        if(File.Exists(_nombreArch))
         {
-            var tramiteBorrar = context.Tramites.Where(tramite => tramite.IDTramite == idtramite).SingleOrDefault();
+            List<Tramite> listTramite = ListarTramite();
+            Tramite tramite;
+            int i = 0;
 
-            if(tramiteBorrar != null)
-            {
-                context.Remove(tramiteBorrar);
-                context.SaveChanges();
+            if(File.Exists(_nombreArch))
+            {   
+                
+                while(i <= listTramite.Count && i != -1)
+                {
+                    tramite = listTramite[i];
+                    if(tramite.IDTramite == idtramite)
+                    {
+                        listTramite.Remove(tramite);
+                        i = -1;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
             }
-            else
+
+            if(i != -1)
             {
-                throw new RepositorioException("El tramite buscado no existe");
+                throw new RepositorioException("No existe el tramite en cuestion");
             }
+
+            SobrescribirListaTramites(listTramite);
         }
     }
 
     public Tramite BuscarUltimo(int idE)
     {
+        List<Tramite> listaPorExpedientes = ListarPorExpediente(idE);
+        Tramite maxTramite = new Tramite();
 
-        using (var context = new DatosContext())
+        maxTramite.IDTramite = -1;
+        foreach(Tramite tActual in listaPorExpedientes)
         {
-            var query = context.Expedientes.Where(e => e.ID == idE).SingleOrDefault();
-
-            Tramite tramite = query.TramiteList.Last();
-            
+            if(maxTramite.IDTramite < tActual.IDTramite)
+            {
+                maxTramite = tActual;
+            }
         }
-        return tramite;
+        return maxTramite;
     }
-    public void ModificarTramite(int idT, string etiqueta)
+
+    public List<Tramite> ListarPorExpediente(int idE)
     {
-        Tramite tramite;
-        using (var context = new DatosContext())
+        List<Tramite> lista = ListarTramite();
+        List<Tramite> listaPorExpediente = new List<Tramite>();
+        foreach(Tramite tActual in lista)
         {
-            var DBTramite = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
+            if(tActual.ExpedienteId == idE)
+            {
+                listaPorExpediente.Add(tActual);   
+            }
+        }
+        return listaPorExpediente;
+    }
 
-            DBTramite.Etiqueta = etiqueta;
-            context.SaveChanges();
+    public void ModificarTramite(Tramite t, string etiqueta)
+    {
+        List<Tramite> listaTramites = ListarTramite();
+        Tramite tramite;
+        int i = 0;
+        if(Enum.IsDefined(typeof(EtiquetaTramite), etiqueta))
+        {    
+            EtiquetaTramite etiq = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+            while(i <= listaTramites.Count && i != -1)
+            {
+                tramite = listaTramites[i];
+                if(tramite.IDTramite == t.IDTramite)
+                {
+                    tramite.Etiqueta = etiq;
+                    tramite.fechaYhoraModificacion = DateTime.Now;
+                    i = -1;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            SobrescribirListaTramites(listaTramites);
         }
     }
+
+    private void SobrescribirListaTramites(List<Tramite> listTramite)
+    {
+
+        if(File.Exists(_nombreArch))
+        {
+            using (var sw = new StreamWriter(_nombreArch))
+            {
+                foreach(Tramite tramite in listTramite)
+                {    
+                    sw.WriteLine($"{tramite.IDTramite} || {tramite.ExpedienteId} || {tramite.idUsuario} || {tramite.Etiqueta} || {tramite.descripcion} || {tramite.fechaYhoraCreacion} || {tramite.fechaYhoraModificacion} || {tramite.idUsuario}");
+                }
+            }
+        }
+    }
+
+    public Tramite BuscarTramite(int idTramite)
+    {
+
+        List<Tramite> listaTramites = ListarTramite();
+        Tramite tAux = new Tramite();
+
+        foreach(Tramite aux in listaTramites)
+        {
+
+            if(aux.IDTramite == idTramite)
+            {
+
+                return aux;
+
+            }
+
+        }
+
+        throw new RepositorioException("El expediente buscado no existe.");
+
+    }
+
+    public void ImprimirPantallaPorEtiqueta(string etiqueta)
+    {
+        List<Tramite> listaTramites = ListarTramite();
+        if(Enum.IsDefined(typeof(EtiquetaTramite), etiqueta))
+        {
+            EtiquetaTramite etiq = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+            foreach(Tramite tramite in listaTramites)
+            {
+                if(tramite.Etiqueta == etiq)
+                {
+                    Console.WriteLine(tramite);
+                }
+            }
+        }
+
+    }
+
 }

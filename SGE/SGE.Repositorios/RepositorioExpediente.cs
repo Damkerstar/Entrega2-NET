@@ -1,8 +1,7 @@
 namespace SGE.Repositorios;
 using SGE.Aplicacion;
-using SQLitePCL;
 
-public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
+public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
@@ -15,44 +14,49 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
         }
 
     }
+    
+    public List<Expediente> ListarExpedientes()
+    {
 
-    private List<Expediente> ListarExpedientes()
-    {
-        return Metodo().ToList();
-    }
-    private IEnumerable<Expediente> Metodo()
-    {
+        List<Expediente> lista = new List<Expediente>();
+
         using (var context = new DatosContext())
         {
            
             foreach(Expediente t in context.Expedientes)
             {
 
-                yield return t;
+                lista.Add(t);
 
             }
                 
         }
+
+        return lista;
+
     }
 
     public void EliminarExpediente(int eID)
     {
 
+        Expediente? expedienteBorrar;
+
         using(var context = new DatosContext())
         {
 
-            var expedienteBorrar = context.Expedientes.Where(e => e.ID == eID).SingleOrDefault();
-    
+            expedienteBorrar = context.Expedientes.Where(e => e.ID == eID).SingleOrDefault();    
         
             if(expedienteBorrar != null)
             {
                 context.Remove(expedienteBorrar);
                 context.SaveChanges();
             }
-            else
-            {
-                throw new RepositorioException("El expediente buscado no existe.");
-            }
+
+        }
+
+        if(expedienteBorrar == null)
+        {
+            throw new RepositorioException("El expediente buscado no existe.");
 
         }
 
@@ -61,49 +65,51 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     public void ModificarExpediente(Expediente exp) //Actualizar casos de uso 8(
     {
 
+        Expediente? expedienteModificar;
+
         using(var context = new DatosContext())
         {
 
-            var expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
-    
+            expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
         
             if(expedienteModificar != null)
             {
-                
-                expedienteModificar = exp;
+
+                //Funcionará?
+                expedienteModificar.caratula = exp.caratula;
+                expedienteModificar.fechaYHoraActualizacion = exp.fechaYHoraActualizacion;
+                expedienteModificar.usuarioID = exp.usuarioID;
+                expedienteModificar.Estado = exp.Estado;
+
+                //Lo averiguaremos en el próximo episodio de Dragon Ball Z Kai
                 context.SaveChanges();
 
             }
-            else
-            {
-                throw new RepositorioException("El expediente buscado no existe.");
-            }
 
         }  
+
+        if(expedienteModificar == null)
+        {
+            throw new RepositorioException("El expediente buscado no existe.");
+        }
 
     }
 
     public Expediente BuscarExpedientePorId(int eId)
     {
 
+        Expediente? expedienteBusqueda;
+
         using(var context = new DatosContext())
         {
 
-            var expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
-
-        
-            if(expedienteBusqueda != null)
-            {
-                
-                return expedienteBusqueda;
-                //Se hace el close con el using al hacer return?
-            }
-            else
-            {
-                throw new RepositorioException("El expediente buscado no existe.");
-            }
+            expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
 
         }
+        
+        if(expedienteBusqueda == null) throw new RepositorioException("El expediente buscado no existe.");
+        
+        return expedienteBusqueda;
 
     }
 

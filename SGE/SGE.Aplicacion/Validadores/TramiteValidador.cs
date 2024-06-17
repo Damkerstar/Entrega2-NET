@@ -9,12 +9,12 @@ public class TramiteValidador
 
         if(string.IsNullOrWhiteSpace(tramite.descripcion))
         {
-            msg = "La descripcion no puede estar vacía. ";
+            msg = "La descripcion no puede estar vacía.\n";
         }
         
         if(tramite.idUsuario <= 0)
         {
-            msg += "El ID de usuario debe que ser mayor que 0.";
+            msg += "El ID de usuario debe que ser mayor que 0.\n";
         }
 
         return (msg == "");
