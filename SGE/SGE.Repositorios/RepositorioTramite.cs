@@ -46,6 +46,50 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
+    public List<Tramite> BuscarPorEtiqueta(string etiq)
+    {
+        List<Tramite> listaTramite = new List<Tramite>();
+        using (var context = new DatosContext())
+        {
+            EtiquetaTramite etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiq);
+            
+            foreach(Tramite tramite in context.Tramites)
+            {
+                if(tramite.Etiqueta == etiqueta)
+                {
+                    listaTramite.Add(tramite);
+                }
+            }
+        }
+        if(listaTramite != null)
+        {
+            return listaTramite;
+        }
+        else
+        {
+            throw new RepositorioException("El tramite buscado no existe");
+        }
+    }
+
+    public Tramite BuscarTramite(int idTramite)
+    {
+        Tramite? tramite;
+        using (var context = new DatosContext())
+        {
+            var query = context.Tramites.Where(t => t.IDTramite == idTramite).SingleOrDefault();
+
+            tramite = query;
+        }
+        if(tramite != null)
+        {
+            return tramite;
+        }
+        else
+        {
+            throw new RepositorioException("El tramite buscado no existe");
+        }
+    }
+
     public Tramite BuscarUltimo(int idE)
     {
         Tramite? tramite = null;
@@ -81,6 +125,7 @@ public class RepositorioTramite : ITramiteRepositorio
             if(query != null)
             {
                 query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+                query.fechaYhoraModificacion = DateTime.Now;
                 aux = query;
                 context.SaveChanges();
             }

@@ -1,12 +1,12 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, ITramiteRepositorio repoTramite, IServicioAutorizacion autorizacion)
+public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, IUsuarioRepositorio repoUsuario, ITramiteRepositorio repoTramite, IServicioAutorizacion autorizacion)
 {
 
     public void Ejecutar(int idExpediente, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.ExpedienteAlta))
         {
 
             repoTramite.EliminarCompleto(idExpediente);

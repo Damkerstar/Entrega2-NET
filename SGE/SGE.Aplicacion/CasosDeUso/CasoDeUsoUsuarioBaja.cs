@@ -2,10 +2,10 @@ namespace SGE.Aplicacion;
 
 public class CasoDeUsoUsuarioBaja(IServicioAutorizacion autorizacion, IRepositorioUsuario usuario)
 {
-    public void Ejecutar(int idAdm,int Id)
+    public void Ejecutar(int idAdm,int id)
     {
 
-        if(autorizacion.PoseeElPermiso(usuario.BuscarId(IdAdm)))
+        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(idAdm), PermisoAdm.UsuariosBaja))
         {
             usuario.EliminarUsuario(id);
         }

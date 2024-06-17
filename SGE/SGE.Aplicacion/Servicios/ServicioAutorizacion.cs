@@ -8,7 +8,7 @@ public class ServicioAutorizacion : IServicioAutorizacion
         
         List<String>? lista = user.Permisos ?? new List<String>();
 
-        foreach(String s in lista)
+        foreach(string s in lista)
         {
 
             Permiso p = (Permiso) Enum.Parse(typeof(Permiso), s);

@@ -116,7 +116,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     public void ModificarEstadoExpediente(int id, EstadoExpediente estado)
     {
 
-        Expediente? e = null;
+        Expediente? e;
 
         using(var context = new DatosContext())
         {
@@ -126,11 +126,11 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
             if(query != null)
             {
 
-                e = query;
                 query.Estado = estado;
                 context.SaveChanges();
 
             }
+            e = query;
 
         }
 

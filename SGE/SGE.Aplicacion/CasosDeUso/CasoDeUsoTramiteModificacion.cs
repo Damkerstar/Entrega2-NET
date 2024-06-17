@@ -1,15 +1,14 @@
 using SGE.Aplicacion;
 
-public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTramite, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
+public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
 {
     public void Ejecutar(int idTramite, string etiqueta, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(idUsuario, Permiso.TramiteModificacion))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteModificacion))
         {
-            Tramite tAux = repoTramite.BuscarTramite(idTramite);
             
-            repoTramite.ModificarTramite(tAux, etiqueta);
+            repoTramite.ModificarTramite(idTramite, etiqueta);
 
             Tramite tramite = repoTramite.BuscarTramite(idTramite);
             

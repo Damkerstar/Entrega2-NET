@@ -1,10 +1,10 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IServicioAutorizacion autorizacion)
+public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion)
 {
     public void Ejecutar(int eId, int idUsuario, string caratula, string estado)
     {
-        if (autorizacion.PoseeElPermiso(idUsuario, Permiso.ExpedienteModificacion))
+        if (autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.ExpedienteModificacion))
         {
 
             if(!string.IsNullOrWhiteSpace(caratula))

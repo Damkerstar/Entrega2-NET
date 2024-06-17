@@ -1,12 +1,12 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, ExpedienteValidador validador, IServicioAutorizacion autorizacion)
+public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IUsuarioRepositorio repoUsuario, ExpedienteValidador validador, IServicioAutorizacion autorizacion)
 {
         
     public void Ejecutar(Expediente e, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.ExpedienteAlta))
         {
 
             if(validador.Validar(e, out string errorMessage) == false)
