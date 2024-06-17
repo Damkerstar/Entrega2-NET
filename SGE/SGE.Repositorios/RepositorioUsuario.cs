@@ -5,9 +5,40 @@ namespace SGE.Repositorios;
 
 public class RepositorioUsuario : IUsuarioRepositorio
 {
+
+    public void AgregarUsuario(Usuario user)
+    {
+
+        DatosSqlite.Inicializar();
+
+        using(var context = new DatosContext())
+        {
+
+            context.Add(user);
+            context.SaveChanges();
+
+            var query = context.Usuarios.Where(u => u.Id == 1).SingleOrDefault();
+
+            if(query != null && query.Permisos != null)
+            {
+                
+                foreach(Permiso p in Enum.GetValues(typeof(Permiso)))
+                {
+                    String nuevoPermiso = $"{p}";
+                    query.Permisos.Add((nuevoPermiso));
+                }
+                
+            }
+
+        }
+
+    }
+
     public List<Usuario> ListarUsuarios()
     {
         List<Usuario> listaUsuario = new List<Usuario>();
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             foreach(Usuario usuario in context.Usuarios)
@@ -15,19 +46,16 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 listaUsuario.Add(usuario);
             }
         }
-        if(listaUsuario == null)
-        {
-            throw new RepositorioException("No existen usuarios");
-        }
-        else
-        {
-            return listaUsuario;
-        }
+
+        return listaUsuario;
+
     }
 
     public Usuario BuscarUsuario(int idUsuario)
     {
         Usuario? usuario;
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             var query = context.Usuarios.Where(u => u.Id == idUsuario).SingleOrDefault();
@@ -35,9 +63,10 @@ public class RepositorioUsuario : IUsuarioRepositorio
             usuario = query;
         
         }
+
         if(usuario == null)
         {
-            throw new RepositorioException("No existe el usuario con esa ID");
+            throw new RepositorioException("No existe el usuario buscado.");
         }
         else
         {
@@ -48,11 +77,13 @@ public class RepositorioUsuario : IUsuarioRepositorio
     public void EliminarUsuario(int idUsuario)
     {
         Usuario? usuario;
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             var query = context.Usuarios.Where(u => u.Id == idUsuario).SingleOrDefault();
 
-            if(query != null)
+            if(query != null && query.Id != 1)
             {
                 context.Remove(query);
                 context.SaveChanges();
@@ -61,13 +92,16 @@ public class RepositorioUsuario : IUsuarioRepositorio
         }
         if(usuario == null)
         {
-            throw new RepositorioException("No existe el usuario a eliminar");
+            throw new RepositorioException("No existe el usuario buscado.");
         }
+        else if(usuario.Id == 1) throw new RepositorioException("No se puede eliminar este usuario.");
     }
 
     public void ModificarUsuario(Usuario usuario)
     {
         bool ok = false;
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             var query = context.Usuarios.Where(u => u.Id == usuario.Id).SingleOrDefault();
@@ -82,9 +116,9 @@ public class RepositorioUsuario : IUsuarioRepositorio
             }
             
         }
-        if(ok)
+        if(!ok)
         {
-            throw new RepositorioException("No existe el usuario a modificar");
+            throw new RepositorioException("No existe el usuario buscado.");
         }
 
     }

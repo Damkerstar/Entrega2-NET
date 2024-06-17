@@ -118,7 +118,7 @@ public class RepositorioTramite : ITramiteRepositorio
                 tramite = query.TramiteList.Last();
 
             }
-
+            
         }
 
         if(tramite != null)
@@ -135,8 +135,8 @@ public class RepositorioTramite : ITramiteRepositorio
     public void ModificarTramite(int idT, string etiqueta)
     {
 
-        Tramite? aux = null;
         DatosSqlite.Inicializar();
+        bool ok = false;
 
         using (var context = new DatosContext())
         {
@@ -146,13 +146,13 @@ public class RepositorioTramite : ITramiteRepositorio
             {
                 query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
                 query.fechaYhoraModificacion = DateTime.Now;
-                aux = query;
                 context.SaveChanges();
+                ok = true;
             }
 
         }
 
-        if(aux == null)
+        if(!ok)
         {
             throw new RepositorioException("El tramite buscado no existe");
         }

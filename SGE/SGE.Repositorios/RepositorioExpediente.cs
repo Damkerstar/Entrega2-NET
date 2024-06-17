@@ -122,7 +122,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     public void ModificarEstadoExpediente(int id, EstadoExpediente estado)
     {
 
-        Expediente? e;
+        bool ok = false;
         DatosSqlite.Inicializar();
         
         using(var context = new DatosContext())
@@ -135,13 +135,13 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
 
                 query.Estado = estado;
                 context.SaveChanges();
+                ok = true;
 
             }
-            e = query;
 
         }
 
-        if(e == null) throw new RepositorioException("El expediente buscado no existe.");
+        if(!ok) throw new RepositorioException("El expediente buscado no existe.");
 
     }
 
