@@ -46,6 +46,25 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
+    public Tramite BuscarTramite(int idT)
+    {
+        Tramite? tramite;
+        using (var context = new DatosContext())
+        {
+            var query = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
+
+            tramite = query;
+        }
+        if(tramite != null)
+        {
+            return tramite;
+        }
+        else
+        {
+            throw new RepositorioException("El tramite buscado no existe");
+        }
+    }
+
     public Tramite BuscarUltimo(int idE)
     {
         Tramite? tramite = null;
@@ -81,6 +100,7 @@ public class RepositorioTramite : ITramiteRepositorio
             if(query != null)
             {
                 query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+                query.fechaYhoraModificacion = DateTime.Now;
                 aux = query;
                 context.SaveChanges();
             }

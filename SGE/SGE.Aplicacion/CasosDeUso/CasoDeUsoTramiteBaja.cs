@@ -1,5 +1,5 @@
 namespace SGE.Aplicacion;
-public class CasoDeUsoTramiteBaja(ITramiteRepositorio repoTramite, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion){
+public class CasoDeUsoTramiteBaja(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion){
     public void Ejecutar(int idTramite, int idUsuario)
     {
 

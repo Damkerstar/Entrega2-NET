@@ -1,10 +1,11 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, TramiteValidador validador, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
+public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, TramiteValidador validador, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
 {
     public void Ejecutar(Tramite tramite, int idUsuario)
     {
-        if(autorizacion.PoseeElPermiso(idUsuario, Permiso.TramiteAlta))
+
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteAlta))
         {
             
             if(!validador.ValidarTramite(tramite, out string msg))
