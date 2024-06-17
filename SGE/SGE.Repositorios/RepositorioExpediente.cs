@@ -1,7 +1,7 @@
 namespace SGE.Repositorios;
 using SGE.Aplicacion;
 
-public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Interfaces
+public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
