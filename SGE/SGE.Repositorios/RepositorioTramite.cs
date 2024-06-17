@@ -7,7 +7,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public void AgregarTramite(Tramite tramite)
     {
-       using (var cotext = new DatosContext()) 
+       using (var context = new DatosContext()) 
        {
             context.Add(tramite);
             context.SaveChanges();
@@ -20,7 +20,7 @@ public class RepositorioTramite : ITramiteRepositorio
         List<Tramite> tramites = new List<Tramite>();
         using (var context = new DatosContext())
         {
-            foreach(Tramite tramite in context)
+            foreach(Tramite tramite in context.Tramites)
             {
                 tramites.Add(tramite);
             }
@@ -51,25 +51,38 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public Tramite BuscarUltimo(int idE)
     {
-
+        Tramite? tramite;
         using (var context = new DatosContext())
         {
             var query = context.Expedientes.Where(e => e.ID == idE).SingleOrDefault();
 
-            Tramite tramite = query.TramiteList.Last();
-            
+            tramite = query.TramiteList.Last();
         }
-        return tramite;
+
+        if(tramite != null)
+        {
+            return tramite;
+        }
+        else
+        {
+            throw new RepositorioException("El tramite buscado no existe");
+        }
     }
     public void ModificarTramite(int idT, string etiqueta)
     {
-        Tramite tramite;
         using (var context = new DatosContext())
         {
-            var DBTramite = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
-
-            DBTramite.Etiqueta = etiqueta;
-            context.SaveChanges();
+            var query = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
+            
+            if(query != null)
+            {
+                query.Etiqueta = (Etiqueta) Enum.Parse(typeof(Etiqueta), etiqueta);
+                context.SaveChanges();
+            }
+        }
+        if(query == null)
+        {
+            throw new RepositorioException("El tramite buscado no existe");
         }
     }
 }
