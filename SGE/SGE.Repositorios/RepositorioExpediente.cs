@@ -62,7 +62,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
 
     }
 
-    public void ModificarExpediente(Expediente exp) //Actualizar casos de uso 8(
+    public void ModificarExpediente(int eId, string caratula, string estado, int idUsuario) //Actualizar casos de uso 8(
     {
 
         Expediente? expedienteModificar;
@@ -70,16 +70,16 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
         using(var context = new DatosContext())
         {
 
-            expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
+            expedienteModificar = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
         
             if(expedienteModificar != null)
             {
 
                 //Funcionará?
-                expedienteModificar.caratula = exp.caratula;
-                expedienteModificar.fechaYHoraActualizacion = exp.fechaYHoraActualizacion;
-                expedienteModificar.usuarioID = exp.usuarioID;
-                expedienteModificar.Estado = exp.Estado;
+                expedienteModificar.caratula = caratula;
+                expedienteModificar.fechaYHoraActualizacion = DateTime.Now;
+                expedienteModificar.usuarioID = idUsuario;
+                expedienteModificar.Estado = (EstadoExpediente) Enum.Parse(typeof(EstadoExpediente), estado);
 
                 //Lo averiguaremos en el próximo episodio de Dragon Ball Z Kai
                 context.SaveChanges();
@@ -110,6 +110,31 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
         if(expedienteBusqueda == null) throw new RepositorioException("El expediente buscado no existe.");
         
         return expedienteBusqueda;
+
+    }
+
+    public void ModificarEstadoExpediente(int id, EstadoExpediente estado)
+    {
+
+        Expediente? e = null;
+
+        using(var context = new DatosContext())
+        {
+
+            var query = context.Expedientes.Where(e => e.ID == id).SingleOrDefault();
+
+            if(query != null)
+            {
+
+                e = query;
+                query.Estado = estado;
+                context.SaveChanges();
+
+            }
+
+        }
+
+        if(e == null) throw new RepositorioException("El expediente buscado no existe.");
 
     }
 

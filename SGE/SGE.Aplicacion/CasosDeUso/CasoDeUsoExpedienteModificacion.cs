@@ -10,7 +10,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IS
             if(!string.IsNullOrWhiteSpace(caratula))
             {
                 
-                repoExpe.CambioDeInfo(eId, caratula, estado);
+                repoExpe.ModificarExpediente(eId, caratula, estado, idUsuario);
             }
             else
             {

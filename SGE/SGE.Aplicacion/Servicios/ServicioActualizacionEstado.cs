@@ -8,7 +8,7 @@ public class ServicioActualizacionEstado(IExpedienteRepositorio repoExpediente, 
 
         EstadoExpediente estado = cambioEstado.Ejecutar(etiqueta) ?? e.Estado;
 
-        repoExpediente.ModificarEstadoExpediente(e, estado);
+        repoExpediente.ModificarEstadoExpediente(idE, estado);
         
     }
 }
