@@ -46,12 +46,37 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
-    public Tramite BuscarTramite(int idT)
+    public List<Tramite> BuscarPorEtiqueta(string etiq)
+    {
+        List<Tramite> listaTramite = new List<Tramite>();
+        using (var context = new DatosContext())
+        {
+            EtiquetaTramite etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiq);
+            
+            foreach(Tramite tramite in context.Tramites)
+            {
+                if(tramite.Etiqueta == etiqueta)
+                {
+                    listaTramite.Add(tramite);
+                }
+            }
+        }
+        if(listaTramite != null)
+        {
+            return listaTramite;
+        }
+        else
+        {
+            throw new RepositorioException("El tramite buscado no existe");
+        }
+    }
+
+    public Tramite BuscarTramite(int idTramite)
     {
         Tramite? tramite;
         using (var context = new DatosContext())
         {
-            var query = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
+            var query = context.Tramites.Where(t => t.IDTramite == idTramite).SingleOrDefault();
 
             tramite = query;
         }
