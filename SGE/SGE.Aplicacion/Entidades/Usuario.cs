@@ -5,7 +5,7 @@ namespace SGE.Aplicacion;
 
 public class Usuario
 {
-    public int Id {get; set;}
+    public int Id { get; private set; }
     public string Nombre {get; set;} = "";
     public string Apellido {get; set;} = "";
     public string CorreoElectronico {get; set;} = "";
@@ -31,15 +31,9 @@ public class Usuario
         using(var h = SHA256.Create()) //SHA256 es el método de Hash. el Create() método de clase, es como un New
         {
 
-            //byte[] arrayPassword = h.ComputeHash(Encoding.UTF8.GetBytes(password));
+            byte[] arrayPassword = h.ComputeHash(Encoding.UTF8.GetBytes(password));
             //Arreglo de Bytes porque el algoritmo criptográfico opera a nivel de bytes
             //UTF8 por la longitud en bits de los caracteres
-
-            //Se puede simplificar como
-
-            byte[] arrayPassword = Encoding.UTF8.GetBytes(password);
-            //Paso a bytes
-            byte[] hasheado = h.ComputeHash(arrayPassword);
 
             foreach(byte b in arrayPassword)
             {
