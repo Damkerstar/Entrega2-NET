@@ -1,11 +1,11 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacion, IRepositorioUsuario usuario)
+public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacion, IUsuarioRepositorio usuario)
 {
-    public void Ejecutar(int idAdm,int id)
+    public void Ejecutar(string contra,int id)
     {
 
-        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(idAdm), PermisoAdm.))
+        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(id), Permiso.UsuariosModificacion))
         {
             usuario.EliminarUsuario(id);
         }

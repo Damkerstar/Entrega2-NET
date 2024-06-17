@@ -1,10 +1,10 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IRepositorioUsuario usuario)
+public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IUsuarioRepositorio usuario)
 {
     public void Ejecutar(int ID)
     {
-        if(autorizacion.PoseeElPermiso(usuario.BuscarId(ID), PermisoAdm.ListarUsuarios))
+        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(ID), Permiso.ListarUsuarios))
         {
             usuario.ListarUsuarios();
         }
