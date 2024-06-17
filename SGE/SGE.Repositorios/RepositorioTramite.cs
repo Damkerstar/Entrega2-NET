@@ -49,31 +49,6 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
-    public void EliminarCompleto(int idE)
-    {
-        List<Tramite> listaTramite = ListarTramite();
-        List<Tramite> listaTramiteCopia = ListarTramite();
-        bool listaModificada = false;
-        
-        foreach(Tramite t in listaTramite)
-        {
-
-            if(t.ExpedienteId == idE)
-            {
-
-                listaTramiteCopia.Remove(t);
-                listaModificada = true;
-
-            }
-
-        }
-
-        if(listaModificada)
-        {
-            SobrescribirListaTramites(listaTramiteCopia);
-        }
-    }
-
     public Tramite BuscarUltimo(int idE)
     {
 
