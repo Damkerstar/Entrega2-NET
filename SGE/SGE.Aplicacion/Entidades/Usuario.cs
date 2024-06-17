@@ -7,6 +7,17 @@ public class Usuario
     public string Apellido {get; set;} = "";
     public string CorreoElectronico {get; set;} = "";
     public string Contrasena {set; private get;} = "";
-    public List<Permiso>? Permisos {get; set;}
+    public List<String>? Permisos {get; set;}
+
+    public Usuario(string n, string a, string c, string password, List<String>? p)
+    {
+
+        this.Nombre = n;
+        this.Apellido = a;
+        this.CorreoElectronico = c;
+        this.Contrasena = password;
+        this.Permisos = p;
+
+    }
     
 }
