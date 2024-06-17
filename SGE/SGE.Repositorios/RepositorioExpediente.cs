@@ -2,7 +2,7 @@ namespace SGE.Repositorios;
 using SGE.Aplicacion;
 using SQLitePCL;
 
-public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Interfaces
+public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
@@ -20,7 +20,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
     {
         return Metodo().ToList();
     }
-    public IEnumerable<Expediente> Metodo()
+    private IEnumerable<Expediente> Metodo()
     {
         using (var context = new DatosContext())
         {
@@ -90,7 +90,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
         {
 
             var expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
-    
+
         
             if(expedienteBusqueda != null)
             {
