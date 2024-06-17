@@ -5,7 +5,7 @@ public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacio
     public void Ejecutar(int idAdm,int id)
     {
 
-        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(idAdm), PermisoAdm.UsuariosBaja))
+        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(idAdm), PermisoAdm.))
         {
             usuario.EliminarUsuario(id);
         }
