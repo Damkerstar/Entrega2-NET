@@ -1,7 +1,8 @@
 namespace SGE.Repositorios;
 using SGE.Aplicacion;
+using SQLitePCL;
 
-public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Interfaces
+public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
@@ -14,36 +15,33 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
         }
 
     }
-    
-    public List<Expediente> ListarExpedientes()
+
+    private List<Expediente> ListarExpedientes()
     {
-
-        List<Expediente> lista = new List<Expediente>();
-
+        return Metodo().ToList();
+    }
+    private IEnumerable<Expediente> Metodo()
+    {
         using (var context = new DatosContext())
         {
            
             foreach(Expediente t in context.Expedientes)
             {
 
-                lista.Add(t);
+                yield return t;
 
             }
                 
         }
-
-        return lista;
     }
 
     public void EliminarExpediente(int eID)
     {
 
-        Expediente? expedienteBorrar;
-
         using(var context = new DatosContext())
         {
 
-            expedienteBorrar = context.Expedientes.Where(e => e.ID == eID).SingleOrDefault();
+            var expedienteBorrar = context.Expedientes.Where(e => e.ID == eID).SingleOrDefault();
     
         
             if(expedienteBorrar != null)
@@ -51,12 +49,11 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
                 context.Remove(expedienteBorrar);
                 context.SaveChanges();
             }
-            
-        }
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
+            }
 
-        if(expedienteBorrar == null)
-        {
-            throw new RepositorioException("El expediente buscado no existe.");
         }
 
     }
@@ -64,51 +61,49 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio //Modificar Inter
     public void ModificarExpediente(Expediente exp) //Actualizar casos de uso 8(
     {
 
-        Expediente? expedienteModificar;
-
         using(var context = new DatosContext())
         {
 
-            expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
+            var expedienteModificar = context.Expedientes.Where(e => e.ID == exp.ID).SingleOrDefault();
+    
         
             if(expedienteModificar != null)
             {
                 
-                //Funcionará?
-                expedienteModificar.caratula = exp.caratula;
-                expedienteModificar.fechaYHoraActualizacion = exp.fechaYHoraActualizacion;
-                expedienteModificar.usuarioID = exp.usuarioID;
-                expedienteModificar.Estado = exp.Estado;
-
-                //Lo averiguaremos en el próximo episodio de Dragon Ball Z Kai
+                expedienteModificar = exp;
                 context.SaveChanges();
 
             }
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
+            }
 
         }  
-
-        if(expedienteModificar == null)
-        {
-            throw new RepositorioException("El expediente buscado no existe.");
-        }
 
     }
 
     public Expediente BuscarExpedientePorId(int eId)
     {
 
-        Expediente? expedienteBusqueda;
-
         using(var context = new DatosContext())
         {
 
-            expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
+            var expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
+
+        
+            if(expedienteBusqueda != null)
+            {
+                
+                return expedienteBusqueda;
+                //Se hace el close con el using al hacer return?
+            }
+            else
+            {
+                throw new RepositorioException("El expediente buscado no existe.");
+            }
 
         }
-        
-        if(expedienteBusqueda == null) throw new RepositorioException("El expediente buscado no existe.");
-        
-        return expedienteBusqueda;
 
     }
 
