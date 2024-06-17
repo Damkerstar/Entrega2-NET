@@ -1,6 +1,5 @@
 ﻿namespace SGE.Repositorios;
 using SGE.Aplicacion;
-using SQLitePCL;
 
 public class RepositorioTramite : ITramiteRepositorio
 {
@@ -13,7 +12,6 @@ public class RepositorioTramite : ITramiteRepositorio
             context.SaveChanges();
        }
     }
-
 
     public List<Tramite> ListarTramite()
     {
@@ -29,7 +27,6 @@ public class RepositorioTramite : ITramiteRepositorio
 
         return tramites;
     }
-
 
     public void EliminarTramite(int idtramite)
     {
@@ -51,12 +48,14 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public Tramite BuscarUltimo(int idE)
     {
-        Tramite? tramite;
+        Tramite? tramite = null;
+
         using (var context = new DatosContext())
         {
             var query = context.Expedientes.Where(e => e.ID == idE).SingleOrDefault();
 
-            tramite = query.TramiteList.Last();
+            if(query != null) tramite = query.TramiteList.Last();
+
         }
 
         if(tramite != null)
@@ -67,20 +66,28 @@ public class RepositorioTramite : ITramiteRepositorio
         {
             throw new RepositorioException("El tramite buscado no existe");
         }
+
     }
+
     public void ModificarTramite(int idT, string etiqueta)
     {
+
+        Tramite? aux = null;
+
         using (var context = new DatosContext())
         {
             var query = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
             
             if(query != null)
             {
-                query.Etiqueta = (Etiqueta) Enum.Parse(typeof(Etiqueta), etiqueta);
+                query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+                aux = query;
                 context.SaveChanges();
             }
+
         }
-        if(query == null)
+
+        if(aux == null)
         {
             throw new RepositorioException("El tramite buscado no existe");
         }
