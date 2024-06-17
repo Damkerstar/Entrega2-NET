@@ -3,14 +3,8 @@ namespace SGE.Aplicacion;
 public class Tramite
 {
 
-
     public int ExpedienteId {get; set;}
-    private int _id;
-    public int IDTramite
-    {
-        get => _id;
-        set => _id = value;
-    }
+    public int IDTramite { private set; get; }
     private EtiquetaTramite _etiqueta = EtiquetaTramite.Escrito_Presentado;
     public EtiquetaTramite Etiqueta
     {

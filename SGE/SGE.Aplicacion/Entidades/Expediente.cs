@@ -4,9 +4,7 @@ namespace SGE.Aplicacion;
 public class Expediente
 {
 
-    private int _id;
-    public int ID {get => _id;
-                    set {_id = value; } }
+    public int ID { private set; get; }
     public string? caratula;
     public DateTime fechaYHoraCreacion {get; set;} = DateTime.Now;
     public DateTime fechaYHoraActualizacion {get; set;}
