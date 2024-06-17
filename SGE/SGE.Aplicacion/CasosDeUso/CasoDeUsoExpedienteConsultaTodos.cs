@@ -3,6 +3,6 @@ public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio repoExpedie
 {
     public void Ejecutar()
     {
-        repoExpediente.ImprimirPantalla();
+        repoExpediente.ListarExpedientes();
     }
 }
