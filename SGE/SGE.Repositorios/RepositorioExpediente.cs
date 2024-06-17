@@ -7,6 +7,8 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     public void EscribirExpediente(Expediente e)
     {
 
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             context.Add(e);
@@ -19,6 +21,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         List<Expediente> lista = new List<Expediente>();
+        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -40,6 +43,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? expedienteBorrar;
+        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -66,6 +70,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? expedienteModificar;
+        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -99,6 +104,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? expedienteBusqueda;
+        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -117,7 +123,8 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? e;
-
+        DatosSqlite.Inicializar();
+        
         using(var context = new DatosContext())
         {
 

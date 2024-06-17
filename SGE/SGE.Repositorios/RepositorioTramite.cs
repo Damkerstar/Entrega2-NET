@@ -6,16 +6,22 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public void AgregarTramite(Tramite tramite)
     {
-       using (var context = new DatosContext()) 
-       {
+        
+        DatosSqlite.Inicializar();
+        
+        using (var context = new DatosContext()) 
+        {
             context.Add(tramite);
             context.SaveChanges();
-       }
+        }
+
     }
 
     public List<Tramite> ListarTramite()
     {
         List<Tramite> tramites = new List<Tramite>();
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             foreach(Tramite tramite in context.Tramites)
@@ -30,6 +36,9 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public void EliminarTramite(int idtramite)
     {
+
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             var tramiteBorrar = context.Tramites.Where(tramite => tramite.IDTramite == idtramite).SingleOrDefault();
@@ -49,6 +58,8 @@ public class RepositorioTramite : ITramiteRepositorio
     public List<Tramite> BuscarPorEtiqueta(string etiq)
     {
         List<Tramite> listaTramite = new List<Tramite>();
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             EtiquetaTramite etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiq);
@@ -74,6 +85,8 @@ public class RepositorioTramite : ITramiteRepositorio
     public Tramite BuscarTramite(int idTramite)
     {
         Tramite? tramite;
+        DatosSqlite.Inicializar();
+
         using (var context = new DatosContext())
         {
             var query = context.Tramites.Where(t => t.IDTramite == idTramite).SingleOrDefault();
@@ -93,12 +106,18 @@ public class RepositorioTramite : ITramiteRepositorio
     public Tramite BuscarUltimo(int idE)
     {
         Tramite? tramite = null;
+        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
             var query = context.Expedientes.Where(e => e.ID == idE).SingleOrDefault();
 
-            if(query != null) tramite = query.TramiteList.Last();
+            if(query != null && query.TramiteList.Last() != null)
+            {
+
+                tramite = query.TramiteList.Last();
+
+            }
 
         }
 
@@ -117,6 +136,7 @@ public class RepositorioTramite : ITramiteRepositorio
     {
 
         Tramite? aux = null;
+        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
