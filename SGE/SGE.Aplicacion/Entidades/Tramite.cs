@@ -5,12 +5,7 @@ public class Tramite
 
 
     public int ExpedienteId {get; set;}
-    private int _id;
-    public int IDTramite
-    {
-        get => _id;
-        set => _id = value;
-    }
+    private int _IDTramite;
     private EtiquetaTramite _etiqueta = EtiquetaTramite.Escrito_Presentado;
     public EtiquetaTramite Etiqueta
     {
