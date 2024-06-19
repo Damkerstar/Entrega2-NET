@@ -1,12 +1,15 @@
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+namespace SGE.Aplicacion.CasosDeUso;
 
-public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IUsuarioRepositorio usuario)
+public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IUsuarioRepositorio repoUsuario)
 {
     public void Ejecutar(int ID)
     {
-        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(ID), Permiso.ListarUsuarios))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(ID), Permiso.ListarUsuarios))
         {
-            usuario.ListarUsuarios();
+            repoUsuario.ListarUsuarios();
         }
     }
 }

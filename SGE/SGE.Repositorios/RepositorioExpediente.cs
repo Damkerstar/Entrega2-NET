@@ -1,13 +1,13 @@
 namespace SGE.Repositorios;
 using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
 
 public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
 {  
 
     public void EscribirExpediente(Expediente e)
     {
-
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -16,12 +16,25 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
         }
 
     }
+
+    //Revisar implementación y uso (Listar y Buscar por ID)
+    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
+    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
+    //un valor original y que pueda causar problemas su modificación.
+    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
+    private Expediente Clonar(Expediente e)
+    {
+
+        Expediente copia = new Expediente(e);
+        
+        return copia;
+        //Se devuelve una copia para no devolver el dato original
+    }
     
     public List<Expediente> ListarExpedientes()
     {
 
         List<Expediente> lista = new List<Expediente>();
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -29,7 +42,8 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
             foreach(Expediente t in context.Expedientes)
             {
 
-                lista.Add(t);
+                Expediente copia = this.Clonar(t);
+                lista.Add(copia);
 
             }
                 
@@ -43,7 +57,6 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? expedienteBorrar;
-        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -70,7 +83,6 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         Expediente? expedienteModificar;
-        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -103,13 +115,14 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     public Expediente BuscarExpedientePorId(int eId)
     {
 
-        Expediente? expedienteBusqueda;
-        DatosSqlite.Inicializar();
+        Expediente? expedienteBusqueda = null;
 
         using(var context = new DatosContext())
         {
+            
+            var query = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
 
-            expedienteBusqueda = context.Expedientes.Where(e => e.ID == eId).SingleOrDefault();
+            if(query != null) expedienteBusqueda = this.Clonar(query);
 
         }
         
@@ -123,7 +136,6 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
     {
 
         bool ok = false;
-        DatosSqlite.Inicializar();
         
         using(var context = new DatosContext())
         {

@@ -1,4 +1,7 @@
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, TramiteValidador validador, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
 {

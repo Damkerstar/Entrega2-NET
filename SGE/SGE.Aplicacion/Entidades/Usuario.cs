@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
-
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+namespace SGE.Aplicacion.Entidades;
 
 public class Usuario
 {
@@ -9,7 +9,7 @@ public class Usuario
     public string Nombre {get; set;} = "";
     public string Apellido {get; set;} = ""; 
     public string CorreoElectronico {get; set;} = "";
-    public string Contrasena {set; private get;} = "";
+    public string Contrasena {set; get;} = "";
     public List<String>? Permisos {get; set;} = new List<String>();
 
     public Usuario(string n, string a, string c, string password, List<String>? p)
@@ -20,6 +20,20 @@ public class Usuario
         this.CorreoElectronico = c;
         this.Contrasena = HashearClave(password);
         this.Permisos = p;
+
+    }
+
+    public Usuario() {}
+
+    public Usuario(Usuario u)
+    {
+
+        this.Id = u.Id;
+        this.Nombre = u.Nombre;
+        this.Apellido = u.Apellido;
+        this.CorreoElectronico = u.CorreoElectronico;
+        this.Contrasena = u.Contrasena;
+        this.Permisos = u.Permisos;
 
     }
 

@@ -1,13 +1,13 @@
 ﻿namespace SGE.Repositorios;
 using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
 
 public class RepositorioTramite : ITramiteRepositorio
 {
 
     public void AgregarTramite(Tramite tramite)
     {
-        
-        DatosSqlite.Inicializar();
         
         using (var context = new DatosContext()) 
         {
@@ -17,16 +17,30 @@ public class RepositorioTramite : ITramiteRepositorio
 
     }
 
+    //Revisar implementación y uso (Listar, Buscar, Buscar último y buscar por etiqueta)
+    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
+    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
+    //un valor original y que pueda causar problemas su modificación.
+    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
+    private Tramite Clonar(Tramite t)
+    {
+
+        Tramite copia = new Tramite(t);
+
+        return copia;
+        //Se devuelve una copia para no devolver el dato original
+    }
+
     public List<Tramite> ListarTramite()
     {
         List<Tramite> tramites = new List<Tramite>();
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
             foreach(Tramite tramite in context.Tramites)
             {
-                tramites.Add(tramite);
+                Tramite copia = this.Clonar(tramite);
+                tramites.Add(copia);
             }
             
         }
@@ -36,8 +50,6 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public void EliminarTramite(int idtramite)
     {
-
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -58,20 +70,20 @@ public class RepositorioTramite : ITramiteRepositorio
     public List<Tramite> BuscarPorEtiqueta(string etiq)
     {
         List<Tramite> listaTramite = new List<Tramite>();
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
+
             EtiquetaTramite etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiq);
-            
-            foreach(Tramite tramite in context.Tramites)
-            {
-                if(tramite.Etiqueta == etiqueta)
-                {
-                    listaTramite.Add(tramite);
-                }
+            var query = context.Tramites.Where(t => t.Etiqueta == etiqueta);
+            //Revisar si esta query funciona ^
+            foreach(Tramite tramite in query)
+            {   
+                Tramite copia = this.Clonar(tramite);
+                listaTramite.Add(copia);
             }
         }
+
         if(listaTramite != null)
         {
             return listaTramite;
@@ -84,15 +96,16 @@ public class RepositorioTramite : ITramiteRepositorio
 
     public Tramite BuscarTramite(int idTramite)
     {
-        Tramite? tramite;
-        DatosSqlite.Inicializar();
+        Tramite? tramite = null;
 
         using (var context = new DatosContext())
         {
             var query = context.Tramites.Where(t => t.IDTramite == idTramite).SingleOrDefault();
 
-            tramite = query;
+            if(query != null) tramite = this.Clonar(query);
+
         }
+
         if(tramite != null)
         {
             return tramite;
@@ -106,7 +119,6 @@ public class RepositorioTramite : ITramiteRepositorio
     public Tramite BuscarUltimo(int idE)
     {
         Tramite? tramite = null;
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -115,7 +127,7 @@ public class RepositorioTramite : ITramiteRepositorio
             if(query != null && query.TramiteList.Last() != null)
             {
 
-                tramite = query.TramiteList.Last();
+                tramite = this.Clonar(query.TramiteList.Last());
 
             }
             
@@ -135,7 +147,6 @@ public class RepositorioTramite : ITramiteRepositorio
     public void ModificarTramite(int idT, string etiqueta)
     {
 
-        DatosSqlite.Inicializar();
         bool ok = false;
 
         using (var context = new DatosContext())
@@ -145,7 +156,7 @@ public class RepositorioTramite : ITramiteRepositorio
             if(query != null)
             {
                 query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
-                query.fechaYhoraModificacion = DateTime.Now;
+                query.FechaYHoraModificacion = DateTime.Now;
                 context.SaveChanges();
                 ok = true;
             }

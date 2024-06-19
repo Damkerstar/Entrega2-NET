@@ -1,13 +1,16 @@
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+namespace SGE.Aplicacion.CasosDeUso;
 
-public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacion, IUsuarioRepositorio usuario)
+public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacion, IUsuarioRepositorio repoUsuario)
 {
-    public void Ejecutar(string contra,int id)
+    public void Ejecutar(Usuario usuario, int id)
     {
 
-        if(autorizacion.PoseeElPermiso(usuario.BuscarUsuario(id), Permiso.UsuariosModificacion))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(id), Permiso.UsuariosModificacion))
         {
-            usuario.EliminarUsuario(id);
+            repoUsuario.ModificarUsuario(usuario);
         }
     }
 }

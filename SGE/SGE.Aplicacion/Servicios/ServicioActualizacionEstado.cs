@@ -1,4 +1,6 @@
 namespace SGE.Aplicacion;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Interfaces;
 public class ServicioActualizacionEstado(IExpedienteRepositorio repoExpediente, EspecificacionCambioEstado cambioEstado)
 {
     public void Ejecutar(int idE, EtiquetaTramite etiqueta)

@@ -1,4 +1,5 @@
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+namespace SGE.Aplicacion.Entidades;
 
 public class Tramite
 {
@@ -11,10 +12,10 @@ public class Tramite
         get => _etiqueta;
         set => _etiqueta = value;
     }
-    public string? descripcion;
-    public DateTime fechaYhoraCreacion{get;set;} = DateTime.Now;
-    public DateTime fechaYhoraModificacion {get;set;}
-    public int idUsuario {get;set;}
+    public string? Descripcion;
+    public DateTime FechaYHoraCreacion {get;set;} = DateTime.Now;
+    public DateTime FechaYHoraModificacion {get;set;} = DateTime.Now;
+    public int IdUsuario {get;set;}
 
 
     public Tramite()
@@ -25,10 +26,23 @@ public class Tramite
     public Tramite(string descripcion, int idUsuario, int expedienteId) 
     {
 
-        this.descripcion = descripcion;
-        this.fechaYhoraModificacion = fechaYhoraCreacion;
-        this.idUsuario = idUsuario;
+        this.Descripcion = descripcion;
+        this.FechaYHoraModificacion = FechaYHoraCreacion;
+        this.IdUsuario = idUsuario;
         this.ExpedienteId = expedienteId;
+
+    }
+
+    public Tramite(Tramite t)
+    {
+
+        this.ExpedienteId = t.ExpedienteId;
+        this.IDTramite = t.IDTramite;
+        this.Etiqueta = t.Etiqueta;
+        this.Descripcion = t.Descripcion;
+        this.FechaYHoraCreacion = t.FechaYHoraCreacion;
+        this.FechaYHoraModificacion = t.FechaYHoraModificacion;
+        this.IdUsuario = t.IdUsuario;
 
     }
 
@@ -37,12 +51,12 @@ public class Tramite
         return $"""
         ID tramite: {IDTramite}
            ID expediente: {ExpedienteId}
-           ID usuario: {idUsuario}
+           ID usuario: {IdUsuario}
            Etiqueta: {Etiqueta}
-           Descripción: {descripcion}
+           Descripción: {Descripcion}
            Fecha y hora de:
-             creacion: {fechaYhoraCreacion}
-             modificacion: {fechaYhoraModificacion}
+             creacion: {FechaYHoraCreacion}
+             modificacion: {FechaYHoraModificacion}
         """ + "\n";
     }
 

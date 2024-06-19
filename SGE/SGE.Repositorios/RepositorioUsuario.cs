@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
 
 namespace SGE.Repositorios;
 
@@ -8,8 +10,6 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
     public void AgregarUsuario(Usuario user)
     {
-
-        DatosSqlite.Inicializar();
 
         using(var context = new DatosContext())
         {
@@ -34,10 +34,24 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
     }
 
+    //Revisar implementación y uso (Listar, Buscar, Buscar último y buscar por etiqueta)
+    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
+    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
+    //un valor original y que pueda causar problemas su modificación.
+    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
+    private Usuario Clonar(Usuario u)
+    {
+
+        Usuario copia = new Usuario(u);
+
+        return copia;
+        //Se devuelve una copia para no devolver el dato original
+
+    }
+
     public List<Usuario> ListarUsuarios()
     {
         List<Usuario> listaUsuario = new List<Usuario>();
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -54,7 +68,6 @@ public class RepositorioUsuario : IUsuarioRepositorio
     public Usuario BuscarUsuario(int idUsuario)
     {
         Usuario? usuario;
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -77,7 +90,6 @@ public class RepositorioUsuario : IUsuarioRepositorio
     public void EliminarUsuario(int idUsuario)
     {
         Usuario? usuario;
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -100,7 +112,6 @@ public class RepositorioUsuario : IUsuarioRepositorio
     public void ModificarUsuario(Usuario usuario)
     {
         bool ok = false;
-        DatosSqlite.Inicializar();
 
         using (var context = new DatosContext())
         {
@@ -111,6 +122,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 query.Nombre = usuario.Nombre;
                 query.CorreoElectronico = usuario.CorreoElectronico;
                 query.Apellido = usuario.Apellido;
+                query.Contrasena = usuario.Contrasena;
                 context.SaveChanges();
                 ok = true;
             }

@@ -1,5 +1,5 @@
-using System;
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+namespace SGE.Aplicacion.Entidades;
 
 public class Expediente
 {
@@ -35,6 +35,17 @@ public class Expediente
     }
 
     public Expediente() {}
+
+    public Expediente(Expediente e)
+    {
+        ID = e.ID;
+        caratula = e.caratula;
+        fechaYHoraCreacion = e.fechaYHoraCreacion;
+        fechaYHoraActualizacion = e.fechaYHoraActualizacion;
+        usuarioID = e.usuarioID;
+        Estado = e.Estado;
+        TramiteList = new List<Tramite>(e.TramiteList);
+    }
 
     public override string ToString()
     {

@@ -1,4 +1,7 @@
-namespace SGE.Aplicacion;
+using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion)
 {
