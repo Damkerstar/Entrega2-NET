@@ -63,3 +63,4 @@ C:\Users\User\Documents\GitHub\Entrega2-NET\SGE\SGE.UI\obj\Debug\net8.0\refint\S
 C:\Users\User\Documents\GitHub\Entrega2-NET\SGE\SGE.UI\obj\Debug\net8.0\SGE.UI.pdb
 C:\Users\User\Documents\GitHub\Entrega2-NET\SGE\SGE.UI\obj\Debug\net8.0\SGE.UI.genruntimeconfig.cache
 C:\Users\User\Documents\GitHub\Entrega2-NET\SGE\SGE.UI\obj\Debug\net8.0\ref\SGE.UI.dll
+C:\Users\User\Documents\GitHub\Entrega2-NET\SGE\SGE.UI\obj\Debug\net8.0\scopedcss\Components\InicioYRegistro.razor.rz.scp.css

@@ -3,7 +3,7 @@ using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 namespace SGE.Aplicacion.CasosDeUso;
 
-public class CasoDeUsoUsuarioCambioContraseña(IServicioAutorizacion autorizacion, IUsuarioRepositorio repoUsuario)
+public class CasoDeUsoUsuarioModificacion(IServicioAutorizacion autorizacion, IUsuarioRepositorio repoUsuario)
 {
     public void Ejecutar(Usuario usuario, int id)
     {

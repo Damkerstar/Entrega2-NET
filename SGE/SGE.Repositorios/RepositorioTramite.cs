@@ -53,7 +53,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
         using (var context = new DatosContext())
         {
-            var tramiteBorrar = context.Tramites.Where(tramite => tramite.IDTramite == idtramite).SingleOrDefault();
+            var tramiteBorrar = context.Tramites.Where(tramite => tramite.ID == idtramite).SingleOrDefault();
 
             if(tramiteBorrar != null)
             {
@@ -100,7 +100,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
         using (var context = new DatosContext())
         {
-            var query = context.Tramites.Where(t => t.IDTramite == idTramite).SingleOrDefault();
+            var query = context.Tramites.Where(t => t.ID == idTramite).SingleOrDefault();
 
             if(query != null) tramite = this.Clonar(query);
 
@@ -151,7 +151,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
         using (var context = new DatosContext())
         {
-            var query = context.Tramites.Where(t => t.IDTramite == idT).SingleOrDefault();
+            var query = context.Tramites.Where(t => t.ID == idT).SingleOrDefault();
             
             if(query != null)
             {

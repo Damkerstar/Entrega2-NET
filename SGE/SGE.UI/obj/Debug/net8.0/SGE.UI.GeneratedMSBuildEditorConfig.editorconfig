@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User/Documents/GitHub/Entrega2-NET/SGE/SGE.UI/Components/InicioYRegistro.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xJbmljaW9ZUmVnaXN0cm8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-hoi9sbwair
+
 [C:/Users/User/Documents/GitHub/Entrega2-NET/SGE/SGE.UI/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-k716zha75e

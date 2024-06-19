@@ -134,4 +134,20 @@ public class RepositorioUsuario : IUsuarioRepositorio
         }
 
     }
+
+    public bool BuscarCorreo(string correo)
+    {
+        bool ok = true;
+        using (var context = new DatosContext())
+        {
+            var query = context.Usuarios.Where(u => u.CorreoElectronico == correo).SingleOrDefault();
+
+            if(query != null)
+            {
+                ok = false;
+            }
+        }
+        return ok;
+    }
+    
 }

@@ -1,10 +1,39 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
 <PageTitle>Inicio</PageTitle>
 
-<h1>Hello, world!</h1>
+@if(visible)
+{
+    <h1>¿Cómo desea ingresar al sistema?</h1>
+    <button class="btn btn-primary" @onclick="op1">Iniciar sesión</button>
+    <button class="btn btn-secondary" @onclick="op2">Registrarse</button>
+}
 
-Welcome to your new app.
+<InicioYRegistro @ref=opcion Seguir="Ocultar"/>
+
+@code 
+{
+
+    InicioYRegistro opcion = null!;
+    private bool visible = true;
+
+    private void op1()
+    {
+        opcion.IniciarSesion();
+    }
+
+    private void op2()
+    {
+        opcion.Registrarse();
+    }
+
+    private void Ocultar()
+    {
+        visible = false;
+    }
+
+}
 
 <!--//Sistema de Log in/Sign up y página de bienvenida
 
