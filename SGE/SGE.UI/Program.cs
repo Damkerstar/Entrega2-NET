@@ -22,10 +22,6 @@ builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
-builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
-builder.Services.AddTransient<CasoDeUsoUsuarioLista>();
-builder.Services.AddTransient<CasoDeUsoAdmModificacion>();
-builder.Services.AddTransient<ServicioActualizacionEstado>();
 
 // Interfaces
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();

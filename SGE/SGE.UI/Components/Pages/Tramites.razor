@@ -1,4 +1,10 @@
 @page "/tramites"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoTramiteBaja TramiteBaja
+@inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta
+@inject CasoDeUsoTramiteModificacion TramiteModificacion
+
 
 <PageTitle>Trámites</PageTitle>
 
@@ -8,3 +14,17 @@
 //ver las opciones para dar alta, baja y modificación
 
 //Ver diapositiva 62-->
+
+@if(pagAltas)
+{
+    <h3>Dar de alta un Tramite</h3>
+    <button class = "btn" @onclick= "( )=>AltaTramite()"></button>
+}
+
+@code{
+    void AltaTramite()
+    {
+        Navegador.NavigateTo($"tramites/TramiteAlta");
+    }
+    
+}
