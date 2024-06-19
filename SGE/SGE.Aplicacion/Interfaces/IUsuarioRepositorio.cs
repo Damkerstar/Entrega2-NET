@@ -9,4 +9,5 @@ public interface IUsuarioRepositorio
     void ModificarUsuario(Usuario usuario);
     List<Usuario> ListarUsuarios();
     void EliminarUsuario(int usuarioId);
+    bool BuscarCorreo(string correo);
 }
