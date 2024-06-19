@@ -1,0 +1,43 @@
+@page "/TramiteHelp/{ID:int?}"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoTramiteAlta TramiteAlta
+@inject CasoDeUsoTramiteModificacion TramiteModificacion
+@inject CasoDeUsoTramiteConsultaPorID TramitePorID
+
+<h1>Ingrese los siguientes datos</h1>
+<input placeholder= "Etiqueta" @bind= "tramite.Etiqueta" class ="form-control">
+<input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
+<button class="btn btn-primary" @onclick= "()=> OpcionTramite()">Aceptar</button>
+
+
+@code
+{
+    [Parameter] public int? ID {set;get;}
+    bool _TramiteNuevo = true;
+
+    protected override void OnParametersSet()
+    {
+        if(ID != null)
+        {
+            Tramite? tramite = TramitePorID.Ejecutar(ID);
+            if(_TramiteNuevo != null)
+            {
+                _TramiteNuevo = false;
+            }
+        }
+    }
+
+    void OpcionTramite()
+    {
+        if(_TramiteNuevo)
+        {
+            TramiteAlta.Ejecutar(tramite);
+        }
+        else
+        {
+            TramiteModificacion.Ejecutar(tramite);
+        }
+        Navegador.NavigateTo("listarTramites");
+    }
+}

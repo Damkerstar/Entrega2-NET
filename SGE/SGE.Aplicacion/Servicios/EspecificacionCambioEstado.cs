@@ -3,7 +3,7 @@ using SGE.Aplicacion;
 public class EspecificacionCambioEstado
 {
     
-    public EstadoExpediente? Ejecutar(EtiquetaTramite etiqueta)
+    public static EstadoExpediente? Ejecutar(EtiquetaTramite etiqueta)
     {
 
         switch(etiqueta)

@@ -11,4 +11,5 @@ public interface ITramiteRepositorio
     List<Tramite> BuscarPorEtiqueta(string etiqueta);
     List<Tramite> ListarTramite();
     void ModificarTramite(int idT, string etiqueta);
+    Tramite BuscarPorID(int idT);
 }

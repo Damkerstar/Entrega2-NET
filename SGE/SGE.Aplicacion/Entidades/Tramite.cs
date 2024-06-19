@@ -5,7 +5,7 @@ public class Tramite
 {
 
     public int ExpedienteId {get; set;}
-    public int IDTramite { private set; get; }
+    public int ID { private set; get; }
     private EtiquetaTramite _etiqueta = EtiquetaTramite.Escrito_Presentado;
     public EtiquetaTramite Etiqueta
     {
@@ -37,7 +37,7 @@ public class Tramite
     {
 
         this.ExpedienteId = t.ExpedienteId;
-        this.IDTramite = t.IDTramite;
+        this.ID = t.ID;
         this.Etiqueta = t.Etiqueta;
         this.Descripcion = t.Descripcion;
         this.FechaYHoraCreacion = t.FechaYHoraCreacion;
@@ -49,7 +49,7 @@ public class Tramite
     public override string ToString()
     {
         return $"""
-        ID tramite: {IDTramite}
+        ID tramite: {ID}
            ID expediente: {ExpedienteId}
            ID usuario: {IdUsuario}
            Etiqueta: {Etiqueta}

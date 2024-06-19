@@ -4,6 +4,7 @@
 @inject CasoDeUsoTramiteBaja TramiteBaja
 @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
+@inject CasoDeUsoListarTramite listaTramites
 
 
 <PageTitle>Trámites</PageTitle>
@@ -17,14 +18,72 @@
 
 @if(pagAltas)
 {
-    <h3>Dar de alta un Tramite</h3>
-    <button class = "btn" @onclick= "( )=>AltaTramite()"></button>
+    <button class = "btn" @onclick= "()=>AltaTramite()">Agregar Tramite</button>
 }
 
-@code{
-    void AltaTramite()
+<DialogoConfirmacion @ref="dialogo" OnConfirmado="EliminarTramite"/>
+<table class= "table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Etiqueta</th>
+            <th>Descripcion</th>
+            <th>Creacion</th>
+            <th>Ultima Modificacion</th>
+        </tr>
+    </thead>
+</table>
+
+@foreach(Tramite tramite in listaTramites)
+{
+    <tr>
+        <td>@tramite.IDTramite</td>
+        <td>@tramite.Etiqueta</td>
+        <td>@tramite.Descripcion</td>
+        <td>@tramite.FechaYHoraCreacion</td>
+        <td>@tramite.FechaYHoraModificacion</td>
+        <td>
+            <button class= "btn btn-editar" @onclick="()=> ModificarTramite(tramite)">Modificar</button>
+            <button class= "btn btn-eliminar" @onclick="()=> EliminarTramite(tramite)">Eliminar</button>
+        </td>
+    </tr>
+}
+
+@code
+{
+    List<Tramite> _listaTramites = new List<Tramite>();
+    protected override void OnInitialized()
     {
-        Navegador.NavigateTo($"tramites/TramiteAlta");
+        _listaTramites = listaTramites.Ejecutar();
+    }
+
+    Confirmacion dialogo = null!;
+    Tramite? _tramiteEliminado = null;
+    
+    private void ConfirmarEliminado(Tramite tramite)
+    {
+        _tramiteEliminado = tramite;
+        dialogo.Mensaje = $"¿Desea eliminar el tramite: {tramite.IDTramite}?";
+        dialogo.Mostrar();
+    }
+
+    private void EliminarTramite(Tramite tramite)
+    {
+        if(tramite != null)
+        {
+            TramiteBaja.Ejecutar(tramite, 1);
+            _listaTramites = listaTramites.Ejecutar();
+        }
+    }
+
+    private void AltaTramite()
+    {
+        Navegador.NavigateTo($"TramiteAlta/{null}");
+    }
+
+    private void ModificarTramite(Tramite tramite)
+    {
+        Navegador.NavigateTo($"TramiteAlta/{tramite.IDTramite}")
     }
     
 }

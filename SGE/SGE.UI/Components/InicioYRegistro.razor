@@ -1,0 +1,48 @@
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoUsuarioAlta UsuarioAlta
+
+@if(bloqueInicio)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>Ingrese sus credenciales</h3>
+            <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
+            <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+        </div>
+    </div>
+}
+
+@if(bloqueRegistro)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>Registrese con sus datos personales</h3>
+            <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control">
+            <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
+            <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
+            <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+        </div>
+    </div>
+}
+
+@code {
+
+    private bool bloqueInicio = false;
+    private bool bloqueRegistro = false;
+    [Parameter]
+    public EventCallback Seguir{get;set;}
+    Usuario _usuario = new Usuario();
+
+    public void IniciarSesion()
+    {
+        bloqueInicio = true;
+        Seguir.InvokeAsync();
+    }
+    public void Registrarse()
+    {
+        bloqueRegistro = true;
+        Seguir.InvokeAsync();
+    }
+
+}
