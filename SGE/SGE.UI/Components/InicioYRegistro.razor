@@ -1,6 +1,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoUsuarioAlta UsuarioAlta
+@inject ISesion Sesion
 
 @if(bloqueInicio)
 {
@@ -9,6 +10,8 @@
             <h3>Ingrese sus credenciales</h3>
             <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
             <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <button class="btn btn-primary" @onclick="ConfirmarLogin">Confirmar</button>
+            @if(valido) {<h3>Credenciales incorrectas</h3>}
         </div>
     </div>
 }
@@ -22,6 +25,7 @@
             <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
             <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
             <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <button class="btn btn-primary" @onclick="ConfirmarRegistro">Confirmar</button>
         </div>
     </div>
 }
@@ -30,6 +34,7 @@
 
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
+    private bool valido = false;
     [Parameter]
     public EventCallback Seguir{get;set;}
     Usuario _usuario = new Usuario();
@@ -43,6 +48,16 @@
     {
         bloqueRegistro = true;
         Seguir.InvokeAsync();
+    }
+
+    private void ConfirmarLogin()
+    {
+        bloqueInicio = !Sesion.ValidarSesion(_usuario); //Negado por como se planteó el método
+    }
+
+    private void ConfirmarRegistro()
+    {
+        bloqueRegistro = Sesion.Registro(_usuario);
     }
 
 }

@@ -1,8 +1,8 @@
 using SGE.UI.Components;
-using SGE.Aplicacion;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.CasosDeUso;
 using SGE.Repositorios;
+using SGE.Aplicacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +20,8 @@ builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
-builder.Services.AddTransient<CasoDeUsoListarTramite>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
-builder.Services.AddTransient<CasoDeUsoUsuarioLista>();
-builder.Services.AddTransient<CasoDeUsoAdmModificacion>();
-builder.Services.AddTransient<ServicioActualizacionEstado>();
 
 // Interfaces
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
@@ -37,6 +33,9 @@ builder.Services.AddScoped<IServicioAltaUsuario, ServicioAltaUsuario>();
 builder.Services.AddSingleton<TramiteValidador>();
 builder.Services.AddSingleton<ExpedienteValidador>();
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
+builder.Services.AddSingleton<ISesion, Sesion>();
+
+DatosSqlite.Inicializar();
 
 var app = builder.Build();
 
