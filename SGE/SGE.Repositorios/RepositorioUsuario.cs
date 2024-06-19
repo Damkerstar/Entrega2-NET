@@ -149,5 +149,28 @@ public class RepositorioUsuario : IUsuarioRepositorio
         }
         return ok;
     }
+
+    public Usuario DevolverPorCorreo(string correo)
+    {
+
+        Usuario? u;
+
+        using(var context = new DatosContext())
+        {
+
+            var query = context.Usuarios.Where(i => i.CorreoElectronico == correo).SingleOrDefault();
+            u = query;
+
+        }
+
+        if(u != null)
+        {
+            return u;
+        }
+        else 
+        {
+            throw new RepositorioException("No existe el usuario buscado.");
+        }
     
+    }
 }

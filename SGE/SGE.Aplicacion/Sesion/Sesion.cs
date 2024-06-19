@@ -4,10 +4,19 @@ using SGE.Aplicacion.Entidades;
 using System.Security.Cryptography;
 using System.Text;
 
-class Sesion : ISesion
+public class Sesion : ISesion
 {
     
-    Usuario? sesionIniciada;
+    Usuario? sesionIniciada = null;
+    private readonly CasoDeUsoUsuarioConsultaPorCorreo _consultaPorCorreo;
+    private readonly CasoDeUsoUsuarioAlta _usuarioAlta;
+
+    public Sesion(CasoDeUsoUsuarioConsultaPorCorreo consultaPorCorreo, CasoDeUsoUsuarioAlta usuarioAlta)
+    {
+        _consultaPorCorreo = consultaPorCorreo;
+        _usuarioAlta = usuarioAlta;
+        sesionIniciada = new Usuario();
+    }
 
     public bool ValidarSesion(Usuario u)
     {
@@ -15,11 +24,7 @@ class Sesion : ISesion
         CargarSesion(u);
         Usuario? aux;
 
-        using(var context = new DatosContext())
-        {
-            aux = context.Usuarios.Where(i => i.CorreoElectronico == u.CorreoElectronico).SingleOrDefault();
-            Console.WriteLine(aux == null);
-        }
+        aux = _consultaPorCorreo.Ejecutar(u.CorreoElectronico);
 
         if((aux != null ) && (this.sesionIniciada.CorreoElectronico == aux.CorreoElectronico) && (this.sesionIniciada.Contrasena == aux.Contrasena))
         {
@@ -49,10 +54,7 @@ class Sesion : ISesion
 
         Usuario? user;
 
-        using(var context = new DatosContext())
-        {
-            user = context.Usuarios.Where(i => i.CorreoElectronico == u.CorreoElectronico).SingleOrDefault();
-        }
+        user = _consultaPorCorreo.Ejecutar(u.CorreoElectronico);
 
         if(user == null)
         {
@@ -61,7 +63,7 @@ class Sesion : ISesion
         else
         {
             u.Contrasena = this.HashearClave(u.Contrasena);
-            CasoDeUsoUsuarioAlta.Ejecutar(u);
+            _usuarioAlta.Ejecutar(u);
             return true;
         }
 

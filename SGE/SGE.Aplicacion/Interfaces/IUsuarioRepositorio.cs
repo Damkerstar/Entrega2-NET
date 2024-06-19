@@ -10,4 +10,5 @@ public interface IUsuarioRepositorio
     List<Usuario> ListarUsuarios();
     void EliminarUsuario(int usuarioId);
     bool BuscarCorreo(string correo);
+    Usuario DevolverPorCorreo(string correo);
 }
