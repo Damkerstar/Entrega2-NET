@@ -11,25 +11,17 @@
 <PageTitle>Trámites</PageTitle>
 
 
-@if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
-{
-    <div>
-        <button class = "btn" @onclick="()=>AltaTramite()">Agregar Trámite</button>
-        <button class = "btn" @onclick="()=>MostrarPorEtiqueta()">Filtrar por etiqueta</button>
-    </div>
-}
+
+<div>
+    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
+    {
+        <button class = "btn btn-primary" @onclick="()=>AltaTramite()">Agregar Trámite</button>
+    }
+    <button class = "btn btn-primary" @onclick="()=>MostrarPorEtiqueta()">Filtrar por etiqueta</button>
+</div>
+
 <Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
-<table class= "table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Etiqueta</th>
-            <th>Descripcion</th>
-            <th>Creacion</th>
-            <th>Ultima Modificacion</th>
-        </tr>
-    </thead>
-</table>
+
 
 
 @if(mostrar)
@@ -37,6 +29,7 @@
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
             <h1>Elija la etiqueta a buscar</h1>
+            <button class= "btn btn-primary" @onclick="()=>TodosTramites()">Todos los tramites</button>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
                 <button class="btn btn-primary" @onclick="()=>BuscarTramites(etiqueta)">@etiqueta</button>
@@ -46,25 +39,49 @@
 }
 
 
-
-@foreach(Tramite tramite in _lista)
-{
-    <tr>
-        <td>@tramite.ID</td>
-        <td>@tramite.Etiqueta</td>
-        <td>@tramite.Descripcion</td>
-        <td>@tramite.FechaYHoraCreacion</td>
-        <td>@tramite.FechaYHoraModificacion</td>
-        <td>
-            @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
-            <button class= "btn btn-modificacion" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
-            }
-            @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
-            <button class="btn btn-eliminacion" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
-            }
-        </td>
-    </tr>
-}
+<style>
+    table, th, td {
+        border: 1px solid white;
+        border-collapse : collapse;
+        padding: 10px;
+        width: 50%;
+    }
+    th, td {
+        background-color : lightblue;
+    }
+</style>
+<table style>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Etiqueta</th>
+            <th>Descripcion</th>
+            <th>Creacion</th>
+            <th>Ultima Modificacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Tramite tramite in _lista)
+        {
+            <tr>
+                <td>@tramite.ID</td>
+                <td>@tramite.Etiqueta</td>
+                <td>@tramite.Descripcion</td>
+                <td>@tramite.FechaYHoraCreacion</td>
+                <td>@tramite.FechaYHoraModificacion</td>
+                <td>
+                    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
+                    <button class= "btn btn-primary" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
+                    }
+                    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
 
 
 
@@ -74,22 +91,20 @@
     Usuario? sesionActual;
     List<Tramite> _lista = new List<Tramite>();
     List<string> TramiteEtiquetas = new List<string>
-        {
-            "Escrito_Presentado",
-            "Pase_Estudio",
-            "Despacho",
-            "Resolucion",
-            "Notificacion",
-            "Pase_Archivo"
-        };
-
-
-    
+    {
+        "Escrito_Presentado",
+        "Pase_Estudio",
+        "Despacho",
+        "Resolucion",
+        "Notificacion",
+        "Pase_Archivo"
+    };
     protected override void OnInitialized()
     {
-        _lista = listarTramites.Ejecutar();
+        TodosTramites();
         this.sesionActual = Sesion.GetSesion();
     }
+    
 
     Confirmacion dialogo = null!;
     Tramite? _tramiteEliminado = null;
@@ -119,11 +134,18 @@
     private void MostrarPorEtiqueta()
     {
         mostrar = true;
+        StateHasChanged();
     }
     private void BuscarTramites(string etiquetaBuscada)
     {
         _lista = TramitesEtiqueta.Ejecutar(etiquetaBuscada);
-        mostrar =false;
+        mostrar = false;
+        StateHasChanged();
+    }
+    private void TodosTramites()
+    {
+        _lista = listarTramites.Ejecutar();
+        mostrar = false;
         StateHasChanged();
     }
 }

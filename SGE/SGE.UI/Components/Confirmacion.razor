@@ -2,9 +2,11 @@
 
 @if(visible)
 {
-    <h3>@Mensaje</h3>
-    <button class="btn btn-confirmar" @onclick="ConfirmarYCerrar">Aceptar</button>
-    <button class="btn btn-cerrar" @onclick="Cerrar">Cancelar</button>
+    <h3 class= "mensaje">@Mensaje
+        <button class="boton1"  @onclick="ConfirmarYCerrar">Aceptar</button>
+        <button class="boton2"  @onclick="Cerrar">Cerrar</button>
+    </h3>
+    
 }
 
 @code{
