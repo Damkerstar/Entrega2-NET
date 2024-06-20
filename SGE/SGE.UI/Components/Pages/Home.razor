@@ -1,9 +1,10 @@
 ﻿@page "/"
 @rendermode InteractiveServer
+@inject ISesion Sesion
 
 <PageTitle>Inicio</PageTitle>
 
-@if(visible)
+@if(Sesion.GetSesion() == null)
 {
     <h1>¿Cómo desea ingresar al sistema?</h1>
     <button class="btn btn-primary" @onclick="op1">Iniciar sesión</button>
