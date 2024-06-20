@@ -5,13 +5,17 @@
 @* @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta *@
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoListarTramite listarTramites
-
+@inject ISesion Sesion
+@inject IServicioAutorizacion autorizacion
 
 <PageTitle>Trámites</PageTitle>
 
-<div>
-    <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
-</div>
+@if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
+{
+    <div>
+        <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
+    </div>
+}
 <Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
 <table class= "table">
     <thead>
@@ -24,7 +28,6 @@
         </tr>
     </thead>
 </table>
-
 @foreach(Tramite tramite in _lista)
 {
     <tr>
@@ -42,10 +45,13 @@
 
 @code
 {
+
+    Usuario? sesionActual;
     List<Tramite> _lista = new List<Tramite>();
     protected override void OnInitialized()
     {
         _lista = listarTramites.Ejecutar();
+        this.sesionActual = Sesion.GetSesion();
     }
 
     Confirmacion dialogo = null!;
@@ -57,7 +63,6 @@
         dialogo.Mensaje = $"¿Desea eliminar el tramite: {tramite.ID}?";
         dialogo.Mostrar();
     }
-
     private void EliminarTramite(Tramite tramite)
     {
         if(tramite != null)
@@ -66,12 +71,10 @@
             _lista = listarTramites.Ejecutar();
         }
     }
-
     private void AltaTramite()
     {
         Navegador.NavigateTo($"TramiteHelp/");
     }
-
     private void ModificarTramite(Tramite tramite)
     {
         Navegador.NavigateTo($"TramiteHelp/{tramite.ID}");
