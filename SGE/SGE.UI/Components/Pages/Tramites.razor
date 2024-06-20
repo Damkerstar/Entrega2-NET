@@ -14,8 +14,8 @@
 @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
 {
     <div>
-        <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
-        <button class = "btn" @onclick="()=>MostrarPorEtiqueta()">Buscar etiqueta</button>
+        <button class = "btn" @onclick="()=>AltaTramite()">Agregar Trámite</button>
+        <button class = "btn" @onclick="()=>MostrarPorEtiqueta()">Filtrar por etiqueta</button>
     </div>
 }
 <Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
@@ -56,8 +56,12 @@
         <td>@tramite.FechaYHoraCreacion</td>
         <td>@tramite.FechaYHoraModificacion</td>
         <td>
+            @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
             <button class= "btn btn-modificacion" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
+            }
+            @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
             <button class="btn btn-eliminacion" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
+            }
         </td>
     </tr>
 }
@@ -100,7 +104,7 @@
     {
         if(tramite != null)
         {
-            TramiteBaja.Ejecutar(tramite.ID, 1);
+            TramiteBaja.Ejecutar(tramite.ID, sesionActual.Id);
             _lista = listarTramites.Ejecutar();
         }
     }
