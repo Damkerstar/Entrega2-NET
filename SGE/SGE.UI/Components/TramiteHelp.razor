@@ -30,7 +30,11 @@ else
     </div>
 }
 
-<input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
+<input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control">
+<h3>Expediente ID:</h3>
+<a>
+    <input placeholder= "ID expediente" @bind= "tramite.ExpedienteId" class= "form-control">
+</a>
 <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
 
 @code
@@ -90,7 +94,7 @@ else
         {
             if(!error)
             {
-                Navegador.NavigateTo("listarTramites");
+                Navegador.NavigateTo("tramites/");
             }
         }
         
