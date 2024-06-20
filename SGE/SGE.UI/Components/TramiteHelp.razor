@@ -6,6 +6,11 @@
 @inject CasoDeUsoTramiteConsultaPorId TramitePorID
 @inject ISesion Sesion
 
+@if(error)
+{
+    <h2>@mensajeError</h2>
+    <br>
+}
 
 <h1>Ingrese los siguientes datos</h1>
 @if(_tramiteNuevo)
@@ -60,30 +65,33 @@ else
 
         Usuario? sesionActual = Sesion.GetSesion();
 
-        if(sesionActual != null && _tramiteNuevo)
+        try
         {
-            try
+            if(sesionActual != null && _tramiteNuevo)
             {
                 error = false;
+                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
                 TramiteAlta.Ejecutar(tramite, sesionActual.Id);
             }
-            catch(Exception e)
+            else
             {
-                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
-                MostrarError();
+                mensajeError = "El Trámite buscado no fue encontrado.";
+                TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
             }
-
         }
-        else
+        catch(Exception e)
         {
-            TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
+            Console.WriteLine("error");
+            error = true;
         }
-        Navegador.NavigateTo("listarTramites");
-    }
-
-    private void MostrarError()
-    {
-        error = true;
+        finally
+        {
+            if(!error)
+            {
+                Navegador.NavigateTo("listarTramites");
+            }
+        }
+        
     }
 
 }
