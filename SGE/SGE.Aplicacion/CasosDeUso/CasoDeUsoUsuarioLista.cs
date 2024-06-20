@@ -7,7 +7,7 @@ public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IUsuarioR
 {
     public void Ejecutar(int ID)
     {
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(ID), Permiso.ListarUsuarios))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(ID), "ListarUsuarios"))
         {
             repoUsuario.ListarUsuarios();
         }

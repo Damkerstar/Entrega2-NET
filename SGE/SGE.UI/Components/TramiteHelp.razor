@@ -1,0 +1,98 @@
+@page "/TramiteHelp/{ID:int?}"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoTramiteAlta TramiteAlta
+@inject CasoDeUsoTramiteModificacion TramiteModificacion
+@inject CasoDeUsoTramiteConsultaPorId TramitePorID
+@inject ISesion Sesion
+
+
+<h1>Ingrese los siguientes datos</h1>
+@if(_tramiteNuevo)
+{
+    <h3>Escrito Presentado</h3>
+}
+else
+{
+    <div>
+        <a>
+            <h3>Seleccione la etiqueta del tramite</h3>
+            @foreach(string etiqueta in TramiteEtiquetas)
+            {
+                <button class="TramiteEtiqueta" bind=tramite.Etiqueta>@etiqueta</button>
+            }
+        </a>
+    </div>
+}
+
+
+<input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
+<button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+
+
+
+
+
+@code
+{
+    [Parameter] public int? ID {set;get;}
+    bool _tramiteNuevo = true;
+    Tramite? tramite = new Tramite();
+
+    List<string> TramiteEtiquetas = new List<string>
+        {
+            "Escrito Presentado",
+            "Pase Estudio",
+            "Despacho",
+            "Resolucion",
+            "Notificacion",
+            "Pase Archivo"
+        };
+
+
+    protected override void OnParametersSet()
+    {
+        if(ID != null)
+        {
+            tramite = TramitePorID.Ejecutar(ID.Value);
+            if(tramite != null)
+            {
+                _tramiteNuevo = false;
+            }
+        }
+    }
+
+    private void OpcionTramite()
+    {
+
+        Usuario? sesionActual = Sesion.GetSesion();
+        string mensajeError = "";
+        bool error = false;
+
+        if(sesionActual != null && _tramiteNuevo)
+        {
+            try
+            {
+                error = false;
+                TramiteAlta.Ejecutar(tramite, sesionActual.Id);
+            }
+            catch(Exception e)
+            {
+                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
+                MostrarError();
+            }
+
+        }
+        else
+        {
+            TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
+        }
+        Navegador.NavigateTo("listarTramites");
+    }
+
+    private void MostrarError()
+    {
+        error = true;
+    }
+
+}

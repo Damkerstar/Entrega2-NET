@@ -30,6 +30,7 @@ public class InicioSesion(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, I
         
         sesionIniciada = new Usuario
         {
+            Id = u.Id,
             CorreoElectronico = u.CorreoElectronico,
             Contrasena = u.Contrasena,
             Nombre = u.Nombre,

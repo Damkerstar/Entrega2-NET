@@ -8,7 +8,7 @@ public class CasoDeUsoUsuarioModificacion(IServicioAutorizacion autorizacion, IU
     public void Ejecutar(Usuario usuario, int id)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(id), Permiso.UsuariosModificacion))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(id), "UsuariosModificacion"))
         {
             repoUsuario.ModificarUsuario(usuario);
         }

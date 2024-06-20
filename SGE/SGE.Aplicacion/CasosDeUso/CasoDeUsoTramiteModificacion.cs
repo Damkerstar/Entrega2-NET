@@ -8,7 +8,7 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTramite, IUsua
     public void Ejecutar(Tramite tramiteModificado, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteModificacion))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "TramiteModificacion"))
         {
             
             repoTramite.BuscarTramite(tramiteModificado.ID);

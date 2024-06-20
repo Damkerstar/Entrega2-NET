@@ -9,7 +9,7 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IUsuarioReposi
     public void Ejecutar(Expediente e, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.ExpedienteAlta))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "ExpedienteAlta"))
         {
 
             if(validador.Validar(e, out string errorMessage) == false)

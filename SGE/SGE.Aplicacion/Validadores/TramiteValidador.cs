@@ -2,7 +2,7 @@ namespace SGE.Aplicacion;
 using SGE.Aplicacion.Entidades;
 public class TramiteValidador
 {
-    public bool ValidarTramite(Tramite tramite, out string msg)
+    public bool ValidarTramite(Tramite tramite, int idUsuario, out string msg)
     {
 
         msg = "";
@@ -12,7 +12,7 @@ public class TramiteValidador
             msg = "La descripcion no puede estar vacía.\n";
         }
         
-        if(tramite.IdUsuario <= 0)
+        if(idUsuario <= 0)
         {
             msg += "El ID de usuario debe que ser mayor que 0.\n";
         }

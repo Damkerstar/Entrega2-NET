@@ -7,7 +7,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IU
 {
     public void Ejecutar(int eId, int idUsuario, string caratula, string estado)
     {
-        if (autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.ExpedienteModificacion))
+        if (autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "ExpedienteModificacion"))
         {
 
             if(!string.IsNullOrWhiteSpace(caratula))
