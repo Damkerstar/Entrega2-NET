@@ -61,10 +61,17 @@ else
     {
         if(ID != null)
         {
-            tramite = TramitePorID.Ejecutar(ID.Value);
-            if(tramite != null)
+            try
             {
-                _tramiteNuevo = false;
+                tramite = TramitePorID.Ejecutar(ID.Value);
+                if(tramite != null)
+                {
+                    _tramiteNuevo = false;
+                }
+            }
+            catch(Exception e)
+            {
+                error = e.Message;
             }
         }
     }
