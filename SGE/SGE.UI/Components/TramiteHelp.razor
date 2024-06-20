@@ -24,8 +24,10 @@ else
         </a>
     </div>
 }
+
 <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
 <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+
 @code
 {
     [Parameter] public int? ID {set;get;}
