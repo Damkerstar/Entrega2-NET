@@ -1,10 +1,11 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoUsuarioAlta UsuarioAlta
-@inject InicioSesion login;
-@inject Registro register;
+@inject InicioSesion login
+@inject Registro register
+@inject ISesion Sesion
 
-@if(bloqueInicio)
+@if(sesionIniciada == null && bloqueInicio)
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
@@ -33,10 +34,11 @@
 @code {
 
     Usuario _usuario = new Usuario();
+    Usuario sesionIniciada;
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
     private bool bloqueBienvenida = true;
-    
+
     [Parameter]
     public EventCallback Seguir{get;set;}
 
@@ -57,6 +59,7 @@
         {
             bloqueInicio = false;
             bloqueBienvenida = true;
+            sesionIniciada = Sesion.GetSesion();
         }
     }
 
@@ -67,6 +70,11 @@
             bloqueRegistro = false;
             bloqueInicio = true;
         }
+    }
+
+    public void CerrarSesion()
+    {
+        Sesion.Cerrar();
     }
 
 }

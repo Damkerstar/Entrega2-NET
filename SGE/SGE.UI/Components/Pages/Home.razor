@@ -4,20 +4,32 @@
 
 <PageTitle>Inicio</PageTitle>
 
-@if(Sesion.GetSesion() == null)
+<h1>Bienvenido al Sistema de Gestión de Expedientes</h1>
+
+@if(visible)
 {
-    <h1>¿Cómo desea ingresar al sistema?</h1>
-    <button class="btn btn-primary" @onclick="op1">Iniciar sesión</button>
-    <button class="btn btn-secondary" @onclick="op2">Registrarse</button>
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h1>¿Cómo desea ingresar al sistema?</h1>
+            <button class="btn btn-primary" @onclick="op1">Iniciar sesión</button>
+            <button class="btn btn-secondary" @onclick="op2">Registrarse</button>
+        </div>
+    </div>    
 }
 
-<InicioYRegistro @ref=opcion Seguir="Ocultar"/>
+<InicioYRegistro @ref=opcion Seguir="Mostrar"/>
 
 @code 
 {
 
     InicioYRegistro opcion = null!;
     private bool visible = true;
+    private Usuario? sesionIniciada;
+
+    private void cerrar()
+    {
+        opcion.CerrarSesion();
+    }
 
     private void op1()
     {
@@ -29,17 +41,9 @@
         opcion.Registrarse();
     }
 
-    private void Ocultar()
+    private void Mostrar()
     {
         visible = false;
     }
 
 }
-
-<!--//Sistema de Log in/Sign up y página de bienvenida
-
-//Log in => Correo y contraseña
-//Sign Up => Nombre, Apellido, Correo y Contraseña
-
-//Clase Singleton de Sesión para mantener la cuenta iniciada
-//Hacer un GetUsuario en el repo para traer sus datos y verificar credenciales-->

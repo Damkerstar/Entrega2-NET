@@ -19,4 +19,9 @@ public class Sesion : ISesion
         return this.sesionIniciada;
     }
 
+    public void Cerrar()
+    {
+        this.sesionIniciada = null;
+    }
+
 }
