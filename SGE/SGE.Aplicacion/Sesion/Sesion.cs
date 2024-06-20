@@ -15,23 +15,17 @@ public class Sesion : ISesion
     {
         _consultaPorCorreo = consultaPorCorreo;
         _usuarioAlta = usuarioAlta;
-        sesionIniciada = new Usuario();
     }
 
     public bool ValidarSesion(Usuario u)
     {
 
-        CargarSesion(u);
-        Usuario? aux;
+        Usuario? aux = _consultaPorCorreo.Ejecutar(u.CorreoElectronico.ToLower());
+        string hashedPassword = this.HashearClave(u.Contrasena);
 
-        aux = _consultaPorCorreo.Ejecutar(u.CorreoElectronico);
-
-        if((aux != null ) && (this.sesionIniciada.CorreoElectronico == aux.CorreoElectronico) && (this.sesionIniciada.Contrasena == aux.Contrasena))
+        if((aux != null ) && (this.sesionIniciada.CorreoElectronico == aux.CorreoElectronico.ToLower()) && (this.sesionIniciada.Contrasena == aux.Contrasena))
         {
-            Console.WriteLine("test");
-            this.sesionIniciada.Nombre = aux.Nombre;
-            this.sesionIniciada.Apellido = aux.Apellido;
-            this.sesionIniciada.Permisos = (new List<Permiso>(aux.Permisos)) ?? new List<Permiso>();
+            this.CargarSesion(aux);
             return true;
         }
         
@@ -45,7 +39,10 @@ public class Sesion : ISesion
         sesionIniciada = new Usuario
         {
             CorreoElectronico = u.CorreoElectronico,
-            Contrasena = u.Contrasena
+            Contrasena = u.Contrasena,
+            Nombre = u.Nombre,
+            Apellido = u.Apellido,
+            Permisos = new List<Permiso>(u.Permisos)
         };
     }
 
@@ -54,9 +51,10 @@ public class Sesion : ISesion
 
         Usuario? user;
 
+        u.CorreoElectronico = u.CorreoElectronico.ToLower();
         user = _consultaPorCorreo.Ejecutar(u.CorreoElectronico);
 
-        if(user == null)
+        if(user != null)
         {
             return false;
         }

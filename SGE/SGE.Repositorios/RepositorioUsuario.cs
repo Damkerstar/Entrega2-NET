@@ -166,9 +166,9 @@ public class RepositorioUsuario : IUsuarioRepositorio
         {
             return u;
         }
-        else 
+        else
         {
-            throw new RepositorioException("No existe el usuario buscado.");
+            return null;
         }
     
     }
