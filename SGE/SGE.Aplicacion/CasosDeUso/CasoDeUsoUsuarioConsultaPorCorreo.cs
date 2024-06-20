@@ -6,11 +6,10 @@ namespace SGE.Aplicacion.CasosDeUso;
 public class CasoDeUsoUsuarioConsultaPorCorreo(IUsuarioRepositorio repoUsuario)
 {
 
-    public Usuario Ejecutar(string correo)
+    public Usuario? Ejecutar(string correo)
     {
-        Usuario u = repoUsuario.DevolverPorCorreo(correo);
+        Usuario? u = repoUsuario.DevolverPorCorreo(correo);
 
         return u;
-        
     }
 }

@@ -26,6 +26,8 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 {
                     query.Permisos.Add(p);
                 }
+
+                context.SaveChanges();
                 
             }
 
@@ -149,27 +151,18 @@ public class RepositorioUsuario : IUsuarioRepositorio
         return ok;
     }
 
-    public Usuario DevolverPorCorreo(string correo)
+    public Usuario? DevolverPorCorreo(string correo)
     {
 
         Usuario? u;
 
         using(var context = new DatosContext())
         {
-
             var query = context.Usuarios.Where(i => i.CorreoElectronico == correo).SingleOrDefault();
             u = query;
-
         }
 
-        if(u != null)
-        {
-            return u;
-        }
-        else
-        {
-            return null;
-        }
+        return u;
     
     }
 }

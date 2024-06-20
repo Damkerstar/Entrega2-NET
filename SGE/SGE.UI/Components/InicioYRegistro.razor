@@ -1,9 +1,11 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoUsuarioAlta UsuarioAlta
+@inject InicioSesion login
+@inject Registro register
 @inject ISesion Sesion
 
-@if(bloqueInicio)
+@if(sesionIniciada == null && bloqueInicio)
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
@@ -11,7 +13,6 @@
             <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
             <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
             <button class="btn btn-primary" @onclick="ConfirmarLogin">Confirmar</button>
-            @if(valido) {<h3>Credenciales incorrectas</h3>}
         </div>
     </div>
 }
@@ -32,12 +33,14 @@
 
 @code {
 
+    Usuario _usuario = new Usuario();
+    Usuario sesionIniciada;
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
-    private bool valido = false;
+    private bool bloqueBienvenida = true;
+
     [Parameter]
     public EventCallback Seguir{get;set;}
-    Usuario _usuario = new Usuario();
 
     public void IniciarSesion()
     {
@@ -52,12 +55,26 @@
 
     private void ConfirmarLogin()
     {
-        bloqueInicio = !Sesion.ValidarSesion(_usuario); //Negado por como se planteó el método
+        if(login.ValidarSesion(_usuario)) //Negado por como se planteó el método
+        {
+            bloqueInicio = false;
+            bloqueBienvenida = true;
+            sesionIniciada = Sesion.GetSesion();
+        }
     }
 
     private void ConfirmarRegistro()
     {
-        bloqueRegistro = Sesion.Registro(_usuario);
+        if(register.Registrar(_usuario))
+        {
+            bloqueRegistro = false;
+            bloqueInicio = true;
+        }
+    }
+
+    public void CerrarSesion()
+    {
+        Sesion.Cerrar();
     }
 
 }
