@@ -24,8 +24,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 
                 foreach(Permiso p in Enum.GetValues(typeof(Permiso)))
                 {
-                    String nuevoPermiso = $"{p}";
-                    query.Permisos.Add((nuevoPermiso));
+                    query.Permisos.Add(p);
                 }
                 
             }

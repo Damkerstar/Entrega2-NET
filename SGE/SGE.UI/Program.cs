@@ -23,6 +23,7 @@ builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
+builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorCorreo>();
 
 // Interfaces
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
@@ -30,12 +31,12 @@ builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramite>();
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
 builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<IServicioAltaUsuario, ServicioAltaUsuario>();
+builder.Services.AddScoped<ServicioActualizacionEstado>();
 
 builder.Services.AddSingleton<TramiteValidador>();
 builder.Services.AddSingleton<ExpedienteValidador>();
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ISesion, Sesion>();
-builder.Services.AddScoped<ServicioActualizacionEstado>();
 
 DatosSqlite.Inicializar();
 

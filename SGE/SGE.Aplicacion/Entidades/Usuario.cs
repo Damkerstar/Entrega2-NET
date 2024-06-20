@@ -10,9 +10,9 @@ public class Usuario
     public string Apellido {get; set;} = ""; 
     public string CorreoElectronico {get; set;} = "";
     public string Contrasena {set; get;} = "";
-    public List<String>? Permisos {get; set;} = new List<String>();
+    public List<Permiso>? Permisos {get; set;} = new List<Permiso>();
 
-    public Usuario(string n, string a, string c, string password, List<String>? p)
+    public Usuario(string n, string a, string c, string password, List<Permiso>? p)
     {
 
         this.Nombre = n;

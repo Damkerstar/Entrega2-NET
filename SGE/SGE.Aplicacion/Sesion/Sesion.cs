@@ -31,7 +31,7 @@ public class Sesion : ISesion
             Console.WriteLine("test");
             this.sesionIniciada.Nombre = aux.Nombre;
             this.sesionIniciada.Apellido = aux.Apellido;
-            this.sesionIniciada.Permisos = new List<String?>(aux.Permisos);
+            this.sesionIniciada.Permisos = (new List<Permiso>(aux.Permisos)) ?? new List<Permiso>();
             return true;
         }
         

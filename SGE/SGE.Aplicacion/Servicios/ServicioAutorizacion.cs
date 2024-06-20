@@ -8,15 +8,11 @@ public class ServicioAutorizacion : IServicioAutorizacion
     public bool PoseeElPermiso(Usuario user, Permiso permiso)
     {
         
-        List<String>? lista = user.Permisos ?? new List<String>();
+        List<Permiso>? lista = user.Permisos ?? new List<Permiso>();
 
-        foreach(string s in lista)
+        foreach(Permiso s in lista)
         {
-
-            Permiso p = (Permiso) Enum.Parse(typeof(Permiso), s);
-
-            if(p == permiso) return true;
-
+            if(s == permiso) return true;
         }
 
         return false;
