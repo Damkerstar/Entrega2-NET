@@ -18,7 +18,7 @@ else
             <h3>Seleccione la etiqueta del tramite</h3>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
-                <button class="TramiteEtiqueta" bind=tramite.Etiqueta>@etiqueta</button>
+                <button class="TramiteEtiqueta" @bind=tramite.Etiqueta>@etiqueta</button>
             }
         </a>
     </div>
@@ -40,12 +40,12 @@ else
 
     List<string> TramiteEtiquetas = new List<string>
         {
-            "Escrito Presentado",
-            "Pase Estudio",
+            "Escrito_Presentado",
+            "Pase_Estudio",
             "Despacho",
             "Resolucion",
             "Notificacion",
-            "Pase Archivo"
+            "Pase_Archivo"
         };
 
 

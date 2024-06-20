@@ -7,7 +7,7 @@ namespace SGE.Repositorios;
 
 public class RepositorioUsuario : IUsuarioRepositorio
 {
-
+    
     public void AgregarUsuario(Usuario user)
     {
 
