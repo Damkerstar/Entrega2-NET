@@ -150,19 +150,19 @@ public class RepositorioTramite : ITramiteRepositorio
 
     }
 
-    public void ModificarTramite(Tramite tramiteModificado)
+    public void ModificarTramite(string descripcion, string etiqueta, int idTramite)
     {
 
         bool ok = false;
 
         using (var context = new DatosContext())
         {
-            var query = context.Tramites.Where(t => t.ID == tramiteModificado.ID).SingleOrDefault();
-            
+            var query = context.Tramites.Where(t => t.ID == idTramite).SingleOrDefault();
+
             if(query != null)
             {
-                query.Etiqueta = tramiteModificado.Etiqueta;
-                query.Descripcion = tramiteModificado.Descripcion;
+                query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+                query.Descripcion = descripcion;
                 query.FechaYHoraModificacion = DateTime.Now;
                 context.SaveChanges();
                 ok = true;
@@ -174,6 +174,7 @@ public class RepositorioTramite : ITramiteRepositorio
         {
             throw new RepositorioException("El tramite buscado no existe");
         }
+
     }
 
     public Tramite? BuscarPorID(int idT)

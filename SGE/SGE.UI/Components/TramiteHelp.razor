@@ -23,14 +23,17 @@ else
             <h3>Seleccione la etiqueta del tramite</h3>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
-                <button class="TramiteEtiqueta" @bind=tramite.Etiqueta>@etiqueta</button>
+                <button  @onclick="()=>EtiquetaElejida(etiqueta)">@etiqueta</button>
+                
             }
+            <h4 class="separacion">Etiqueta elejida: @etiquetaModificada</h4>
         </a>
     </div>
 }
 
-<input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control">
-<h3>Expediente ID:</h3>
+<h4 class="separacion">Descripcion: <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control"> </h4>
+
+<h4 class="separacion">Expediente ID:</h4>
 <a>
     <input placeholder= "ID expediente" @bind= "tramite.ExpedienteId" class= "form-control">
 </a>
@@ -39,8 +42,9 @@ else
 @code
 {
     [Parameter] public int? ID {set;get;}
+    Tramite tramite = new Tramite();
     bool _tramiteNuevo = true;
-    Tramite? tramite = new Tramite();
+    string etiquetaModificada = "";
     string mensajeError = "";
     bool error = false;
 
@@ -80,8 +84,9 @@ else
             }
             else
             {
-                mensajeError = "El Trámite buscado no fue encontrado.";
-                TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
+                mensajeError = $"El Trámite buscado no fue encontrado. {etiquetaModificada}"; 
+                Console.WriteLine($"{sesionActual.Id}");
+                TramiteModificacion.Ejecutar(ID.Value, tramite.Descripcion, etiquetaModificada, sesionActual.Id);
             }
         }
         catch(Exception e)
@@ -96,7 +101,11 @@ else
                 Navegador.NavigateTo("tramites/");
             }
         }
-        
+    }
+
+    private void EtiquetaElejida(string etiqueta)
+    {
+        etiquetaModificada = etiqueta;
     }
 
 }

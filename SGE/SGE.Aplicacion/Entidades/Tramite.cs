@@ -12,7 +12,11 @@ public class Tramite
         get => _etiqueta;
         set => _etiqueta = value;
     }
-    public string? Descripcion;
+    public string _descripcion = "";
+    public string Descripcion{
+        get => _descripcion;
+        set => _descripcion = value;
+    }
     public DateTime FechaYHoraCreacion {get;set;} = DateTime.Now;
     public DateTime FechaYHoraModificacion {get;set;} = DateTime.Now;
     public int IdUsuario {get;set;}

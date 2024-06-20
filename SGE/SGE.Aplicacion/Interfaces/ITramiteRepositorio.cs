@@ -10,6 +10,6 @@ public interface ITramiteRepositorio
     Tramite BuscarTramite(int idTramite);
     List<Tramite> BuscarPorEtiqueta(string etiqueta);
     List<Tramite> ListarTramite();
-    void ModificarTramite(Tramite tramite);
+    void ModificarTramite(string descripcion, string etiqueta, int idTramite);
     Tramite? BuscarPorID(int idT);
 }
