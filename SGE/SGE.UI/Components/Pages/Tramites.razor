@@ -5,17 +5,13 @@
 @* @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta *@
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoListarTramite listarTramites
-@inject ISesion Sesion
-@inject IServicioAutorizacion autorizacion
+
 
 <PageTitle>Trámites</PageTitle>
 
-@if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
-{
-    <div>
-        <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
-    </div>
-}
+<div>
+    <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
+</div>
 <Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
 <table class= "table">
     <thead>
@@ -46,13 +42,10 @@
 
 @code
 {
-
-    Usuario? sesionActual;
     List<Tramite> _lista = new List<Tramite>();
     protected override void OnInitialized()
     {
         _lista = listarTramites.Ejecutar();
-        this.sesionActual = Sesion.GetSesion();
     }
 
     Confirmacion dialogo = null!;

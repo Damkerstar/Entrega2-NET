@@ -4,11 +4,10 @@
 @inject CasoDeUsoTramiteAlta TramiteAlta
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoTramiteConsultaPorId TramitePorID
-@inject ISesion Sesion
 
 
 <h1>Ingrese los siguientes datos</h1>
-@if(_tramiteNuevo)
+@if(_TramiteNuevo)
 {
     <h3>Escrito Presentado</h3>
 }
@@ -36,7 +35,7 @@ else
 @code
 {
     [Parameter] public int? ID {set;get;}
-    bool _tramiteNuevo = true;
+    bool _TramiteNuevo = true;
     Tramite? tramite = new Tramite();
 
     List<string> TramiteEtiquetas = new List<string>
@@ -57,42 +56,22 @@ else
             tramite = TramitePorID.Ejecutar(ID.Value);
             if(tramite != null)
             {
-                _tramiteNuevo = false;
+                _TramiteNuevo = false;
             }
         }
     }
 
     private void OpcionTramite()
     {
-
-        Usuario? sesionActual = Sesion.GetSesion();
-        string mensajeError = "";
-        bool error = false;
-
-        if(sesionActual != null && _tramiteNuevo)
+        if(_TramiteNuevo)
         {
-            try
-            {
-                error = false;
-                TramiteAlta.Ejecutar(tramite, sesionActual.Id);
-            }
-            catch(Exception e)
-            {
-                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
-                MostrarError();
-            }
-
+            TramiteAlta.Ejecutar(tramite, 1);
         }
         else
         {
-            TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
+            TramiteModificacion.Ejecutar(tramite, 1);
         }
         Navegador.NavigateTo("listarTramites");
-    }
-
-    private void MostrarError()
-    {
-        error = true;
     }
 
 }
