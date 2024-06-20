@@ -4,6 +4,7 @@ using SGE.Aplicacion.CasosDeUso;
 using SGE.Repositorios;
 using SGE.Aplicacion;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +22,7 @@ builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
+builder.Services.AddTransient<CasoDeUsoListarTramite>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorCorreo>();

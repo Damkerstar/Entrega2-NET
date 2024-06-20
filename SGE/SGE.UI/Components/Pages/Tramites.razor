@@ -4,12 +4,11 @@
 @inject CasoDeUsoTramiteBaja TramiteBaja
 @* @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta *@
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
-@inject CasoDeUsoListarTramite listaTramites
+@inject CasoDeUsoListarTramite listarTramites
 
 
 <PageTitle>Trámites</PageTitle>
 
-<h1>Completar.</h1>
 <div>
     <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
 </div>
@@ -26,7 +25,7 @@
     </thead>
 </table>
 
-@foreach(Tramite tramite in _listaTramites)
+@foreach(Tramite tramite in _lista)
 {
     <tr>
         <td>@tramite.ID</td>
@@ -43,10 +42,10 @@
 
 @code
 {
-    List<Tramite> _listaTramites = new List<Tramite>();
+    List<Tramite> _lista = new List<Tramite>();
     protected override void OnInitialized()
     {
-        _listaTramites = listaTramites.Ejecutar();
+        _lista = listarTramites.Ejecutar();
     }
 
     Confirmacion dialogo = null!;
@@ -64,18 +63,18 @@
         if(tramite != null)
         {
             TramiteBaja.Ejecutar(tramite.ID, 1);
-            _listaTramites = listaTramites.Ejecutar();
+            _lista = listarTramites.Ejecutar();
         }
     }
 
     private void AltaTramite()
     {
-        Navegador.NavigateTo($"TramiteAlta/{null}");
+        Navegador.NavigateTo($"TramiteHelp/");
     }
 
     private void ModificarTramite(Tramite tramite)
     {
-        Navegador.NavigateTo($"TramiteAlta/{tramite.ID}");
+        Navegador.NavigateTo($"TramiteHelp/{tramite.ID}");
     }
     
 }

@@ -5,31 +5,63 @@
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoTramiteConsultaPorId TramitePorID
 
+
 <h1>Ingrese los siguientes datos</h1>
-<input placeholder= "Etiqueta" @bind= "tramite.Etiqueta" class ="form-control">
+@if(_TramiteNuevo)
+{
+    <h3>Escrito Presentado</h3>
+}
+else
+{
+    <div>
+        <a>
+            <h3>Seleccione la etiqueta del tramite</h3>
+            @foreach(string etiqueta in TramiteEtiquetas)
+            {
+                <button class="TramiteEtiqueta" bind=tramite.Etiqueta>@etiqueta</button>
+            }
+        </a>
+    </div>
+}
+
+
 <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
 <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+
+
+
 
 
 @code
 {
     [Parameter] public int? ID {set;get;}
     bool _TramiteNuevo = true;
-    Tramite? tramite = null;
+    Tramite? tramite = new Tramite();
+
+    List<string> TramiteEtiquetas = new List<string>
+        {
+            "Escrito Presentado",
+            "Pase Estudio",
+            "Despacho",
+            "Resolucion",
+            "Notificacion",
+            "Pase Archivo"
+        };
+
 
     protected override void OnParametersSet()
     {
         if(ID != null)
         {
             tramite = TramitePorID.Ejecutar(ID.Value);
-            if(_TramiteNuevo != null)
+            if(tramite != null)
             {
                 _TramiteNuevo = false;
             }
         }
     }
 
-    void OpcionTramite()
+    private void OpcionTramite()
     {
         if(_TramiteNuevo)
         {
@@ -41,4 +73,5 @@
         }
         Navegador.NavigateTo("listarTramites");
     }
+
 }

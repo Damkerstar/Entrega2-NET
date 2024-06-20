@@ -170,7 +170,7 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
-    public Tramite BuscarPorID(int idT)
+    public Tramite? BuscarPorID(int idT)
     {
         Tramite? tramite = null;
 
@@ -187,13 +187,6 @@ public class RepositorioTramite : ITramiteRepositorio
             
         }
 
-        if(tramite != null)
-        {
-            return tramite;
-        }
-        else
-        {
-            throw new RepositorioException("El tramite buscado no existe");
-        }
+        return tramite;
     }
 }
