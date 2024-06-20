@@ -79,19 +79,17 @@ else
             if(sesionActual != null && _tramiteNuevo)
             {
                 error = false;
-                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
+                tramite.IdUsuario = sesionActual.Id;
                 TramiteAlta.Ejecutar(tramite, sesionActual.Id);
             }
             else
             {
-                mensajeError = $"El Trámite buscado no fue encontrado. {etiquetaModificada}"; 
-                Console.WriteLine($"{sesionActual.Id}");
                 TramiteModificacion.Ejecutar(ID.Value, tramite.Descripcion, etiquetaModificada, sesionActual.Id);
             }
         }
         catch(Exception e)
         {
-            Console.WriteLine("error");
+            mensajeError = e.Message;
             error = true;
         }
         finally

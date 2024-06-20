@@ -4,13 +4,11 @@
 @inject CasoDeUsoTramiteBaja TramiteBaja
 @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
-@inject CasoDeUsoListarTramite listarTramites
+@inject CasoDeUsoListarTramite ListarTramites
 @inject ISesion Sesion
 @inject IServicioAutorizacion autorizacion
 
 <PageTitle>Trámites</PageTitle>
-
-
 
 <div>
     @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
@@ -20,16 +18,14 @@
     <button class = "btn btn-primary" @onclick="()=>MostrarPorEtiqueta()">Filtrar por etiqueta</button>
 </div>
 
-<Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
-
-
+<br>
 
 @if(mostrar)
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
-            <h1>Elija la etiqueta a buscar</h1>
-            <button class= "btn btn-primary" @onclick="()=>TodosTramites()">Todos los tramites</button>
+            <h1>Elija la etiqueta para filtrar</h1>
+            <button class= "btn btn-primary" @onclick="()=>TodosTramites()">Todos los Trámites</button>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
                 <button class="btn btn-primary" @onclick="()=>BuscarTramites(etiqueta)">@etiqueta</button>
@@ -37,7 +33,6 @@
         </div>
     </div>
 }
-
 
 <style>
     table, th, td {
@@ -54,10 +49,11 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>ID de Expediente</th>
             <th>Etiqueta</th>
-            <th>Descripcion</th>
-            <th>Creacion</th>
-            <th>Ultima Modificacion</th>
+            <th>Descripción</th>
+            <th>Creación</th>
+            <th>Última modificación</th>
         </tr>
     </thead>
     <tbody>
@@ -65,25 +61,28 @@
         {
             <tr>
                 <td>@tramite.ID</td>
+                <td>@tramite.ExpedienteId</td>
                 <td>@tramite.Etiqueta</td>
                 <td>@tramite.Descripcion</td>
                 <td>@tramite.FechaYHoraCreacion</td>
                 <td>@tramite.FechaYHoraModificacion</td>
-                <td>
-                    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
-                    <button class= "btn btn-primary" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
-                    }
-                    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
+                    <td>
+                        <button class= "btn btn-primary" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
+                    </td>
+                }
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
+                    <td>
                         <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
-                    }
-                </td>
+                    </td>
+                }
             </tr>
         }
     </tbody>
     
 </table>
 
-
+<Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
 
 @code
 {
@@ -99,20 +98,20 @@
         "Notificacion",
         "Pase_Archivo"
     };
+
     protected override void OnInitialized()
     {
         TodosTramites();
         this.sesionActual = Sesion.GetSesion();
     }
     
-
     Confirmacion dialogo = null!;
     Tramite? _tramiteEliminado = null;
     
     private void ConfirmarEliminado(Tramite tramite)
     {
         _tramiteEliminado = tramite;
-        dialogo.Mensaje = $"¿Desea eliminar el tramite: {tramite.ID}?";
+        dialogo.Mensaje = $"¿Desea eliminar el Trámite {tramite.ID}?";
         dialogo.Mostrar();
     }
     private void EliminarTramite(Tramite tramite)
@@ -120,7 +119,7 @@
         if(tramite != null)
         {
             TramiteBaja.Ejecutar(tramite.ID, sesionActual.Id);
-            _lista = listarTramites.Ejecutar();
+            _lista = ListarTramites.Ejecutar();
         }
     }
     private void AltaTramite()
@@ -144,7 +143,7 @@
     }
     private void TodosTramites()
     {
-        _lista = listarTramites.Ejecutar();
+        _lista = ListarTramites.Ejecutar();
         mostrar = false;
         StateHasChanged();
     }

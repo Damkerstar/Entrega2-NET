@@ -6,21 +6,11 @@ public class Tramite
 
     public int ExpedienteId {get; set;}
     public int ID { private set; get; }
-    private EtiquetaTramite _etiqueta = EtiquetaTramite.Escrito_Presentado;
-    public EtiquetaTramite Etiqueta
-    {
-        get => _etiqueta;
-        set => _etiqueta = value;
-    }
-    public string _descripcion = "";
-    public string Descripcion{
-        get => _descripcion;
-        set => _descripcion = value;
-    }
+    public EtiquetaTramite Etiqueta {get; set;} = EtiquetaTramite.Escrito_Presentado;
+    public string Descripcion{get; set;} = "";
     public DateTime FechaYHoraCreacion {get;set;} = DateTime.Now;
     public DateTime FechaYHoraModificacion {get;set;} = DateTime.Now;
     public int IdUsuario {get;set;}
-
 
     public Tramite()
     {

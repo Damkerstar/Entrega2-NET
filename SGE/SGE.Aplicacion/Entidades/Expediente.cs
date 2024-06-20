@@ -5,25 +5,12 @@ public class Expediente
 {
 
     public int ID { private set; get; }
-    public string? caratula;
+    public string caratula {get; set;}= "";
     public DateTime fechaYHoraCreacion {get; set;} = DateTime.Now;
     public DateTime fechaYHoraActualizacion {get; set;}
     public int usuarioID {get; set;}
-    private EstadoExpediente _estado {get; set;} = EstadoExpediente.Recien_Iniciado;
-    public EstadoExpediente Estado
-    {
-        get => _estado;
-        set => _estado = value;
-    }
-
-    // ------------------------------------------------------------------
-
-    private List<Tramite> _tramiteList = new List<Tramite>();
-    public List<Tramite> TramiteList
-    {
-        get => _tramiteList; 
-        set => _tramiteList = value;
-    }
+    public EstadoExpediente Estado {get; set;} = EstadoExpediente.Recien_Iniciado;
+    public List<Tramite> TramiteList {get; set;} = new List<Tramite>();
 
     public Expediente(string caratula, int usuarioID) 
     {
@@ -44,7 +31,6 @@ public class Expediente
         fechaYHoraActualizacion = e.fechaYHoraActualizacion;
         usuarioID = e.usuarioID;
         Estado = e.Estado;
-        TramiteList = new List<Tramite>(e.TramiteList);
     }
 
     public override string ToString()

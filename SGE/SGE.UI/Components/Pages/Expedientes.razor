@@ -1,12 +1,175 @@
 @page "/expedientes"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoExpedienteBaja ExpedienteBaja
+@inject CasoDeUsoExpedienteConsultaPorId ConsultaPorId
+@inject CasoDeUsoExpedienteModificacion ExpedienteModificacion
+@inject CasoDeUsoExpedienteConsultaTodos ListarExpedientes
+@inject ISesion Sesion
+@inject IServicioAutorizacion autorizacion
 
 <PageTitle>Expedientes</PageTitle>
 
-<h1>Completar.</h1>
+<div>
+    @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteAlta"))
+    {
+        <button class = "btn btn-primary" @onclick="()=>AltaExpediente()">Agregar Expediente</button>
+    }
+    <button class = "btn btn-primary" @onclick="()=>MostrarPorID()">Filtrar por ID</button>
+</div>
 
-<!--
-//Todos deben poder ver los Expedientes (y listar por id/estado?),
-pero los que tengan el permiso necesario podrán
-//ver las opciones para dar alta, baja y modificación
+<br>
 
-//Ver diapositiva 62-->
+@if(mostrar)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h1>Ingrese la ID para filtrar</h1>
+            <button class= "btn btn-primary" @onclick="()=>TodosExpedientes()">Todos los Expedientes</button>
+            <input placeholder= "ID" @bind= "busquedaID" class= "form-control">
+            <button class="btn btn-primary" @onclick="()=>BuscarExpediente(busquedaID)">Aceptar</button>
+        </div>
+    </div>
+}
+
+<style>
+    table, th, td {
+        border: 1px solid white;
+        border-collapse : collapse;
+        padding: 10px;
+        width: 50%;
+    }
+    th, td {
+        background-color : lightblue;
+    }
+</style>
+<table style>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Carátula</th>
+            <th>Estado</th>
+            <th>ID Usuario</th>
+            <th>Creación</th>
+            <th>Última modificación</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Expediente expediente in _lista)
+        {
+            <tr>
+                <td>@expediente.ID</td>
+                <td>@expediente.caratula</td>
+                <td>@expediente.Estado</td>
+                <td>@expediente.usuarioID</td>
+                <td>@expediente.fechaYHoraCreacion</td>
+                <td>@expediente.fechaYHoraActualizacion</td>
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteBaja")){
+                    <td>
+                        <button class= "btn btn-primary" @onclick="()=>ModificarExpediente(expediente)">Modificar</button>
+                    </td>
+                }
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteModificacion")){
+                    <td>
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(expediente)">Eliminar</button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if(mostrarTramites)
+{
+    <table style>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID de Expediente</th>
+                <th>Etiqueta</th>
+                <th>Descripción</th>
+                <th>Creación</th>
+                <th>Última modificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Tramite tramite in mostrarT.TramiteList)
+            {
+                <tr>
+                    <td>@tramite.ID</td>
+                    <td>@tramite.ExpedienteId</td>
+                    <td>@tramite.Etiqueta</td>
+                    <td>@tramite.Descripcion</td>
+                    <td>@tramite.FechaYHoraCreacion</td>
+                    <td>@tramite.FechaYHoraModificacion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarExpediente(_expedienteEliminado)"/>
+
+@code
+{
+    private bool mostrar = false;
+    private bool mostrarTramites = false;
+    private Expediente? mostrarT;
+    private Usuario? sesionActual;
+    private List<Expediente> _lista = new List<Expediente>();
+    private int? busquedaID;
+    private Confirmacion dialogo = null!;
+    private Expediente? _expedienteEliminado = null;
+    
+    protected override void OnInitialized()
+    {
+        TodosExpedientes();
+        this.sesionActual = Sesion.GetSesion();
+    }
+    
+    private void ConfirmarEliminado(Expediente expediente)
+    {
+        _expedienteEliminado = expediente;
+        dialogo.Mensaje = $"¿Desea eliminar el Expediente {expediente.ID}?";
+        dialogo.Mostrar();
+    }
+    private void EliminarExpediente(Expediente expediente)
+    {
+        if(expediente != null)
+        {
+            ExpedienteBaja.Ejecutar(expediente.ID, sesionActual.Id);
+            _lista = ListarExpedientes.Ejecutar();
+        }
+    }
+    private void AltaExpediente()
+    {
+        Navegador.NavigateTo($"ExpedienteHelp/");
+    }
+    private void ModificarExpediente(Expediente expediente)
+    {
+        Navegador.NavigateTo($"ExpedienteHelp/{expediente.ID}");
+    }
+    private void MostrarPorID()
+    {
+        mostrar = true;
+        StateHasChanged();
+    }
+    private void BuscarExpediente(int? id)
+    {
+        _lista.Clear();
+        _lista.Add(ConsultaPorId.Ejecutar(id));
+        mostrarT = _lista.First();
+        Console.WriteLine((mostrarT == null));
+        Console.WriteLine((mostrarT.TramiteList == null));
+        
+        mostrar = true;
+        mostrarTramites = true;
+        StateHasChanged();
+    }
+    private void TodosExpedientes()
+    {
+        _lista = ListarExpedientes.Ejecutar();
+        mostrar = false;
+        StateHasChanged();
+    }
+}

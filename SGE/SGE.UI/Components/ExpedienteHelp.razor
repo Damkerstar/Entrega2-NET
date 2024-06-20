@@ -1,0 +1,103 @@
+@page "/ExpedienteHelp/{ID:int?}"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoExpedienteAlta ExpedienteAlta
+@inject CasoDeUsoExpedienteModificacion ExpedienteModificacion
+@inject CasoDeUsoExpedienteConsultaPorId ExpedientePorID
+@inject ISesion Sesion
+
+@if(error)
+{
+    <h2>@mensajeError</h2>
+}
+
+<h1>Ingrese los siguientes datos</h1>
+@if(_expedienteNuevo)
+{
+    <h3>Recién Iniciado</h3>
+}
+else
+{
+    <div>
+        <a>
+            <h3>Ingrese el nuevo Estado</h3>
+            @foreach(string estado in ExpedientesEstado)
+            {
+                <button  @onclick="()=>EstadoElegido(estado)">@estado</button>  
+            }
+            <h4 class="separacion">Estado elegido: @estadoModificado</h4>
+        </a>
+    </div>
+}
+
+<h4 class="separacion">Carátula: <input placeholder= "Carátula" @bind= "expediente.caratula" class= "form-control"> </h4>
+
+<button class="btn btn-primary" @onclick= "()=>OpcionExpediente()">Aceptar</button>
+
+@code
+{
+    [Parameter] public int? ID {set;get;}
+    Expediente expediente = new Expediente();
+    bool _expedienteNuevo = true;
+    string estadoModificado = "";
+    string mensajeError = "";
+    bool error = false;
+
+    List<string> ExpedientesEstado = new List<string>
+        {
+            "Recien_Iniciado",
+            "Para_Resolver",
+            "Con_Resolucion",
+            "En_Notificacion",
+            "Finalizado"
+        };
+    protected override void OnParametersSet()
+    {
+        if(ID != null)
+        {
+            expediente = ExpedientePorID.Ejecutar(ID.Value);
+            if(expediente != null)
+            {
+                _expedienteNuevo = false;
+            }
+        }
+    }
+
+    private void OpcionExpediente()
+    {
+
+        Usuario? sesionActual = Sesion.GetSesion();
+
+        try
+        {
+            if(sesionActual != null && _expedienteNuevo)
+            {
+                error = false;
+                expediente.usuarioID = sesionActual.Id;
+                ExpedienteAlta.Ejecutar(expediente, sesionActual.Id);
+            }
+            else
+            {
+                ExpedienteModificacion.Ejecutar(ID.Value, sesionActual.Id, expediente.caratula, estadoModificado);
+            }
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            error = true;
+        }
+        finally
+        {
+            if(!error)
+            {
+                Navegador.NavigateTo("expedientes/");
+            }
+        }
+    }
+
+    private void EstadoElegido(string estado)
+    {
+        estadoModificado = estado;
+    }
+
+}

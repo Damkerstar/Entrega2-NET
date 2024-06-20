@@ -3,7 +3,7 @@ using SGE.Aplicacion.Entidades;
 public class ExpedienteValidador
 {
 
-    public bool Validar(Expediente e, out string errorMessage)
+    public bool Validar(Expediente e, int idUsuario, out string errorMessage)
     {
 
         errorMessage = "";
@@ -13,8 +13,9 @@ public class ExpedienteValidador
             errorMessage = "La carátula no puede estar vacía.\n" ;
         }
 
-        if(e.usuarioID <= 0)
+        if(idUsuario <= 0)
         {
+            Console.WriteLine("test");
             errorMessage += "La ID de usuario debe ser mayor a 0.\n" ;
         }
 

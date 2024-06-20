@@ -79,7 +79,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
 
     }
 
-    public void ModificarExpediente(int eId, string caratula, string estado, int idUsuario) //Actualizar casos de uso 8(
+    public void ModificarExpediente(int eId, string caratula, string estado) //Actualizar casos de uso 8(
     {
 
         Expediente? expedienteModificar;
@@ -95,7 +95,6 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
                 //Funcionará?
                 expedienteModificar.caratula = caratula;
                 expedienteModificar.fechaYHoraActualizacion = DateTime.Now;
-                expedienteModificar.usuarioID = idUsuario;
                 expedienteModificar.Estado = (EstadoExpediente) Enum.Parse(typeof(EstadoExpediente), estado);
 
                 //Lo averiguaremos en el próximo episodio de Dragon Ball Z Kai
@@ -112,7 +111,7 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
 
     }
 
-    public Expediente BuscarExpedientePorId(int eId)
+    public Expediente BuscarExpedientePorId(int? eId)
     {
 
         Expediente? expedienteBusqueda = null;

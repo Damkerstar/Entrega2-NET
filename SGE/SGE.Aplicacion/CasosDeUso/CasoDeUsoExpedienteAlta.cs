@@ -12,11 +12,10 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IUsuarioReposi
         if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "ExpedienteAlta"))
         {
 
-            if(validador.Validar(e, out string errorMessage) == false)
+            if(validador.Validar(e, idUsuario, out string errorMessage) == false)
             {
-
+                Console.WriteLine("Validador CasoDeUsoAlta");
                 throw new ValidacionException(errorMessage);
-
             }
             
             repo.EscribirExpediente(e);
