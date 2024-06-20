@@ -5,14 +5,15 @@ using SGE.Aplicacion.Interfaces;
 public class ServicioAutorizacion : IServicioAutorizacion
 {
 
-    public bool PoseeElPermiso(Usuario user, Permiso permiso)
+    public bool PoseeElPermiso(Usuario user, string permiso)
     {
         
+        Permiso p = (Permiso) Enum.Parse(typeof(Permiso), permiso);
         List<Permiso>? lista = user.Permisos ?? new List<Permiso>();
 
         foreach(Permiso s in lista)
         {
-            if(s == permiso) return true;
+            if(s == p) return true;
         }
 
         return false;

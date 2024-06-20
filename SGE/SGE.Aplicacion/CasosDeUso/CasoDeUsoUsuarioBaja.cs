@@ -8,7 +8,7 @@ public class CasoDeUsoUsuarioBaja(IServicioAutorizacion autorizacion, IUsuarioRe
     public void Ejecutar(int idAdm,int id)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idAdm), Permiso.UsuariosBaja))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idAdm), "UsuariosBaja"))
         {
             repoUsuario.EliminarUsuario(id);
         }

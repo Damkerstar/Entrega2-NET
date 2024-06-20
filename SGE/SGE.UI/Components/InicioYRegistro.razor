@@ -5,7 +5,7 @@
 @inject Registro register
 @inject ISesion Sesion
 
-@if(sesionIniciada == null && bloqueInicio)
+@if(bloqueInicio)
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
@@ -34,16 +34,15 @@
 @code {
 
     Usuario _usuario = new Usuario();
-    Usuario sesionIniciada;
+    Usuario? sesionIniciada;
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
-    private bool bloqueBienvenida = true;
 
     [Parameter]
     public EventCallback Seguir{get;set;}
 
     public void IniciarSesion()
-    {
+    {   
         bloqueInicio = true;
         Seguir.InvokeAsync();
     }
@@ -58,7 +57,6 @@
         if(login.ValidarSesion(_usuario)) //Negado por como se planteó el método
         {
             bloqueInicio = false;
-            bloqueBienvenida = true;
             sesionIniciada = Sesion.GetSesion();
         }
     }
@@ -68,6 +66,7 @@
         if(register.Registrar(_usuario))
         {
             bloqueRegistro = false;
+            _usuario = new Usuario();
             bloqueInicio = true;
         }
     }

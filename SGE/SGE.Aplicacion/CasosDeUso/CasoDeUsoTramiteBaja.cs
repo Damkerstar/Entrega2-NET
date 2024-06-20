@@ -8,7 +8,7 @@ public class CasoDeUsoTramiteBaja(ITramiteRepositorio repoTramite, IUsuarioRepos
 
         
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteBaja))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "TramiteBaja"))
         {
             Tramite tramite = repoTramite.BuscarTramite(idTramite);
             repoTramite.EliminarTramite(idTramite);

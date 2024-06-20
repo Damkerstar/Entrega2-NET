@@ -8,10 +8,10 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IUsuarioRepos
     public void Ejecutar(Tramite tramite, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteAlta))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "TramiteAlta"))
         {
             
-            if(!validador.ValidarTramite(tramite, out string msg))
+            if(!validador.ValidarTramite(tramite, idUsuario, out string msg))
             {
                 throw new Exception(msg);
             }
