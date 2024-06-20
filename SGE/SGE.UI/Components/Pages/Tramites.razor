@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoTramiteBaja TramiteBaja
-@inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta
+@* @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta *@
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoListarTramite listaTramites
 
@@ -10,18 +10,10 @@
 <PageTitle>Trámites</PageTitle>
 
 <h1>Completar.</h1>
-
-<!--//Todos deben poder ver los Trámites (y listar por id/etiqueta?), pero los que tengan el permiso necesario podrán
-//ver las opciones para dar alta, baja y modificación
-
-//Ver diapositiva 62-->
-
-@if(pagAltas)
-{
-    <button class = "btn" @onclick= "()=>AltaTramite()">Agregar Tramite</button>
-}
-
-<DialogoConfirmacion @ref="dialogo" OnConfirmado="EliminarTramite"/>
+<div>
+    <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
+</div>
+<Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
 <table class= "table">
     <thead>
         <tr>
@@ -34,17 +26,17 @@
     </thead>
 </table>
 
-@foreach(Tramite tramite in listaTramites)
+@foreach(Tramite tramite in _listaTramites)
 {
     <tr>
-        <td>@tramite.IDTramite</td>
+        <td>@tramite.ID</td>
         <td>@tramite.Etiqueta</td>
         <td>@tramite.Descripcion</td>
         <td>@tramite.FechaYHoraCreacion</td>
         <td>@tramite.FechaYHoraModificacion</td>
         <td>
-            <button class= "btn btn-editar" @onclick="()=> ModificarTramite(tramite)">Modificar</button>
-            <button class= "btn btn-eliminar" @onclick="()=> EliminarTramite(tramite)">Eliminar</button>
+            <button class= "btn btn-modificacion" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
+            <button class="btn btn-eliminacion" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
         </td>
     </tr>
 }
@@ -63,7 +55,7 @@
     private void ConfirmarEliminado(Tramite tramite)
     {
         _tramiteEliminado = tramite;
-        dialogo.Mensaje = $"¿Desea eliminar el tramite: {tramite.IDTramite}?";
+        dialogo.Mensaje = $"¿Desea eliminar el tramite: {tramite.ID}?";
         dialogo.Mostrar();
     }
 
@@ -71,7 +63,7 @@
     {
         if(tramite != null)
         {
-            TramiteBaja.Ejecutar(tramite, 1);
+            TramiteBaja.Ejecutar(tramite.ID, 1);
             _listaTramites = listaTramites.Ejecutar();
         }
     }
@@ -83,7 +75,7 @@
 
     private void ModificarTramite(Tramite tramite)
     {
-        Navegador.NavigateTo($"TramiteAlta/{tramite.IDTramite}")
+        Navegador.NavigateTo($"TramiteAlta/{tramite.ID}");
     }
     
 }

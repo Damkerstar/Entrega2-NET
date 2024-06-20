@@ -4,8 +4,8 @@ using SGE.Aplicacion.Entidades;
 namespace SGE.Aplicacion.CasosDeUso;
 public class CasoDeUsoTramiteConsultaPorId(ITramiteRepositorio repoTramite)
 {
-    public void Ejecutar(int idT)
+    public Tramite Ejecutar(int idT)
     {
-        repoTramite.BuscarPorID(idT);
+        return repoTramite.BuscarPorID(idT);
     }
 }

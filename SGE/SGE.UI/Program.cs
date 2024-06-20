@@ -18,6 +18,7 @@ builder.Services.AddTransient<CasoDeUsoExpedienteConsultaTodos>();
 builder.Services.AddTransient<CasoDeUsoExpedienteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
+builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
@@ -34,6 +35,7 @@ builder.Services.AddSingleton<TramiteValidador>();
 builder.Services.AddSingleton<ExpedienteValidador>();
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ISesion, Sesion>();
+builder.Services.AddScoped<ServicioActualizacionEstado>();
 
 DatosSqlite.Inicializar();
 

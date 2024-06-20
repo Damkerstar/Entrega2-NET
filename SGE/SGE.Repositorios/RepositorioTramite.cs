@@ -144,18 +144,19 @@ public class RepositorioTramite : ITramiteRepositorio
 
     }
 
-    public void ModificarTramite(int idT, string etiqueta)
+    public void ModificarTramite(Tramite tramiteModificado)
     {
 
         bool ok = false;
 
         using (var context = new DatosContext())
         {
-            var query = context.Tramites.Where(t => t.ID == idT).SingleOrDefault();
+            var query = context.Tramites.Where(t => t.ID == tramiteModificado.ID).SingleOrDefault();
             
             if(query != null)
             {
-                query.Etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiqueta);
+                query.Etiqueta = tramiteModificado.Etiqueta;
+                query.Descripcion = tramiteModificado.Descripcion;
                 query.FechaYHoraModificacion = DateTime.Now;
                 context.SaveChanges();
                 ok = true;

@@ -5,17 +5,15 @@ namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
 {
-    public void Ejecutar(int idTramite, string etiqueta, int idUsuario)
+    public void Ejecutar(Tramite tramiteModificado, int idUsuario)
     {
 
         if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), Permiso.TramiteModificacion))
         {
             
-            repoTramite.ModificarTramite(idTramite, etiqueta);
-
-            Tramite tramite = repoTramite.BuscarTramite(idTramite);
-            
-            servicioActualizacion.Ejecutar(tramite.ExpedienteId, tramite.Etiqueta);
+            repoTramite.BuscarTramite(tramiteModificado.ID);
+            repoTramite.ModificarTramite(tramiteModificado);
+            servicioActualizacion.Ejecutar(tramiteModificado.ExpedienteId, tramiteModificado.Etiqueta);
         }
         else
         {
