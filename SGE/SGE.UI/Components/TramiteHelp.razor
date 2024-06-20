@@ -24,13 +24,15 @@ else
             <h3>Seleccione la etiqueta del tramite</h3>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
-                <button class="TramiteEtiqueta" bind=tramite.Etiqueta>@etiqueta</button>
+                <button class="TramiteEtiqueta" @bind=tramite.Etiqueta>@etiqueta</button>
             }
         </a>
     </div>
 }
+
 <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
 <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+
 @code
 {
     [Parameter] public int? ID {set;get;}
@@ -41,12 +43,12 @@ else
 
     List<string> TramiteEtiquetas = new List<string>
         {
-            "Escrito Presentado",
-            "Pase Estudio",
+            "Escrito_Presentado",
+            "Pase_Estudio",
             "Despacho",
             "Resolucion",
             "Notificacion",
-            "Pase Archivo"
+            "Pase_Archivo"
         };
     protected override void OnParametersSet()
     {

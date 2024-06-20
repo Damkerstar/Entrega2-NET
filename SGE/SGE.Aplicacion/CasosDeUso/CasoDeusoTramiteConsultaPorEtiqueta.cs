@@ -4,8 +4,8 @@ using SGE.Aplicacion.Entidades;
 namespace SGE.Aplicacion.CasosDeUso;
 public class CasoDeUsoTramiteConsultaPorEtiqueta(ITramiteRepositorio repoTramite)
 {
-    public void Ejecutar(string etiqueta)
+    public List<Tramite> Ejecutar(string etiqueta)
     {
-        repoTramite.BuscarPorEtiqueta(etiqueta);
+        return repoTramite.BuscarPorEtiqueta(etiqueta);
     }
 }

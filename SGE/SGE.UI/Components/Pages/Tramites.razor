@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoTramiteBaja TramiteBaja
-@* @inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta *@
+@inject CasoDeUsoTramiteConsultaPorEtiqueta TramitesEtiqueta
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoListarTramite listarTramites
 @inject ISesion Sesion
@@ -10,10 +10,12 @@
 
 <PageTitle>Trámites</PageTitle>
 
+
 @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
 {
     <div>
         <button class = "btn" @onclick="()=>AltaTramite()">Agregar Tramite</button>
+        <button class = "btn" @onclick="()=>MostrarPorEtiqueta()">Buscar etiqueta</button>
     </div>
 }
 <Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarTramite(_tramiteEliminado)"/>
@@ -28,6 +30,23 @@
         </tr>
     </thead>
 </table>
+
+
+@if(mostrar)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h1>Elija la etiqueta a buscar</h1>
+            @foreach(string etiqueta in TramiteEtiquetas)
+            {
+                <button class="btn btn-primary" @onclick="()=>BuscarTramites(etiqueta)">@etiqueta</button>
+            }
+        </div>
+    </div>
+}
+
+
+
 @foreach(Tramite tramite in _lista)
 {
     <tr>
@@ -43,11 +62,25 @@
     </tr>
 }
 
+
+
 @code
 {
-
+    bool mostrar = false;
     Usuario? sesionActual;
     List<Tramite> _lista = new List<Tramite>();
+    List<string> TramiteEtiquetas = new List<string>
+        {
+            "Escrito_Presentado",
+            "Pase_Estudio",
+            "Despacho",
+            "Resolucion",
+            "Notificacion",
+            "Pase_Archivo"
+        };
+
+
+    
     protected override void OnInitialized()
     {
         _lista = listarTramites.Ejecutar();
@@ -79,5 +112,14 @@
     {
         Navegador.NavigateTo($"TramiteHelp/{tramite.ID}");
     }
-    
+    private void MostrarPorEtiqueta()
+    {
+        mostrar = true;
+    }
+    private void BuscarTramites(string etiquetaBuscada)
+    {
+        _lista = TramitesEtiqueta.Ejecutar(etiquetaBuscada);
+        mostrar =false;
+        StateHasChanged();
+    }
 }
