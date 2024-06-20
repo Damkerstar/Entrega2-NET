@@ -52,6 +52,7 @@
 @code
 {
     List<Tramite> _listaTramites = new List<Tramite>();
+    bool pagAltas = true;
     protected override void OnInitialized()
     {
         _listaTramites = listaTramites.Ejecutar();
@@ -83,7 +84,7 @@
 
     private void ModificarTramite(Tramite tramite)
     {
-        Navegador.NavigateTo($"TramiteAlta/{tramite.IDTramite}")
+        Navegador.NavigateTo($"TramiteAlta/{tramite.IDTramite}");
     }
     
 }

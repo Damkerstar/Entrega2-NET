@@ -11,5 +11,4 @@ public class UsuarioNoRegistradoException : Exception
 
     public UsuarioNoRegistradoException(string message, Exception inner) : base(message, inner) {}
 
-
 }
