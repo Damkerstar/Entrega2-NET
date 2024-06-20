@@ -4,10 +4,11 @@
 @inject CasoDeUsoTramiteAlta TramiteAlta
 @inject CasoDeUsoTramiteModificacion TramiteModificacion
 @inject CasoDeUsoTramiteConsultaPorId TramitePorID
+@inject ISesion Sesion
 
 
 <h1>Ingrese los siguientes datos</h1>
-@if(_TramiteNuevo)
+@if(_tramiteNuevo)
 {
     <h3>Escrito Presentado</h3>
 }
@@ -23,20 +24,15 @@ else
         </a>
     </div>
 }
-
-
 <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class ="form-control">
 <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
-
-
-
-
-
 @code
 {
     [Parameter] public int? ID {set;get;}
-    bool _TramiteNuevo = true;
+    bool _tramiteNuevo = true;
     Tramite? tramite = new Tramite();
+    string mensajeError = "";
+    bool error = false;
 
     List<string> TramiteEtiquetas = new List<string>
         {
@@ -47,8 +43,6 @@ else
             "Notificacion",
             "Pase_Archivo"
         };
-
-
     protected override void OnParametersSet()
     {
         if(ID != null)
@@ -56,22 +50,40 @@ else
             tramite = TramitePorID.Ejecutar(ID.Value);
             if(tramite != null)
             {
-                _TramiteNuevo = false;
+                _tramiteNuevo = false;
             }
         }
     }
 
     private void OpcionTramite()
     {
-        if(_TramiteNuevo)
+
+        Usuario? sesionActual = Sesion.GetSesion();
+
+        if(sesionActual != null && _tramiteNuevo)
         {
-            TramiteAlta.Ejecutar(tramite, 1);
+            try
+            {
+                error = false;
+                TramiteAlta.Ejecutar(tramite, sesionActual.Id);
+            }
+            catch(Exception e)
+            {
+                mensajeError = "No se pudo dar de alta el Trámite. ID de Expediente no válida.";
+                MostrarError();
+            }
+
         }
         else
         {
-            TramiteModificacion.Ejecutar(tramite, 1);
+            TramiteModificacion.Ejecutar(tramite, sesionActual.Id);
         }
         Navegador.NavigateTo("listarTramites");
+    }
+
+    private void MostrarError()
+    {
+        error = true;
     }
 
 }
