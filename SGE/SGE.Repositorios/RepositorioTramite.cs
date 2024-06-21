@@ -198,5 +198,4 @@ public class RepositorioTramite : ITramiteRepositorio
         return listaPorId;
 
     }
-
 }
