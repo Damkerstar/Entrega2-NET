@@ -180,4 +180,23 @@ public class RepositorioTramite : ITramiteRepositorio
         }
 
     }
+
+    public List<Tramite> ListarTramitePorId(int idExpediente)
+    {
+
+        List<Tramite> lista = this.ListarTramite();
+        List<Tramite> listaPorId = new List<Tramite>();
+
+        foreach(Tramite t in lista)
+        {
+            if(t.ExpedienteId == idExpediente)
+            {
+                listaPorId.Add(t);
+            }
+        }
+
+        return listaPorId;
+
+    }
+
 }

@@ -20,7 +20,7 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IExpedienteRe
                 repoExpediente.BuscarExpedientePorId(tramite.ExpedienteId);
 
                 repoTramite.AgregarTramite(tramite);
-                
+                //Manualmente porque por algún motivo SQLite no lo hace automáticamente?
                 servicioActualizacion.Ejecutar(tramite.ExpedienteId, tramite.Etiqueta);
             }
 
