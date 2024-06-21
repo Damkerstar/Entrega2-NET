@@ -86,6 +86,8 @@
 
 @code
 {
+    Confirmacion dialogo = null!;
+    Tramite? _tramiteEliminado = null;
     bool mostrar = false;
     Usuario? sesionActual;
     List<Tramite> _lista = new List<Tramite>();
@@ -104,9 +106,6 @@
         TodosTramites();
         this.sesionActual = Sesion.GetSesion();
     }
-    
-    Confirmacion dialogo = null!;
-    Tramite? _tramiteEliminado = null;
     
     private void ConfirmarEliminado(Tramite tramite)
     {
