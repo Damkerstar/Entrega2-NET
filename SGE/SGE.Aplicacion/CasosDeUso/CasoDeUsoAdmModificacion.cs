@@ -5,16 +5,11 @@ namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoAdmModificacion(IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion)
 {
-    public void EjecutarAdm(int idAdm, Usuario usuario)
+    public void Ejecutar(Usuario usuario, List<string> permisos, int idAdm)
     {
         if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idAdm), "UsuariosModificacion"))
         {
-            repoUsuario.ModificarUsuario(usuario);
+            repoUsuario.ModificarUsuarioPermiso(usuario, permisos);
         }
-    }
-
-    public void EjecutarUser(Usuario usuario)
-    {
-        repoUsuario.ModificarUsuario(usuario);
     }
 }

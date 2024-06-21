@@ -1,8 +1,8 @@
 @page "/usuarios"
 @rendermode InteractiveServer
+@inject NavigationManager Navegador
 @inject CasoDeUsoUsuarioBaja BajaUsuarios
 @inject CasoDeUsoUsuarioLista ListaUsuarios
-@inject CasoDeUsoUsuarioModificacion ModificacionUsuario
 @inject IServicioAutorizacion autorizacion
 @inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
 @inject ISesion Sesion
@@ -51,7 +51,7 @@
                     }
                 </td>
                 <td>
-                    <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
+                    <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario.Id)">Modificar</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(usuario)">Eliminar</button>
@@ -82,9 +82,9 @@
         sesionAct = Sesion.GetSesion();
         TodosUsuarios();
     }
-    private void ModificarUsuario(Usuario usuario)
+    private void ModificarUsuario(int id)
     {
-        ModificacionUsuario.Ejecutar(usuario,sesionAct.Id);
+        Navegador.NavigateTo($"UsuarioHelp/{id}");
     }
 
     private void ConfirmarEliminado(Usuario usuario)

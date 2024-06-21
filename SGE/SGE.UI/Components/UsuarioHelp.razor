@@ -1,0 +1,93 @@
+@page "/TramiteHelp/{ID:int?}"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoAdmModificacion ModificacionUsuario
+@inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
+@inject IServicioAutorizacion autorizacion
+@inject CasoDeUsoUsuarioBuscarPorID BuscarPorID
+
+@if(error)
+{
+    <h2>@mensajeError</h2>
+}
+
+<h1>Ingrese los siguientes datos</h1>
+<div>
+    <h3>Nombre: </h3>
+    <input @bind="usuario.Nombre" class="form-control">
+    <h3>Apellido: </h3>
+    <input @bind="usuario.Apellido" class="form-control">
+    <h3>Correo del usuario:</h3>
+    <input @bind="usuario.CorreoElectronico" class="form-control">
+    <a>
+        <h4 class="separacion">Permisos del usuario: @PermisosUsuario</h4>
+        <h3 class="separacion1">Seleccione el permiso del usuario</h3>
+        @foreach(string permiso in PermisosUsuario)
+        {
+            <button class="btn"  @onclick="()=>Elejido(permiso)">@permiso</button>
+        }
+        <button class="btn btn-primary" Onclick="()=>AgregarPermiso()">Agregar</button>
+        <button class="btn btn-primary" Onclick="()=>EliminarPermiso()">Eliminar</button>
+    </a>
+</div>
+<button class="btn btn-primary" Onclick="ModificaryVolver()">Aceptar</button>
+
+
+
+
+@code
+{
+    [Parameter] public int? ID {set;get;}
+    Usuario usuario = new Usuario();
+
+    List<string> PermisosUsuario = new List<string>();
+
+    string mensajeError = "";
+    string permisoElejido = "";
+    
+
+
+    protected override void OnParametersSet()
+    {
+        if(ID != null)
+        {
+            try
+            {
+                Permisos(ID.Value);
+                usuario = BuscarPorID.Ejecutar(ID.Value);
+            }
+            catch(Exception e)
+            {
+                mensajeError = e.Message;
+            }
+        }
+    }
+    
+    private void Permisos(int ID)
+    {
+        PermisosUsuario = obtnerPermisos.Ejecutar(usuario.Permisos, ID);
+    }
+
+    private void Elejido(string permiso)
+    {
+        permisoElejido = permiso;    
+    }
+
+    private void AgregarPermiso()
+    {
+        if(permisoElejido != "")
+            PermisosUsuario.Add(permisoElejido);
+    }
+
+    private void EliminarPermiso()
+    {
+        if(permisoElejido != "")
+            PermisosUsuario.Remove(permisoElejido);
+    }
+
+    private void ModificaryVolver()
+    {
+        ModificacionUsuario.Ejecutar(usuario, PermisosUsuario, 1);
+        Navegador.NavigateTo("usuarios/");
+    }
+}

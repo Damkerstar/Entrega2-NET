@@ -111,6 +111,28 @@ public class RepositorioUsuario : IUsuarioRepositorio
         else if(usuario.Id == 1) throw new RepositorioException("No se puede eliminar este usuario.");
     }
 
+    public void ModificarUsuarioPermiso(Usuario usuario, List<string> permisos)
+    {
+        Permiso permisoNue;
+        using (var context = new DatosContext())
+        {
+            var query = context.Usuarios.Where(u => u.Id == usuario.Id).SingleOrDefault();
+
+            if(query != null && query.Permisos != null)
+            {
+                foreach(string permiso in permisos)
+                {
+                    permisoNue = (Permiso) Enum.Parse(typeof(Permiso), permiso);
+                    query.Permisos.Add(permisoNue);
+                }
+                query.Nombre = usuario.Nombre;
+                query.Apellido = usuario.Apellido;
+                query.CorreoElectronico = usuario.CorreoElectronico;
+                context.SaveChanges();
+            }
+        }
+    }
+
     public void ModificarUsuario(Usuario usuario)
     {
         bool ok = false;
@@ -134,8 +156,8 @@ public class RepositorioUsuario : IUsuarioRepositorio
         {
             throw new RepositorioException("No existe el usuario buscado.");
         }
-
     }
+
 
     public bool BuscarCorreo(string correo)
     {
@@ -175,5 +197,17 @@ public class RepositorioUsuario : IUsuarioRepositorio
             lista.Add(permiso.ToString());
         }
         return lista;
+    }
+
+    public Usuario? BuscarPorID(int ID)
+    {
+        Usuario? usuario = null;
+        using (var context = new DatosContext())
+        {
+            var query = context.Usuarios.Where(u => u.Id == ID).SingleOrDefault();
+            if(query != null)
+                usuario = Clonar(query);
+        }
+        return usuario;
     }
 }
