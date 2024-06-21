@@ -4,6 +4,7 @@
 @inject CasoDeUsoUsuarioLista ListaUsuarios
 @inject CasoDeUsoAdmModificacion ModificacionUsuario
 @inject IServicioAutorizacion autorizacion
+@inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
 @inject ISesion Sesion
 
 <PageTitle>Usuarios</PageTitle>
@@ -47,12 +48,13 @@
                 <td>@usuario.Nombre</td>
                 <td>@usuario.Apellido</td>
                 <td>@usuario.CorreoElectronico</td>
-                @* <td>    
-                    @foreach(Permiso permiso in usuario.Permisos)
+                
+                <td>    
+                    @foreach(string permiso in @Parseo(usuario))
                     {
                         <td>@permiso</td>
                     }
-                </td> *@
+                </td>
                 <td>
                     <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
                 </td>
@@ -74,6 +76,11 @@
     Usuario sesionAct;
     List<Usuario> _lista = new List<Usuario>();
     Confirmacion dialogo = null!;
+
+    private List<string> Parseo(Usuario usuario)
+    {
+        return obtnerPermisos.Ejecutar(usuario.Permisos, usuario.Id);
+    }
 
     protected override void OnInitialized()
     {
