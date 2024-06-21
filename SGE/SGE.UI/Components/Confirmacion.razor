@@ -2,17 +2,21 @@
 
 @if(visible)
 {
-    <h3 class= "mensaje">@Mensaje
-        <button class="boton1"  @onclick="ConfirmarYCerrar">Aceptar</button>
-        <button class="boton2"  @onclick="Cerrar">Cerrar</button>
-    </h3>
-    
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3 class= "mensaje">@Mensaje</h3>
+            <button class="btn btn-primary"  @onclick="ConfirmarYCerrar">Aceptar</button>
+            <button class="btn btn-danger"  @onclick="Cerrar">Cerrar</button>
+            
+        </div>
+    </div>
 }
 
 @code{
     private bool visible = false;
+
     [Parameter]
-    public string Mensaje {get;set;}="";
+    public string Mensaje {get;set;}= "";
 
     public void Mostrar()
     {

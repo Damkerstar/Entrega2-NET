@@ -1,4 +1,5 @@
 @page "/usuarios"
+@rendermode InteractiveServer
 @inject CasoDeUsoUsuarioBaja BajaUsuarios
 @inject CasoDeUsoUsuarioLista ListaUsuarios
 @inject CasoDeUsoUsuarioModificacion ModificacionUsuario
@@ -7,6 +8,11 @@
 @inject ISesion Sesion
 
 <PageTitle>Usuarios</PageTitle>
+
+@if(mostrarError)
+{
+    <h1>@mensajeError</h1>
+}
 
 <style>
     table, th, td {
@@ -44,30 +50,27 @@
                         <td>@permiso</td>
                     }
                 </td>
-                @if(sesionAct != null && autorizacion.PoseeElPermiso(sesionAct, "UsuariosModificacion")){
-                    <td>
-                        <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
-                    </td>
-                }
-                @if(sesionAct != null && autorizacion.PoseeElPermiso(sesionAct, "UsuariosBaja")){
-                    <td>
-                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(usuario)">Eliminar</button>
-                    </td>
-                }
+                <td>
+                    <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(usuario)">Eliminar</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-
-<Confirmacion @ref= "dialogo" OnConfirmado="()=>EliminarUsuario(usuarioEliminado)"/>
+<Confirmacion @ref="dialogo" OnConfirmado="()=>EliminarUsuario(_usuarioEliminado)"/>
 
 @code
 {
-    Usuario? usuarioEliminado;
+    private string mensajeError = "";
+    private bool mostrarError = false;
+    Usuario? _usuarioEliminado = null;
     Usuario sesionAct;
-    List<Usuario> _lista =  new List<Usuario>();
-    Confirmacion dialogo = null;
+    List<Usuario> _lista = new List<Usuario>();
+    Confirmacion dialogo = null!;
 
     private List<string> Parseo(Usuario usuario)
     {
@@ -78,7 +81,6 @@
     {
         sesionAct = Sesion.GetSesion();
         TodosUsuarios();
-        
     }
     private void ModificarUsuario(Usuario usuario)
     {
@@ -87,14 +89,23 @@
 
     private void ConfirmarEliminado(Usuario usuario)
     {
-        usuarioEliminado = usuario;
+        _usuarioEliminado = usuario;
         dialogo.Mensaje = $"¿Desea eliminar el Usuario {usuario.Id}?";
         dialogo.Mostrar();
     }
 
     private void EliminarUsuario(Usuario usuario)
     {
-        BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
+        try
+        {
+            mostrarError = false;
+            BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }    
     private void TodosUsuarios()
     {
