@@ -55,13 +55,13 @@
 
 @code
 {
-    [Parameter] public int? ID {set;get;}
-    Usuario usuario = new Usuario();
+    private [Parameter] public int? ID {set;get;}
+    private Usuario usuario = new Usuario();
 
-    List<string> PermisosUsuario = new List<string>();
+    private List<string> PermisosUsuario = new List<string>();
 
-    string mensajeError = "";
-    string permisoElegido = "";
+    private string mensajeError = "";
+    private string permisoElegido = "";
 
     List<string> TodosPermisos = new List<string>
     {

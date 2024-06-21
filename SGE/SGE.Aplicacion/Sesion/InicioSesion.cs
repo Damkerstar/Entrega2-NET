@@ -3,6 +3,7 @@ using SGE.Aplicacion.CasosDeUso;
 using SGE.Aplicacion.Entidades;
 using System.Security.Cryptography;
 using System.Text;
+using SGE.Aplicacion.Interfaces;
 
 public class InicioSesion(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, ISesion Sesion)
 {
@@ -27,18 +28,21 @@ public class InicioSesion(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, I
 
     private void CargarSesion(Usuario u)
     {
-        
-        sesionIniciada = new Usuario
+        if(u.Permisos != null)
         {
+            sesionIniciada = new Usuario
+            {
             Id = u.Id,
             CorreoElectronico = u.CorreoElectronico,
             Contrasena = u.Contrasena,
             Nombre = u.Nombre,
             Apellido = u.Apellido,
             Permisos = new List<Permiso>(u.Permisos)
-        };
+            };
 
-        Sesion.CargarSesion(sesionIniciada);
+            Sesion.CargarSesion(sesionIniciada);
+        }
+        
 
     }
 

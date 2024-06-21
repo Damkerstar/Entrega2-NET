@@ -3,6 +3,7 @@ using SGE.Aplicacion.CasosDeUso;
 using SGE.Aplicacion.Entidades;
 using System.Security.Cryptography;
 using System.Text;
+using SGE.Aplicacion.Interfaces;
 
 public class Sesion : ISesion
 {

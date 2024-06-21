@@ -1,3 +1,5 @@
+namespace SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion;
 using SGE.Aplicacion.Entidades;
 
 public interface ISesion
