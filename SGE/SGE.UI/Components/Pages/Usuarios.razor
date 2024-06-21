@@ -77,12 +77,11 @@
     private Usuario sesionAct;
     private List<Usuario> _lista = new List<Usuario>();
     Confirmacion dialogo = null!;
-    @* List<string> _listaPermisos = new List<string>(); *@
 
 
     private List<string>? Parseo(Usuario usuario)
     {
-        return obtnerPermisos.Ejecutar(usuario.Permisos, usuario.Id);
+        return obtnerPermisos.Ejecutar(usuario.Permisos, sesionAct.Id);
     }
 
     protected override void OnInitialized()

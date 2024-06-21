@@ -5,6 +5,7 @@
 @inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
 @inject IServicioAutorizacion autorizacion
 @inject CasoDeUsoUsuarioBuscarPorID BuscarPorID
+@inject ISesion Sesion
 
 
 <h1>Ingrese los siguientes datos</h1>
@@ -16,17 +17,21 @@
     <h3>Correo del usuario:</h3>
     <input @bind="usuario.CorreoElectronico" class="form-control">
     <a>
-        <h4 class="separacion">Permisos del usuario: @PermisosUsuario</h4>
-        <h3 class="separacion1">Seleccione el permiso del usuario</h3>
+        <h4 class="separacion">Permisos del usuario:</h4>
         @foreach(string permiso in PermisosUsuario)
+        {
+            <h3>@permiso</h3>
+        }
+        <h3 class="separacion1">Seleccione el permiso del usuario</h3>
+        @foreach(string permiso in TodosPermisos)
         {
             <button class="btn"  @onclick="()=>Elejido(permiso)">@permiso</button>
         }
-        <button class="btn btn-primary" Onclick="()=>AgregarPermiso()">Agregar</button>
-        <button class="btn btn-primary" Onclick="()=>EliminarPermiso()">Eliminar</button>
+        <button class="btn btn-primary" @onclick="()=>AgregarPermiso()">Agregar</button>
+        <button class="btn btn-primary" @onclick="()=>EliminarPermiso()">Eliminar</button>
     </a>
 </div>
-<button class="btn btn-primary" Onclick="ModificaryVolver()">Aceptar</button>
+<button class="btn btn-primary" @onclick="()=>ModificaryVolver()">Aceptar</button>
 
 
 
@@ -40,8 +45,26 @@
 
     string mensajeError = "";
     string permisoElejido = "";
-    
 
+    List<string> TodosPermisos = new List<string>
+    {
+        "ExpedienteAlta",
+        "ExpedienteBaja",
+        "ExpedienteModificacion",
+        "TramiteAlta",
+        "TramiteBaja",
+        "TramiteModificacion",
+        "ListarUsuarios",
+        "UsuariosBaja",
+        "UsuariosModificacion"
+    };
+
+    Usuario? sesionAct = new Usuario();
+    
+    protected override void OnInitialized()
+    {
+        sesionAct = Sesion.GetSesion();
+    }
 
     protected override void OnParametersSet()
     {
@@ -49,8 +72,9 @@
         {
             try
             {
-                Permisos(ID.Value);
                 usuario = BuscarPorID.Ejecutar(ID.Value);
+                Console.Write(usuario.Id);
+                Permisos();
             }
             catch(Exception e)
             {
@@ -59,9 +83,9 @@
         }
     }
     
-    private void Permisos(int ID)
+    private void Permisos()
     {
-        PermisosUsuario = obtnerPermisos.Ejecutar(usuario.Permisos, ID);
+        PermisosUsuario = obtnerPermisos.Ejecutar(usuario.Permisos, sesionAct.Id);
     }
 
     private void Elejido(string permiso)
@@ -71,19 +95,26 @@
 
     private void AgregarPermiso()
     {
-        if(permisoElejido != "")
+        if(permisoElejido != "" && !PermisosUsuario.Contains(permisoElejido))
+        {
             PermisosUsuario.Add(permisoElejido);
+            permisoElejido = "";
+        }
     }
 
     private void EliminarPermiso()
     {
-        if(permisoElejido != "")
+        if(permisoElejido != "" && PermisosUsuario.Contains(permisoElejido))
+        {
             PermisosUsuario.Remove(permisoElejido);
+            permisoElejido = "";
+        }
+            
     }
 
     private void ModificaryVolver()
     {
-        ModificacionUsuario.Ejecutar(usuario, PermisosUsuario, 1);
+        ModificacionUsuario.Ejecutar(usuario, PermisosUsuario, sesionAct.Id);
         Navegador.NavigateTo("usuarios/");
     }
 }

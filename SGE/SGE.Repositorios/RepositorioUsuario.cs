@@ -123,7 +123,10 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 foreach(string permiso in permisos)
                 {
                     permisoNue = (Permiso) Enum.Parse(typeof(Permiso), permiso);
-                    query.Permisos.Add(permisoNue);
+                    if(!query.Permisos.Contains(permisoNue))
+                    {
+                        query.Permisos.Add(permisoNue);
+                    }
                 }
                 query.Nombre = usuario.Nombre;
                 query.Apellido = usuario.Apellido;
