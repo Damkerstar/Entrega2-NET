@@ -196,4 +196,23 @@ public class RepositorioTramite : ITramiteRepositorio
 
         return tramite;
     }
+
+    public List<Tramite> ListarTramitePorId(int idExpediente)
+    {
+
+        List<Tramite> lista = this.ListarTramite();
+        List<Tramite> listaPorId = new List<Tramite>();
+
+        foreach(Tramite t in lista)
+        {
+            if(t.ExpedienteId == idExpediente)
+            {
+                listaPorId.Add(t);
+            }
+        }
+
+        return listaPorId;
+
+    }
+
 }

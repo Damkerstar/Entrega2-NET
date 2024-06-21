@@ -28,6 +28,7 @@ builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorCorreo>();
 builder.Services.AddTransient<InicioSesion>();
 builder.Services.AddTransient<Registro>();
+builder.Services.AddTransient<CasoDeUsoListarTramitePorId>();
 
 // Interfaces
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
