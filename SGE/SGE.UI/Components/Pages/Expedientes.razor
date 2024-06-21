@@ -26,6 +26,7 @@
     {
         <button class = "btn btn-primary" @onclick="()=>AltaExpediente()">Agregar Expediente</button>
     }
+    <br> <br>
     <button class = "btn btn-primary" @onclick="()=>MostrarPorID()">Filtrar por ID</button>
 </div>
 
@@ -35,9 +36,13 @@
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
-            <h1>Ingrese la ID para filtrar</h1>
-            <button class= "btn btn-primary" @onclick="()=>TodosExpedientes()">Todos los Expedientes</button>
-            <input placeholder= "ID" @bind= "busquedaID" class= "form-control">
+            <h3>Ingrese la ID a buscar</h3>
+            <button class= "btn btn-primary" @onclick="()=>TodosExpedientes()">Borrar filtro</button>
+            <br> <br>
+            <div class="id">
+                <input placeholder= "ID" @bind= "busquedaID" class= "form-control">
+            </div>
+            <br>
             <button class="btn btn-primary" @onclick="()=>BuscarExpediente(busquedaID)">Aceptar</button>
         </div>
     </div>
@@ -45,13 +50,15 @@
 
 <style>
     table, th, td {
-        border: 1px solid white;
+        border: 1px solid rgb(0, 0, 0, 0.5);
         border-collapse : collapse;
-        padding: 10px;
-        width: 50%;
+        padding: 15px;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
     th, td {
-        background-color : lightblue;
+        background-color : rgb(255, 255, 255);
     }
 </style>
 <table style>
@@ -92,6 +99,7 @@
 
 @if(mostrarTramites)
 {
+    <br>
     <table style>
         <thead>
             <tr>
@@ -182,10 +190,10 @@
     {
         try
         {
+            mostrar = false;
             _lista.Clear();
             _lista.Add(ConsultaPorId.Ejecutar(id));
             _listaTramites = ListarTramitePorId.Ejecutar(busquedaID.Value); 
-            mostrar = true;
             mostrarTramites = true;
             StateHasChanged();
         }
@@ -200,8 +208,8 @@
     {
         try
         {
-            _lista = ListarExpedientes.Ejecutar();
             mostrar = false;
+            _lista = ListarExpedientes.Ejecutar();
             mostrarTramites = false;
             StateHasChanged();
         }
