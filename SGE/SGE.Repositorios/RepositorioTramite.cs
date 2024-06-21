@@ -19,7 +19,7 @@ public class RepositorioTramite : ITramiteRepositorio
             }
             else
             {
-                throw new RepositorioException("El tramite no tiene una ID de expediente valida.");
+                throw new RepositorioException("El trámite no tiene una ID de expediente valida.");
             }
                 
         }
@@ -66,7 +66,7 @@ public class RepositorioTramite : ITramiteRepositorio
             }
             else
             {
-                throw new RepositorioException("El tramite buscado no existe");
+                throw new RepositorioException("El trámite buscado no existe.");
             }
         }
     }
@@ -94,7 +94,7 @@ public class RepositorioTramite : ITramiteRepositorio
         }
         else
         {
-            throw new RepositorioException("El tramite buscado no existe");
+            throw new RepositorioException("El trámite buscado no existe.");
         }
     }
 
@@ -117,7 +117,7 @@ public class RepositorioTramite : ITramiteRepositorio
         }
         else
         {
-            throw new RepositorioException("El tramite buscado no existe");
+            throw new RepositorioException("El trámite buscado no existe.");
         }
     }
 
@@ -144,7 +144,7 @@ public class RepositorioTramite : ITramiteRepositorio
         }
         else
         {
-            throw new RepositorioException("El tramite buscado no existe");
+            throw new RepositorioException("El trámite buscado no existe.");
         }
 
     }
@@ -171,7 +171,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
         if(!ok)
         {
-            throw new RepositorioException("El tramite buscado no existe");
+            throw new RepositorioException("El trámite buscado no existe.");
         }
 
     }
@@ -188,7 +188,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
             foreach(Tramite t2 in query)
             {
-                listaPorId.Add(t2);
+                listaPorId.Add(this.Clonar(t2));
             }
 
         }

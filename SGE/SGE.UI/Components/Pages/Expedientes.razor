@@ -82,12 +82,12 @@
                 <td>@expediente.usuarioID</td>
                 <td>@expediente.fechaYHoraCreacion</td>
                 <td>@expediente.fechaYHoraActualizacion</td>
-                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteBaja")){
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteModificacion")){
                     <td>
                         <button class= "btn btn-primary" @onclick="()=>ModificarExpediente(expediente)">Modificar</button>
                     </td>
                 }
-                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteModificacion")){
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteBaja")){
                     <td>
                         <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(expediente)">Eliminar</button>
                     </td>
@@ -160,6 +160,7 @@
         {
             if(expediente != null)
             {
+                mostrarTramites = false;
                 ExpedienteBaja.Ejecutar(expediente.ID, sesionActual.Id);
                 _lista = ListarExpedientes.Ejecutar();
             }

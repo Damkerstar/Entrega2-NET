@@ -5,12 +5,22 @@
 @inject Registro register
 @inject ISesion Sesion
 
-@if(mostrarError)
+@if(mostrarErrorInicio)
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
             <h3>@mensajeError</h3>
-            <button class="btn btn-primary" @onclick="CerrarMensaje">Confirmar</button>
+            <button class="btn btn-primary" @onclick="CerrarMensajeInicio">Confirmar</button>
+        </div>
+    </div>
+}
+
+@if(mostrarErrorRegistro)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class="btn btn-primary" @onclick="CerrarMensajeRegistro">Confirmar</button>
         </div>
     </div>
 }
@@ -58,7 +68,8 @@
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
     private string mensajeError = "";
-    private bool mostrarError = false;
+    private bool mostrarErrorInicio = false;
+    private bool mostrarErrorRegistro = false;
 
     [Parameter]
     public EventCallback Seguir{get;set;}
@@ -88,7 +99,7 @@
         catch(Exception e)
         {
             mensajeError = e.Message;
-            mostrarError = true;
+            mostrarErrorInicio = true;
             bloqueInicio = false;
         }
     }
@@ -108,6 +119,7 @@
         {
             bloqueRegistro = false;
             mensajeError = e.Message;
+            mostrarErrorRegistro = true;
         }
     }
 
@@ -116,10 +128,16 @@
         Sesion.Cerrar();
     }
 
-    private void CerrarMensaje()
+    private void CerrarMensajeInicio()
     {
-        mostrarError = false;
+        mostrarErrorInicio = false;
         bloqueInicio = true;
+    }
+
+    private void CerrarMensajeRegistro()
+    {
+        mostrarErrorRegistro = false;
+        bloqueRegistro = true;
     }
 
 }

@@ -27,7 +27,7 @@ public class Registro(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, Usuar
                 return true;
             }
         }
-        return false;
+        throw new ValidacionException("Todos los campos deben estar llenos.");
     }
 
     private string HashearClave(string password)

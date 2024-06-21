@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoAdmModificacion ModificacionUsuario
-@inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
+@inject CasoDeUsoUsuarioObtenerPermisos obtenerPermisos
 @inject IServicioAutorizacion autorizacion
 @inject CasoDeUsoUsuarioBuscarPorID BuscarPorID
 @inject ISesion Sesion
@@ -55,7 +55,8 @@
 
 @code
 {
-    private [Parameter] public int? ID {set;get;}
+    [Parameter]
+    public int? ID {set;get;}
     private Usuario usuario = new Usuario();
 
     private List<string> PermisosUsuario = new List<string>();
@@ -99,7 +100,7 @@
     
     private void Permisos()
     {
-        PermisosUsuario = obtnerPermisos.Ejecutar(usuario.Permisos, sesionAct.Id);
+        PermisosUsuario = obtenerPermisos.Ejecutar(usuario.Permisos, sesionAct.Id);
     }
 
     private void Elegido(string permiso)

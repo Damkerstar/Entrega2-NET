@@ -11,7 +11,7 @@ public interface IUsuarioRepositorio
     List<Usuario> ListarUsuarios();
     void EliminarUsuario(int usuarioId);
     bool BuscarCorreo(string correo);
-    Usuario DevolverPorCorreo(string correo);
+    Usuario? DevolverPorCorreo(string correo);
     List<string> ListaPermisosUsuario(List<Permiso> permisos);
     Usuario? BuscarPorID(int ID);
 }

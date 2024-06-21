@@ -19,7 +19,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
             var query = context.Usuarios.Where(u => u.Id == 1).SingleOrDefault();
 
-            if(query != null && query.Permisos != null)
+            if(query != null && query.Permisos != null && query.Permisos.Count < 3)
             {
                 
                 foreach(Permiso p in Enum.GetValues(typeof(Permiso)))
@@ -35,11 +35,6 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
     }
 
-    //Revisar implementación y uso (Listar, Buscar, Buscar último y buscar por etiqueta)
-    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
-    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
-    //un valor original y que pueda causar problemas su modificación.
-    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
     private Usuario Clonar(Usuario u)
     {
 
@@ -58,8 +53,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
         {
             foreach(Usuario usuario in context.Usuarios)
             {
-                listaUsuario.Add(usuario);
-                Console.WriteLine(usuario.Id);
+                listaUsuario.Add(this.Clonar(usuario));
             }
         }
 
@@ -69,13 +63,16 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
     public Usuario BuscarUsuario(int idUsuario)
     {
-        Usuario? usuario;
+        Usuario? usuario = null;
 
         using (var context = new DatosContext())
         {
             var query = context.Usuarios.Where(u => u.Id == idUsuario).SingleOrDefault();
 
-            usuario = query;
+            if(query != null)
+            {
+                usuario = this.Clonar(query);
+            }
         
         }
 
@@ -150,7 +147,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 query.CorreoElectronico = usuario.CorreoElectronico;
                 query.Apellido = usuario.Apellido;
                 query.Contrasena = usuario.Contrasena;
-                query.Permisos = usuario.Permisos;
+                query.Permisos = new List<Permiso>(usuario.Permisos);
                 context.SaveChanges();
                 ok = true;
             }
@@ -181,12 +178,16 @@ public class RepositorioUsuario : IUsuarioRepositorio
     public Usuario? DevolverPorCorreo(string correo)
     {
 
-        Usuario? u;
+        Usuario? u = null;
 
         using(var context = new DatosContext())
         {
             var query = context.Usuarios.Where(i => i.CorreoElectronico == correo).SingleOrDefault();
-            u = query;
+            
+            if(query != null)
+            {
+                u = this.Clonar(query);
+            }
         }
 
         return u;
@@ -210,8 +211,11 @@ public class RepositorioUsuario : IUsuarioRepositorio
         {
             var query = context.Usuarios.Where(u => u.Id == ID).SingleOrDefault();
             if(query != null)
-                usuario = Clonar(query);
+            {
+                usuario = this.Clonar(query);
+            }
         }
+        
         return usuario;
     }
 }

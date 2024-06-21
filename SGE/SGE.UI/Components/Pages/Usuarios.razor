@@ -107,7 +107,8 @@
     {
         try
         {
-            BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
+            BajaUsuarios.Ejecutar(sesionAct.Id, usuario.Id);
+            Navegador.NavigateTo("/usuarios/", forceLoad: true);
         }
         catch(Exception e)
         {
