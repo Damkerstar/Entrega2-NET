@@ -4,26 +4,32 @@ using SGE.Aplicacion.Entidades;
 using System.Security.Cryptography;
 using System.Text;
 
-public class Registro(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, CasoDeUsoUsuarioAlta UsuarioAlta)
+public class Registro(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, UsuarioValidador validador, CasoDeUsoUsuarioAlta UsuarioAlta)
 {
 
     public bool Registrar(Usuario u)
     {
 
         Usuario? user;
-
-        u.CorreoElectronico = u.CorreoElectronico.ToLower();
-        user = ConsultaPorCorreo.Ejecutar(u.CorreoElectronico);
-
-        if(user != null)
+        if(validador.ValidarUsuario(u, out string msg))
         {
-            return false;
+            u.CorreoElectronico = u.CorreoElectronico.ToLower();
+            user = ConsultaPorCorreo.Ejecutar(u.CorreoElectronico);
+
+            if(user != null)
+            {
+                return false;
+            }
+            else
+            {
+                u.Contrasena = this.HashearClave(u.Contrasena);
+                UsuarioAlta.Ejecutar(u);
+                return true;
+            }
         }
         else
         {
-            u.Contrasena = this.HashearClave(u.Contrasena);
-            UsuarioAlta.Ejecutar(u);
-            return true;
+            throw new ValidacionException(msg);
         }
 
     }

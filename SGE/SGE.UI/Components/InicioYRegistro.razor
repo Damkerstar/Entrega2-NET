@@ -5,6 +5,16 @@
 @inject Registro register
 @inject ISesion Sesion
 
+@if(bloqueIncorrecto)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class="btn btn-primary" @onclick="DesactivaryVolver">Confirmar</button>
+        </div>
+    </div>
+}
+
 @if(bloqueInicio)
 {
     <div class="dialogo-contenedor">
@@ -39,6 +49,8 @@
     private Usuario? sesionIniciada;
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
+    private bool bloqueIncorrecto = false;
+    private string mensajeError = "";
 
     [Parameter]
     public EventCallback Seguir{get;set;}
@@ -65,12 +77,27 @@
 
     private void ConfirmarRegistro()
     {
-        if(register.Registrar(_usuario))
+        try
+        {
+            if(register.Registrar(_usuario))
+            {
+                bloqueRegistro = false;
+                _usuario = new Usuario();
+                bloqueInicio = true;
+            }
+        }
+        catch(Exception e)
         {
             bloqueRegistro = false;
-            _usuario = new Usuario();
-            bloqueInicio = true;
+            mensajeError = e.Message;
+            bloqueIncorrecto = true;
         }
+    }
+
+    private void DesactivaryVolver()
+    {
+        bloqueIncorrecto = false;
+        bloqueRegistro = true;
     }
 
     public void CerrarSesion()

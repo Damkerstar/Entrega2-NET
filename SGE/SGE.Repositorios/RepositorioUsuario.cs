@@ -120,13 +120,13 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
             if(query != null && query.Permisos != null)
             {
+                query.Permisos.Clear();
                 foreach(string permiso in permisos)
                 {
                     permisoNue = (Permiso) Enum.Parse(typeof(Permiso), permiso);
-                    if(!query.Permisos.Contains(permisoNue))
-                    {
-                        query.Permisos.Add(permisoNue);
-                    }
+
+                    query.Permisos.Add(permisoNue);
+
                 }
                 query.Nombre = usuario.Nombre;
                 query.Apellido = usuario.Apellido;
