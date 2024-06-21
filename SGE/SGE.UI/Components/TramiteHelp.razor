@@ -30,27 +30,29 @@
 else
 {
     <div>
-        <h3>Seleccione la etiqueta del tramite</h3>
+        <h3>Selecciona la etiqueta nueva</h3>
         @foreach(string etiqueta in TramiteEtiquetas)
         {
-            <button  @onclick="()=>EtiquetaElejida(etiqueta)">@etiqueta</button>
+            <button  @onclick="()=>EtiquetaElegida(etiqueta)">@etiqueta</button>
             
         }
-        <h4 class="separacion">Etiqueta elejida: @etiquetaModificada</h4>
+        <h4>Etiqueta elegida: @etiquetaModificada</h4>
     </div>
 }
 
 <div>
-    <h4 class="separacion">Descripcion:</h4>
+    <h4>Descripcion:</h4>
     <div class="descripcion">
         <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control">
     </div>
     <br>
-    <h4 class="separacion">Expediente ID:</h4>
+    
+    <h4>Expediente ID:</h4>
     <div class="id">
         <input placeholder= "ID expediente" @bind= "tramite.ExpedienteId" class= "form-control">
     </div>
     <br>
+
     <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
 </div>
 
@@ -123,7 +125,7 @@ else
         }
     }
 
-    private void EtiquetaElejida(string etiqueta)
+    private void EtiquetaElegida(string etiqueta)
     {
         etiquetaModificada = etiqueta;
     }

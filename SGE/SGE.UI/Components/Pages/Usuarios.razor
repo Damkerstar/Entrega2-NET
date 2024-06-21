@@ -21,13 +21,15 @@
 
 <style>
     table, th, td {
-        border: 1px solid white;
+        border: 1px solid rgb(0, 0, 0.5);
         border-collapse : collapse;
-        padding: 10px;
-        width: 50%;
+        padding: 15px;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
     th, td {
-        background-color : lightblue;
+        background-color : rgb(255, 255, 255);
     }
 </style>
 <table style>
@@ -36,7 +38,7 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Correo electronico</th>
+            <th>Correo electrónico</th>
             <th>Permisos</th>
         </tr>
     </thead>
@@ -74,7 +76,7 @@
     private string mensajeError = "";
     private bool mostrarError = false;
     private Usuario? _usuarioEliminado = null;
-    private Usuario sesionAct;
+    private Usuario? sesionAct;
     private List<Usuario> _lista = new List<Usuario>();
     Confirmacion dialogo = null!;
 

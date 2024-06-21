@@ -10,8 +10,11 @@
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
             <h3>Ingrese sus credenciales</h3>
-            <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
-            <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <div class="descripcion">
+                <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
+                <br>
+                <input placeholder="Contraseña" type="password" @bind="_usuario.Contrasena" class="form-control">
+            </div>
             <br>
             <button class="btn btn-primary" @onclick="ConfirmarLogin">Confirmar</button>
         </div>
@@ -23,10 +26,15 @@
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
             <h3>Ingrese sus datos personales</h3>
-            <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control">
-            <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
-            <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
-            <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <div class="descripcion">
+                <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control">
+                <br>
+                <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
+                <br>
+                <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
+                <br>
+                <input placeholder="Contraseña" type="password" @bind="_usuario.Contrasena" class="form-control">
+            </div>
             <br>
             <button class="btn btn-primary" @onclick="ConfirmarRegistro">Confirmar</button>
         </div>
@@ -60,6 +68,7 @@
         {
             bloqueInicio = false;
             sesionIniciada = Sesion.GetSesion();
+            Navegador.NavigateTo("/inicio", forceLoad: true);
         }
     }
 

@@ -16,28 +16,39 @@
     </div>
 }
 
-<h1>Ingrese los siguientes datos</h1>
+<div>
+    <h1>Complete la siguiente información</h1>
+    <br>
+</div>
+
 @if(_expedienteNuevo)
 {
-    <h3>Recién Iniciado</h3>
+    <div>
+        <h3>Estado inicial: Recién Iniciado</h3>
+    </div>
 }
 else
 {
     <div>
-        <a>
-            <h3 class= "separacion1">Ingrese el nuevo Estado</h3>
-            @foreach(string estado in ExpedientesEstado)
-            {
-                <button  @onclick="()=>EstadoElegido(estado)">@estado</button>  
-            }
-            <h4 class="separacion">Estado elegido: @estadoModificado</h4>
-        </a>
+        <h3>Ingrese el estado nuevo</h3>
+        @foreach(string estado in ExpedientesEstado)
+        {
+            <button  @onclick="()=>EstadoElegido(estado)">@estado</button>  
+        }
+        <h4>Estado elegido: @estadoModificado</h4>
     </div>
 }
 
-<h4 class="separacion">Carátula: <input placeholder= "Carátula" @bind= "expediente.caratula" class= "form-control"> </h4>
-
-<button class="btn btn-primary" @onclick= "()=>OpcionExpediente()">Aceptar</button>
+<div>
+    <h4>Carátula:</h4>
+    <div class="descripcion">
+        <input placeholder= "Carátula" @bind= "expediente.caratula" class= "form-control">
+    </div>
+    <br>
+    
+    <button class="btn btn-primary" @onclick= "()=>OpcionExpediente()">Aceptar</button>
+    
+</div>
 
 @code
 {

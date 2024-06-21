@@ -8,33 +8,50 @@
 @inject ISesion Sesion
 
 
-<h1>Ingrese los siguientes datos</h1>
 <div>
-    <h3>Nombre: </h3>
-    <input @bind="usuario.Nombre" class="form-control">
-    <h3>Apellido: </h3>
-    <input @bind="usuario.Apellido" class="form-control">
-    <h3>Correo del usuario:</h3>
-    <input @bind="usuario.CorreoElectronico" class="form-control">
-    <a>
-        <h4 class="separacion">Permisos del usuario:</h4>
+    <h1>Complete la siguiente información</h1>
+    <br>
+</div>
+
+<div>
+    <h4>Nombre:</h4>
+    <div class="descripcion">
+        <input @bind="usuario.Nombre" class="form-control">
+    </div>
+    <br>
+
+    <h4>Apellido:</h4>
+    <div class="descripcion">
+        <input @bind="usuario.Apellido" class="form-control">
+    </div>
+    <br>
+
+    <h3>Correo electrónico:</h3>
+    <div class="descripcion">
+        <input @bind="usuario.CorreoElectronico" class="form-control">
+    </div>
+    <br>
+
+    <div>
+        <h3>Permisos:</h3>
         @foreach(string permiso in PermisosUsuario)
         {
-            <h3>@permiso</h3>
+            <h4>@permiso</h4>
         }
-        <h3 class="separacion1">Seleccione el permiso del usuario</h3>
+        <br>
+        <h3>Seleccione el permiso del usuario</h3>
         @foreach(string permiso in TodosPermisos)
         {
-            <button class="btn"  @onclick="()=>Elejido(permiso)">@permiso</button>
+            <button class="btn btn-light"  @onclick="()=>Elegido(permiso)">@permiso</button>
         }
+        <br>
         <button class="btn btn-primary" @onclick="()=>AgregarPermiso()">Agregar</button>
         <button class="btn btn-primary" @onclick="()=>EliminarPermiso()">Eliminar</button>
-    </a>
+    </div>
+    <br>
+    <button class="btn btn-primary" @onclick="()=>ModificaryVolver()">Aceptar</button>
+
 </div>
-<button class="btn btn-primary" @onclick="()=>ModificaryVolver()">Aceptar</button>
-
-
-
 
 @code
 {
@@ -44,7 +61,7 @@
     List<string> PermisosUsuario = new List<string>();
 
     string mensajeError = "";
-    string permisoElejido = "";
+    string permisoElegido = "";
 
     List<string> TodosPermisos = new List<string>
     {
@@ -53,10 +70,7 @@
         "ExpedienteModificacion",
         "TramiteAlta",
         "TramiteBaja",
-        "TramiteModificacion",
-        "ListarUsuarios",
-        "UsuariosBaja",
-        "UsuariosModificacion"
+        "TramiteModificacion"
     };
 
     Usuario? sesionAct = new Usuario();
@@ -88,26 +102,26 @@
         PermisosUsuario = obtnerPermisos.Ejecutar(usuario.Permisos, sesionAct.Id);
     }
 
-    private void Elejido(string permiso)
+    private void Elegido(string permiso)
     {
-        permisoElejido = permiso;    
+        permisoElegido = permiso;    
     }
 
     private void AgregarPermiso()
     {
-        if(permisoElejido != "" && !PermisosUsuario.Contains(permisoElejido))
+        if(permisoElegido != "" && !PermisosUsuario.Contains(permisoElegido))
         {
-            PermisosUsuario.Add(permisoElejido);
-            permisoElejido = "";
+            PermisosUsuario.Add(permisoElegido);
+            permisoElegido = "";
         }
     }
 
     private void EliminarPermiso()
     {
-        if(permisoElejido != "" && PermisosUsuario.Contains(permisoElejido))
+        if(permisoElegido != "" && PermisosUsuario.Contains(permisoElegido))
         {
-            PermisosUsuario.Remove(permisoElejido);
-            permisoElejido = "";
+            PermisosUsuario.Remove(permisoElegido);
+            permisoElegido = "";
         }
             
     }
