@@ -6,6 +6,6 @@ public class CasoDeUsoTramiteConsultaPorId(ITramiteRepositorio repoTramite)
 {
     public Tramite? Ejecutar(int idT)
     {
-        return repoTramite.BuscarPorID(idT);
+        return repoTramite.BuscarTramite(idT);
     }
 }

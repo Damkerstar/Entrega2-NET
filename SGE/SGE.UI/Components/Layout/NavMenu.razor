@@ -24,12 +24,15 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tramites
             </NavLink>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Usuarios">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
-            </NavLink>
-        </div>
+        @if(ok)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Usuarios">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
+                </NavLink>
+            </div>
+        }
+        
 
         <div class="nav-item px-3">
             <button class="btn btn-danger" @onclick="Cerrar">Cerrar sesión</button>
@@ -39,7 +42,8 @@
 
 @code
 {
-
+    @* Usuario usuarioAct = Sesion.GetSesion(); *@
+    static bool ok = true;
     private void Cerrar()
     {
         Sesion.Cerrar();

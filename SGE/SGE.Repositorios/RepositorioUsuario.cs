@@ -59,6 +59,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
             foreach(Usuario usuario in context.Usuarios)
             {
                 listaUsuario.Add(usuario);
+                Console.WriteLine(usuario.Id);
             }
         }
 

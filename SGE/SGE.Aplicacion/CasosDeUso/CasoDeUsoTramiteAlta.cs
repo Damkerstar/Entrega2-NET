@@ -3,7 +3,7 @@ using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 namespace SGE.Aplicacion.CasosDeUso;
 
-public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IUsuarioRepositorio repoUsuario, TramiteValidador validador, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
+public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IExpedienteRepositorio repoExpediente, IUsuarioRepositorio repoUsuario, TramiteValidador validador, IServicioAutorizacion autorizacion, ServicioActualizacionEstado servicioActualizacion)
 {
     public void Ejecutar(Tramite tramite, int idUsuario)
     {
@@ -17,6 +17,8 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IUsuarioRepos
             }
             else
             {
+                repoExpediente.BuscarExpedientePorId(tramite.ExpedienteId);
+
                 repoTramite.AgregarTramite(tramite);
                 
                 servicioActualizacion.Ejecutar(tramite.ExpedienteId, tramite.Etiqueta);

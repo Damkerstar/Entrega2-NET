@@ -1,8 +1,98 @@
 @page "/usuarios"
+@inject CasoDeUsoUsuarioBaja BajaUsuarios
+@inject CasoDeUsoUsuarioLista ListaUsuarios
+@inject CasoDeUsoUsuarioModificacion ModificacionUsuario
+@inject IServicioAutorizacion autorizacion
+@inject ISesion Sesion
 
 <PageTitle>Usuarios</PageTitle>
 
-<h1>Completar.</h1>
+<style>
+    table, th, td {
+        border: 1px solid white;
+        border-collapse : collapse;
+        padding: 10px;
+        width: 50%;
+    }
+    th, td {
+        background-color : lightblue;
+    }
+</style>
+<table style>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo electronico</th>
+            <th>C</th>
+            <th>Permisos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Usuario usuario in _lista)
+        {
+            <tr>
+                <td>@usuario.Id</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Apellido</td>
+                <td>@usuario.CorreoElectronico</td>
+                @* <td>    
+                    @foreach(Permiso permiso in usuario.Permisos)
+                    {
+                        <td>@permiso</td>
+                    }
+                </td> *@
+                @if(sesionAct != null && autorizacion.PoseeElPermiso(sesionAct, "UsuariosModificacion")){
+                    <td>
+                        <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
+                    </td>
+                }
+                @if(sesionAct != null && autorizacion.PoseeElPermiso(sesionAct, "UsuariosBaja")){
+                    <td>
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(usuario)">Eliminar</button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
 
-<!--//El contenido de esta página SOLO debe ser visible al Administrador (ID = 1)
-//Ver diapositiva 62-->
+
+<Confirmacion @ref= "dialogo" OnConfirmado="()=>EliminarUsuario(usuarioEliminado)"/>
+
+@code
+{
+    Usuario? usuarioEliminado;
+    Usuario sesionAct;
+    List<Usuario> _lista = new List<Usuario>();
+    Confirmacion dialogo = null;
+
+    protected override void OnInitialized()
+    {
+        TodosUsuarios();
+        sesionAct = Sesion.GetSesion();
+    }
+    private void ModificarUsuario(Usuario usuario)
+    {
+        ModificacionUsuario.Ejecutar(usuario,sesionAct.Id);
+    }
+
+    private void ConfirmarEliminado(Usuario usuario)
+    {
+        usuarioEliminado = usuario;
+        dialogo.Mensaje = $"¿Desea eliminar el Usuario {usuario.Id}?";
+        dialogo.Mostrar();
+    }
+
+    private void EliminarUsuario(Usuario usuario)
+    {
+        BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
+    }    
+    private void TodosUsuarios()
+    {
+        _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
+        
+    }
+
+}

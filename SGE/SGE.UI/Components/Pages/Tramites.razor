@@ -66,12 +66,12 @@
                 <td>@tramite.Descripcion</td>
                 <td>@tramite.FechaYHoraCreacion</td>
                 <td>@tramite.FechaYHoraModificacion</td>
-                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
                     <td>
                         <button class= "btn btn-primary" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
                     </td>
                 }
-                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteModificacion")){
+                @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
                     <td>
                         <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>
                     </td>
