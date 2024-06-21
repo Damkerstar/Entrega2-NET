@@ -5,16 +5,16 @@ namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoAdmModificacion(IUsuarioRepositorio repoUsuario, IServicioAutorizacion autorizacion)
 {
-    public void EjecutarAdm(int idAdm, Usuario usuario)
+    public void Ejecutar(int idAdm, Usuario usuario)
     {
         if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idAdm), "UsuariosModificacion"))
         {
             repoUsuario.ModificarUsuario(usuario);
         }
+        else
+        {
+            throw new ValidacionException("No posee los permisos necesarios para modificar un usuario.");
+        }
     }
-
-    public void EjecutarUser(Usuario usuario)
-    {
-        repoUsuario.ModificarUsuario(usuario);
-    }
+    
 }

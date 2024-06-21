@@ -22,9 +22,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExpe, IU
         }
         else
         {
-
             throw new AutorizacionException("No posee los permisos necesarios para realizar esa operación.");
-
         }
     }
 }

@@ -125,6 +125,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
                 query.CorreoElectronico = usuario.CorreoElectronico;
                 query.Apellido = usuario.Apellido;
                 query.Contrasena = usuario.Contrasena;
+                query.Permisos = usuario.Permisos;
                 context.SaveChanges();
                 ok = true;
             }

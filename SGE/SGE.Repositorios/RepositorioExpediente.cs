@@ -3,7 +3,7 @@ using SGE.Aplicacion;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 
-public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfaces
+public class RepositorioExpediente : IExpedienteRepositorio
 {  
 
     public void EscribirExpediente(Expediente e)
@@ -17,11 +17,6 @@ public class RepositorioExpediente : IExpedienteRepositorio //Modificar Interfac
 
     }
 
-    //Revisar implementación y uso (Listar y Buscar por ID)
-    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
-    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
-    //un valor original y que pueda causar problemas su modificación.
-    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
     private Expediente Clonar(Expediente e)
     {
 

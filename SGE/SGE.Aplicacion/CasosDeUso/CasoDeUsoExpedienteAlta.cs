@@ -14,7 +14,6 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IUsuarioReposi
 
             if(validador.Validar(e, idUsuario, out string errorMessage) == false)
             {
-                Console.WriteLine("Validador CasoDeUsoAlta");
                 throw new ValidacionException(errorMessage);
             }
             
@@ -23,9 +22,7 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IUsuarioReposi
         }
         else
         {
-
             throw new AutorizacionException("No posee los permisos necesarios para realizar esa operación.");
-
         }
 
     } 

@@ -26,11 +26,6 @@ public class RepositorioTramite : ITramiteRepositorio
 
     }
 
-    //Revisar implementación y uso (Listar, Buscar, Buscar último y buscar por etiqueta)
-    //Es posible que al haber variables privadas se deba crear un nuevo Constructor?
-    //Implementado porque en la teoría se devuelven cosas de esta forma para no devolver
-    //un valor original y que pueda causar problemas su modificación.
-    //También revisé por varios lados y aparentemente es lo correcto, pero no estoy seguro el manejo de las variables privadas.
     private Tramite Clonar(Tramite t)
     {
 
@@ -85,7 +80,7 @@ public class RepositorioTramite : ITramiteRepositorio
 
             EtiquetaTramite etiqueta = (EtiquetaTramite) Enum.Parse(typeof(EtiquetaTramite), etiq);
             var query = context.Tramites.Where(t => t.Etiqueta == etiqueta);
-            //Revisar si esta query funciona ^
+
             foreach(Tramite tramite in query)
             {   
                 Tramite copia = this.Clonar(tramite);
@@ -184,15 +179,18 @@ public class RepositorioTramite : ITramiteRepositorio
     public List<Tramite> ListarTramitePorId(int idExpediente)
     {
 
-        List<Tramite> lista = this.ListarTramite();
         List<Tramite> listaPorId = new List<Tramite>();
 
-        foreach(Tramite t in lista)
+        using(var context = new DatosContext())
         {
-            if(t.ExpedienteId == idExpediente)
+
+            var query = context.Tramites.Where(t => t.ExpedienteId == idExpediente);
+
+            foreach(Tramite t2 in query)
             {
-                listaPorId.Add(t);
+                listaPorId.Add(t2);
             }
+
         }
 
         return listaPorId;

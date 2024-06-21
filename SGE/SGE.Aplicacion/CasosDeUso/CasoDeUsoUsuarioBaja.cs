@@ -12,5 +12,9 @@ public class CasoDeUsoUsuarioBaja(IServicioAutorizacion autorizacion, IUsuarioRe
         {
             repoUsuario.EliminarUsuario(id);
         }
+        else
+        {
+            throw new ValidacionException("No posee los permisos necesarios para dar de baja un usuario.");
+        }
     }
 }

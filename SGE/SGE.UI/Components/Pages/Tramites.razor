@@ -10,6 +10,16 @@
 
 <PageTitle>Trámites</PageTitle>
 
+@if(mostrarError)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
+}
+
 <div>
     @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteAlta"))
     {
@@ -86,6 +96,8 @@
 
 @code
 {
+    private string mensajeError = "";
+    private bool mostrarError = false;
     Confirmacion dialogo = null!;
     Tramite? _tramiteEliminado = null;
     bool mostrar = false;
@@ -115,10 +127,18 @@
     }
     private void EliminarTramite(Tramite tramite)
     {
-        if(tramite != null)
+        try
         {
-            TramiteBaja.Ejecutar(tramite.ID, sesionActual.Id);
-            _lista = ListarTramites.Ejecutar();
+            if(tramite != null)
+            {
+                TramiteBaja.Ejecutar(tramite.ID, sesionActual.Id);
+                _lista = ListarTramites.Ejecutar();
+            }
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;   
         }
     }
     private void AltaTramite()
@@ -136,14 +156,36 @@
     }
     private void BuscarTramites(string etiquetaBuscada)
     {
-        _lista = TramitesEtiqueta.Ejecutar(etiquetaBuscada);
-        mostrar = false;
-        StateHasChanged();
+        try
+        {
+            _lista = TramitesEtiqueta.Ejecutar(etiquetaBuscada);
+            mostrar = false;
+            StateHasChanged();
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }
     private void TodosTramites()
     {
-        _lista = ListarTramites.Ejecutar();
-        mostrar = false;
-        StateHasChanged();
+        try
+        {
+            _lista = ListarTramites.Ejecutar();
+            mostrar = false;
+            StateHasChanged();
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }
+
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
+    }
+
 }

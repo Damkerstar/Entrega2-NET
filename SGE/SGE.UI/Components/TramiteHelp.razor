@@ -6,9 +6,14 @@
 @inject CasoDeUsoTramiteConsultaPorId TramitePorID
 @inject ISesion Sesion
 
-@if(error)
+@if(mostrarError)
 {
-    <h2>@mensajeError</h2>
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
 }
 
 <h1>Ingrese los siguientes datos</h1>
@@ -46,7 +51,7 @@ else
     bool _tramiteNuevo = true;
     string etiquetaModificada = "";
     string mensajeError = "";
-    bool error = false;
+    bool mostrarError = false;
 
     List<string> TramiteEtiquetas = new List<string>
         {
@@ -85,7 +90,6 @@ else
         {
             if(sesionActual != null && _tramiteNuevo)
             {
-                error = false;
                 tramite.IdUsuario = sesionActual.Id;
                 TramiteAlta.Ejecutar(tramite, sesionActual.Id);
             }
@@ -97,11 +101,11 @@ else
         catch(Exception e)
         {
             mensajeError = e.Message;
-            error = true;
+            mostrarError = true;
         }
         finally
         {
-            if(!error)
+            if(!mostrarError)
             {
                 Navegador.NavigateTo("tramites/");
             }
@@ -111,6 +115,11 @@ else
     private void EtiquetaElejida(string etiqueta)
     {
         etiquetaModificada = etiqueta;
+    }
+
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
     }
 
 }

@@ -11,6 +11,16 @@
 
 <PageTitle>Expedientes</PageTitle>
 
+@if(mostrarError)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
+}
+
 <div>
     @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "ExpedienteAlta"))
     {
@@ -113,6 +123,8 @@
 
 @code
 {
+    private bool mostrarError = false;
+    private string mensajeError = "";
     private bool mostrar = false;
     private bool mostrarTramites = false;
     private Usuario? sesionActual;
@@ -136,10 +148,18 @@
     }
     private void EliminarExpediente(Expediente expediente)
     {
-        if(expediente != null)
+        try
         {
-            ExpedienteBaja.Ejecutar(expediente.ID, sesionActual.Id);
-            _lista = ListarExpedientes.Ejecutar();
+            if(expediente != null)
+            {
+                ExpedienteBaja.Ejecutar(expediente.ID, sesionActual.Id);
+                _lista = ListarExpedientes.Ejecutar();
+            }
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
         }
     }
     private void AltaExpediente()
@@ -157,18 +177,40 @@
     }
     private void BuscarExpediente(int? id)
     {
-        _lista.Clear();
-        _lista.Add(ConsultaPorId.Ejecutar(id));
-        _listaTramites = ListarTramitePorId.Ejecutar(busquedaID.Value); 
-        mostrar = true;
-        mostrarTramites = true;
-        StateHasChanged();
+        try
+        {
+            _lista.Clear();
+            _lista.Add(ConsultaPorId.Ejecutar(id));
+            _listaTramites = ListarTramitePorId.Ejecutar(busquedaID.Value); 
+            mostrar = true;
+            mostrarTramites = true;
+            StateHasChanged();
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }
     private void TodosExpedientes()
     {
-        _lista = ListarExpedientes.Ejecutar();
-        mostrar = false;
-        mostrarTramites = false;
-        StateHasChanged();
+        try
+        {
+            _lista = ListarExpedientes.Ejecutar();
+            mostrar = false;
+            mostrarTramites = false;
+            StateHasChanged();
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }
+    
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
+    }
+
 }

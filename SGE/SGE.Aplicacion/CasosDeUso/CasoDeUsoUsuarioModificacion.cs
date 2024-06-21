@@ -3,14 +3,10 @@ using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 namespace SGE.Aplicacion.CasosDeUso;
 
-public class CasoDeUsoUsuarioModificacion(IServicioAutorizacion autorizacion, IUsuarioRepositorio repoUsuario)
+public class CasoDeUsoUsuarioModificacion(IUsuarioRepositorio repoUsuario)
 {
-    public void Ejecutar(Usuario usuario, int id)
+    public void EjecutarUser(Usuario usuario)
     {
-
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(id), "UsuariosModificacion"))
-        {
-            repoUsuario.ModificarUsuario(usuario);
-        }
+        repoUsuario.ModificarUsuario(usuario);
     }
 }

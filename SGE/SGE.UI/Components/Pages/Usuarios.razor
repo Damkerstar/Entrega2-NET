@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 @inject CasoDeUsoUsuarioBaja BajaUsuarios
 @inject CasoDeUsoUsuarioLista ListaUsuarios
-@inject CasoDeUsoUsuarioModificacion ModificacionUsuario
+@inject CasoDeUsoAdmModificacion ModificacionUsuario
 @inject IServicioAutorizacion autorizacion
 @inject ISesion Sesion
 
@@ -10,7 +10,12 @@
 
 @if(mostrarError)
 {
-    <h1>@mensajeError</h1>
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
 }
 
 <style>
@@ -77,7 +82,15 @@
     }
     private void ModificarUsuario(Usuario usuario)
     {
-        ModificacionUsuario.Ejecutar(usuario,sesionAct.Id);
+        try
+        {
+            ModificacionUsuario.Ejecutar(sesionAct.Id, usuario);
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
     }
 
     private void ConfirmarEliminado(Usuario usuario)
@@ -91,7 +104,6 @@
     {
         try
         {
-            mostrarError = false;
             BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
         }
         catch(Exception e)
@@ -102,7 +114,20 @@
     }    
     private void TodosUsuarios()
     {
-        _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
+        try
+        {
+            _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
+    }
+
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
     }
 
 }

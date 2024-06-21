@@ -31,6 +31,7 @@ builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
 builder.Services.AddTransient<InicioSesion>();
 builder.Services.AddTransient<Registro>();
 builder.Services.AddTransient<CasoDeUsoListarTramitePorId>();
+builder.Services.AddTransient<CasoDeUsoAdmModificacion>();
 
 
 // Interfaces
