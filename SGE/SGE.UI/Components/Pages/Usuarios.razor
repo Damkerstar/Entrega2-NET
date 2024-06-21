@@ -3,6 +3,7 @@
 @inject CasoDeUsoUsuarioLista ListaUsuarios
 @inject CasoDeUsoUsuarioModificacion ModificacionUsuario
 @inject IServicioAutorizacion autorizacion
+@inject CasoDeUsoUsuarioObtenerPermisos obtnerPermisos
 @inject ISesion Sesion
 
 <PageTitle>Usuarios</PageTitle>
@@ -36,12 +37,13 @@
                 <td>@usuario.Nombre</td>
                 <td>@usuario.Apellido</td>
                 <td>@usuario.CorreoElectronico</td>
-                @* <td>    
-                    @foreach(Permiso permiso in usuario.Permisos)
+                
+                <td>    
+                    @foreach(string permiso in @Parseo(usuario))
                     {
                         <td>@permiso</td>
                     }
-                </td> *@
+                </td>
                 @if(sesionAct != null && autorizacion.PoseeElPermiso(sesionAct, "UsuariosModificacion")){
                     <td>
                         <button class= "btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">Modificar</button>
@@ -64,14 +66,19 @@
 {
     Usuario? usuarioEliminado;
     Usuario sesionAct;
-    List<Usuario> _lista;
+    List<Usuario> _lista =  new List<Usuario>();
     Confirmacion dialogo = null;
+
+    private List<string> Parseo(Usuario usuario)
+    {
+        return obtnerPermisos.Ejecutar(usuario.Permisos, usuario.Id);
+    }
 
     protected override void OnInitialized()
     {
-        _lista = new List<Usuario>();
-        TodosUsuarios();
         sesionAct = Sesion.GetSesion();
+        TodosUsuarios();
+        
     }
     private void ModificarUsuario(Usuario usuario)
     {
@@ -92,7 +99,6 @@
     private void TodosUsuarios()
     {
         _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
-        
     }
 
 }

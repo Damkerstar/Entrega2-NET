@@ -166,4 +166,14 @@ public class RepositorioUsuario : IUsuarioRepositorio
         return u;
     
     }
+
+    public List<string> ListaPermisosUsuario(List<Permiso> permisos)
+    {
+        List<string> lista = new List<string>();
+        foreach(var permiso in permisos)
+        {
+            lista.Add(permiso.ToString());
+        }
+        return lista;
+    }
 }
