@@ -12,6 +12,9 @@ public class CasoDeUsoUsuarioObtenerPermisos(IServicioAutorizacion autorizacion,
         {
             return repoUsuario.ListaPermisosUsuario(permisos);
         }
-        return null;
+        else
+        {
+            throw new ValidacionException("No posee los permisos necesarios para modificar usuarios.");
+        }
     }
 }
