@@ -12,6 +12,7 @@
             <h3>Ingrese sus credenciales</h3>
             <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
             <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <br>
             <button class="btn btn-primary" @onclick="ConfirmarLogin">Confirmar</button>
         </div>
     </div>
@@ -26,6 +27,7 @@
             <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
             <input placeholder="Correo electrónico" @bind="_usuario.CorreoElectronico" class="form-control">
             <input placeholder="Contraseña" @bind="_usuario.Contrasena" class="form-control">
+            <br>
             <button class="btn btn-primary" @onclick="ConfirmarRegistro">Confirmar</button>
         </div>
     </div>
@@ -33,8 +35,8 @@
 
 @code {
 
-    Usuario _usuario = new Usuario();
-    Usuario? sesionIniciada;
+    private Usuario _usuario = new Usuario();
+    private Usuario? sesionIniciada;
     private bool bloqueInicio = false;
     private bool bloqueRegistro = false;
 

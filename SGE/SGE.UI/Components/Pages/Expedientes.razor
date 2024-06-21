@@ -162,6 +162,7 @@
             mostrarError = true;
         }
     }
+    
     private void AltaExpediente()
     {
         Navegador.NavigateTo($"ExpedienteHelp/");
@@ -170,11 +171,13 @@
     {
         Navegador.NavigateTo($"ExpedienteHelp/{expediente.ID}");
     }
+
     private void MostrarPorID()
     {
         mostrar = true;
         StateHasChanged();
     }
+
     private void BuscarExpediente(int? id)
     {
         try
@@ -192,6 +195,7 @@
             mostrarError = true;
         }
     }
+
     private void TodosExpedientes()
     {
         try

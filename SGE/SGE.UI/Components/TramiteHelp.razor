@@ -17,6 +17,7 @@
 }
 
 <h1>Ingrese los siguientes datos</h1>
+
 @if(_tramiteNuevo)
 {
     <h3>Escrito Presentado</h3>
@@ -46,12 +47,13 @@ else
 
 @code
 {
-    [Parameter] public int? ID {set;get;}
-    Tramite tramite = new Tramite();
-    bool _tramiteNuevo = true;
-    string etiquetaModificada = "";
-    string mensajeError = "";
-    bool mostrarError = false;
+    [Parameter]
+    public int? ID {set;get;}
+    private Tramite tramite = new Tramite();
+    private bool _tramiteNuevo = true;
+    private string etiquetaModificada = "";
+    private string mensajeError = "";
+    private bool mostrarError = false;
 
     List<string> TramiteEtiquetas = new List<string>
         {

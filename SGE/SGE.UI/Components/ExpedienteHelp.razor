@@ -41,12 +41,13 @@ else
 
 @code
 {
-    [Parameter] public int? ID {set;get;}
-    Expediente expediente = new Expediente();
-    bool _expedienteNuevo = true;
-    string estadoModificado = "";
-    string mensajeError = "";
-    bool mostrarError = false;
+    [Parameter]
+    public int? ID {set;get;}
+    private Expediente expediente = new Expediente();
+    private bool _expedienteNuevo = true;
+    private string estadoModificado = "";
+    private string mensajeError = "";
+    private bool mostrarError = false;
 
     List<string> ExpedientesEstado = new List<string>
         {
