@@ -11,6 +11,9 @@ public class CasoDeUsoUsuarioLista(IServicioAutorizacion autorizacion, IUsuarioR
         {
             return repoUsuario.ListarUsuarios();
         }
-        return repoUsuario.ListarUsuarios();
+        else
+        {
+            throw new ValidacionException("No posee los permisos necesarios para listar usuarios.");
+        }
     }
 }

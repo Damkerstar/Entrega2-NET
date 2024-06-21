@@ -11,5 +11,10 @@ public class CasoDeUsoAdmModificacion(IUsuarioRepositorio repoUsuario, IServicio
         {
             repoUsuario.ModificarUsuarioPermiso(usuario, permisos);
         }
+        else
+        {
+            throw new ValidacionException("No posee los permisos necesarios para modificar un usuario.");
+        }
     }
+    
 }

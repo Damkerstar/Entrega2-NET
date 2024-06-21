@@ -11,7 +11,12 @@
 
 @if(mostrarError)
 {
-    <h1>@mensajeError</h1>
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
 }
 
 <style>
@@ -67,9 +72,9 @@
 {
     private string mensajeError = "";
     private bool mostrarError = false;
-    Usuario? _usuarioEliminado = null;
-    Usuario sesionAct;
-    List<Usuario> _lista = new List<Usuario>();
+    private Usuario? _usuarioEliminado = null;
+    private Usuario sesionAct;
+    private List<Usuario> _lista = new List<Usuario>();
     Confirmacion dialogo = null!;
 
     private List<string> Parseo(Usuario usuario)
@@ -98,7 +103,6 @@
     {
         try
         {
-            mostrarError = false;
             BajaUsuarios.Ejecutar(usuario.Id, sesionAct.Id);
         }
         catch(Exception e)
@@ -109,7 +113,20 @@
     }    
     private void TodosUsuarios()
     {
-        _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
+        try
+        {
+            _lista = ListaUsuarios.Ejecutar(sesionAct.Id);
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
+        }
+    }
+
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
     }
 
 }

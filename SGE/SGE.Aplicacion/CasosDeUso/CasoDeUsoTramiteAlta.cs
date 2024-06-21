@@ -17,19 +17,14 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTramite, IExpedienteRe
             }
             else
             {
-                repoExpediente.BuscarExpedientePorId(tramite.ExpedienteId);
-
                 repoTramite.AgregarTramite(tramite);
-                //Manualmente porque por algún motivo SQLite no lo hace automáticamente?
                 servicioActualizacion.Ejecutar(tramite.ExpedienteId, tramite.Etiqueta);
             }
 
         }
         else
         {
-
             throw new AutorizacionException("No posee los permisos necesarios para realizar esa operación.");
-
         }
     }
 }

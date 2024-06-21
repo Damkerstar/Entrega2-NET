@@ -6,9 +6,14 @@
 @inject CasoDeUsoExpedienteConsultaPorId ExpedientePorID
 @inject ISesion Sesion
 
-@if(error)
+@if(mostrarError)
 {
-    <h2>@mensajeError</h2>
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>@mensajeError</h3>
+            <button class= "btn btn-primary" @onclick="()=>CerrarMensaje()">Aceptar</button>
+        </div>
+    </div>
 }
 
 <h1>Ingrese los siguientes datos</h1>
@@ -36,12 +41,13 @@ else
 
 @code
 {
-    [Parameter] public int? ID {set;get;}
-    Expediente expediente = new Expediente();
-    bool _expedienteNuevo = true;
-    string estadoModificado = "";
-    string mensajeError = "";
-    bool error = false;
+    [Parameter]
+    public int? ID {set;get;}
+    private Expediente expediente = new Expediente();
+    private bool _expedienteNuevo = true;
+    private string estadoModificado = "";
+    private string mensajeError = "";
+    private bool mostrarError = false;
 
     List<string> ExpedientesEstado = new List<string>
         {
@@ -53,13 +59,21 @@ else
         };
     protected override void OnParametersSet()
     {
-        if(ID != null)
+        try
         {
-            expediente = ExpedientePorID.Ejecutar(ID.Value);
-            if(expediente != null)
+            if(ID != null)
             {
-                _expedienteNuevo = false;
+                expediente = ExpedientePorID.Ejecutar(ID.Value);
+                if(expediente != null)
+                {
+                    _expedienteNuevo = false;
+                }
             }
+        }
+        catch(Exception e)
+        {
+            mensajeError = e.Message;
+            mostrarError = true;
         }
     }
 
@@ -72,7 +86,6 @@ else
         {
             if(sesionActual != null && _expedienteNuevo)
             {
-                error = false;
                 expediente.usuarioID = sesionActual.Id;
                 ExpedienteAlta.Ejecutar(expediente, sesionActual.Id);
             }
@@ -84,11 +97,11 @@ else
         catch(Exception e)
         {
             mensajeError = e.Message;
-            error = true;
+            mostrarError = true;
         }
         finally
         {
-            if(!error)
+            if(!mostrarError)
             {
                 Navegador.NavigateTo("expedientes/");
             }
@@ -98,6 +111,11 @@ else
     private void EstadoElegido(string estado)
     {
         estadoModificado = estado;
+    }
+
+    private void CerrarMensaje()
+    {
+        mostrarError = false;
     }
 
 }
