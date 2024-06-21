@@ -3,6 +3,7 @@
 @inject NavigationManager Navegador;
 @inject ISesion Sesion
 @inject CasoDeUsoUsuarioModificacion ModificacionUsuario
+@inject UsuarioValidador validador
 
 <PageTitle>Datos personales</PageTitle>
 
@@ -68,16 +69,20 @@ else
 
         try
         {
+            
             if(sesionIniciada != null)
             {
                 Usuario modificacion = new Usuario(_nuevoNombre, _nuevoApellido, _nuevoCorreo, _newPassword, sesionIniciada.Permisos);
                 modificacion.Id = sesionIniciada.Id;
-            
-                ModificacionUsuario.EjecutarUser(modificacion);
-                Sesion.CargarSesion(modificacion);
 
-                Navegador.NavigateTo("/datospersonales", forceLoad: true);
-                //ForceLoad para que se actualice la Sesión y vacíen campos
+                if(validador.ValidarUsuario(modificacion))
+                {
+                    ModificacionUsuario.EjecutarUser(modificacion);
+                    Sesion.CargarSesion(modificacion);
+
+                    Navegador.NavigateTo("/datospersonales", forceLoad: true);
+                    //ForceLoad para que se actualice la Sesión y vacíen campos
+                }
             }
         }
         catch(Exception e)

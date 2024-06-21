@@ -44,7 +44,7 @@ builder.Services.AddScoped<ServicioActualizacionEstado>();
 //Singleton
 builder.Services.AddSingleton<TramiteValidador>();
 builder.Services.AddSingleton<ExpedienteValidador>();
-builder.Services.AddSingleton<UsuarioValidador>();
+builder.Services.AddScoped<UsuarioValidador>();
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ISesion, Sesion>();
 

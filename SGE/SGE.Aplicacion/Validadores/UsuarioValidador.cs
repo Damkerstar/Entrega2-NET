@@ -2,17 +2,16 @@ namespace SGE.Aplicacion;
 using SGE.Aplicacion.Entidades;
 public class UsuarioValidador
 {
-    public bool ValidarUsuario(Usuario usuario, out string msg)
+    public bool ValidarUsuario(Usuario usuario)
     {
-
-        msg = "";
 
         if(string.IsNullOrWhiteSpace(usuario.Nombre) || string.IsNullOrWhiteSpace(usuario.Apellido) || string.IsNullOrWhiteSpace(usuario.CorreoElectronico) || string.IsNullOrWhiteSpace(usuario.Contrasena))
         {
-            msg += "Todos los datos deben estar llenos.";
+            string msg = "Todos los datos deben estar llenos.";
+            throw new ValidacionException(msg);
         }
 
-        return (msg == "");
+        return true;
 
     }
 }

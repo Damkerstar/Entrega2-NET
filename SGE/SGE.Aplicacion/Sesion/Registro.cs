@@ -11,7 +11,7 @@ public class Registro(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, Usuar
     {
 
         Usuario? user;
-        if(validador.ValidarUsuario(u, out string msg))
+        if(validador.ValidarUsuario(u))
         {
             u.CorreoElectronico = u.CorreoElectronico.ToLower();
             user = ConsultaPorCorreo.Ejecutar(u.CorreoElectronico);
@@ -27,11 +27,7 @@ public class Registro(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, Usuar
                 return true;
             }
         }
-        else
-        {
-            throw new ValidacionException(msg);
-        }
-
+        return false;
     }
 
     private string HashearClave(string password)
