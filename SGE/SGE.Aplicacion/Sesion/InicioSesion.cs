@@ -22,7 +22,7 @@ public class InicioSesion(CasoDeUsoUsuarioConsultaPorCorreo ConsultaPorCorreo, I
             return true;
         }
         
-        return false;
+        throw new ValidacionException("Credenciales incorrectas.");
 
     }
 
