@@ -87,6 +87,7 @@
                         <button class= "btn btn-primary" @onclick="()=>ModificarTramite(tramite)">Modificar</button>
                     </td>
                 }
+                
                 @if(sesionActual != null && autorizacion.PoseeElPermiso(sesionActual, "TramiteBaja")){
                     <td>
                         <button class="btn btn-danger" @onclick="()=>ConfirmarEliminado(tramite)">Eliminar</button>

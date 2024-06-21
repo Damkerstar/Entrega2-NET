@@ -9,7 +9,7 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExpediente, IUsu
     public void Ejecutar(int idExpediente, int idUsuario)
     {
 
-        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "ExpedienteAlta"))
+        if(autorizacion.PoseeElPermiso(repoUsuario.BuscarUsuario(idUsuario), "ExpedienteBaja"))
         {
 
             repoExpediente.EliminarExpediente(idExpediente);
