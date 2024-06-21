@@ -44,9 +44,9 @@ builder.Services.AddScoped<ServicioActualizacionEstado>();
 //Singleton
 builder.Services.AddSingleton<TramiteValidador>();
 builder.Services.AddSingleton<ExpedienteValidador>();
-builder.Services.AddScoped<UsuarioValidador>();
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ISesion, Sesion>();
+builder.Services.AddSingleton<UsuarioValidador>();
 
 //Inicializar base de datos / crear
 DatosSqlite.Inicializar();
