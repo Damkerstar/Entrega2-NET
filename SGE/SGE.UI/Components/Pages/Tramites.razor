@@ -25,6 +25,7 @@
     {
         <button class = "btn btn-primary" @onclick="()=>AltaTramite()">Agregar Trámite</button>
     }
+    <br> <br>
     <button class = "btn btn-primary" @onclick="()=>MostrarPorEtiqueta()">Filtrar por etiqueta</button>
 </div>
 
@@ -34,11 +35,14 @@
 {
     <div class="dialogo-contenedor">
         <div class="dialogo-contenido">
-            <h1>Elija la etiqueta para filtrar</h1>
-            <button class= "btn btn-primary" @onclick="()=>TodosTramites()">Todos los Trámites</button>
+            <h3>Elija la etiqueta para filtrar</h3>
+            <button class= "btn btn-primary" @onclick="()=>TodosTramites()">Borrar filtro</button>
+            <br> <br>
             @foreach(string etiqueta in TramiteEtiquetas)
             {
-                <button class="btn btn-primary" @onclick="()=>BuscarTramites(etiqueta)">@etiqueta</button>
+                <div style="padding: 5px;">
+                    <button class="btn btn-secondary" @onclick="()=>BuscarTramites(etiqueta)">@etiqueta</button>
+                </div>
             }
         </div>
     </div>
@@ -46,13 +50,15 @@
 
 <style>
     table, th, td {
-        border: 1px solid white;
+        border: 1px solid rgb(0, 0, 0.5);
         border-collapse : collapse;
-        padding: 10px;
-        width: 50%;
+        padding: 15px;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
     th, td {
-        background-color : lightblue;
+        background-color : rgb(255, 255, 255);
     }
 </style>
 <table style>

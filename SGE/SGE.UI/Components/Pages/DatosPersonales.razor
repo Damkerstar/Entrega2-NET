@@ -18,22 +18,29 @@
 
 @if(sesionIniciada != null)
 {
-    <h3>Modificación de datos personales</h3>
+    <div>
+        <h3>Modificación de datos personales</h3>
+    </div>
 
-    <input placeholder="Nombre" @bind="_nuevoNombre" class="form-control">
-    <input placeholder="Apellido" @bind="_nuevoApellido" class="form-control">
-    <input placeholder="Correo electrónico" @bind="_nuevoCorreo" class="form-control">
+    <div class="descripcion">
+        <input placeholder="Nombre" @bind="_nuevoNombre" class="form-control">
+        <input placeholder="Apellido" @bind="_nuevoApellido" class="form-control">
+        <input placeholder="Correo electrónico" @bind="_nuevoCorreo" class="form-control">
 
-    <input placeholder="Contraseña nueva" @bind="_newPassword" class="form-control">
+        <input placeholder="Contraseña nueva" @bind="_newPassword" class="form-control">
 
-    <br>
-
-    <button class="btn btn-primary" @onclick="ModificarDatos">Confirmar</button>
-    <button class="btn btn-danger" @onclick="Volver">Cancelar</button>
+        <br>
+    </div>
+    <div class="dialogo-contenido">
+        <button class="btn btn-primary" @onclick="ModificarDatos">Confirmar</button>
+        <button class="btn btn-danger" @onclick="Volver">Cancelar</button>
+    </div>
 }
 else
 {
-    <h3>Debe iniciar sesión antes modificar datos personales.</h3>
+    <div>
+        <h3>Debe iniciar sesión antes modificar datos personales.</h3>
+    </div>
 }
 
 @code 

@@ -16,34 +16,43 @@
     </div>
 }
 
-<h1>Ingrese los siguientes datos</h1>
+<div>
+    <h1>Complete la siguiente información</h1>
+    <br>
+</div>
 
 @if(_tramiteNuevo)
 {
-    <h3>Escrito Presentado</h3>
+    <div>
+        <h3>Etiqueta inicial: Escrito Presentado</h3>
+    </div>
 }
 else
 {
     <div>
-        <a>
-            <h3>Seleccione la etiqueta del tramite</h3>
-            @foreach(string etiqueta in TramiteEtiquetas)
-            {
-                <button  @onclick="()=>EtiquetaElejida(etiqueta)">@etiqueta</button>
-                
-            }
-            <h4 class="separacion">Etiqueta elejida: @etiquetaModificada</h4>
-        </a>
+        <h3>Seleccione la etiqueta del tramite</h3>
+        @foreach(string etiqueta in TramiteEtiquetas)
+        {
+            <button  @onclick="()=>EtiquetaElejida(etiqueta)">@etiqueta</button>
+            
+        }
+        <h4 class="separacion">Etiqueta elejida: @etiquetaModificada</h4>
     </div>
 }
 
-<h4 class="separacion">Descripcion: <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control"> </h4>
-
-<h4 class="separacion">Expediente ID:</h4>
-<a>
-    <input placeholder= "ID expediente" @bind= "tramite.ExpedienteId" class= "form-control">
-</a>
-<button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+<div>
+    <h4 class="separacion">Descripcion:</h4>
+    <div class="descripcion">
+        <input placeholder= "Descripcion" @bind= "tramite.Descripcion" class= "form-control">
+    </div>
+    <br>
+    <h4 class="separacion">Expediente ID:</h4>
+    <div class="id">
+        <input placeholder= "ID expediente" @bind= "tramite.ExpedienteId" class= "form-control">
+    </div>
+    <br>
+    <button class="btn btn-primary" @onclick= "()=>OpcionTramite()">Aceptar</button>
+</div>
 
 @code
 {
