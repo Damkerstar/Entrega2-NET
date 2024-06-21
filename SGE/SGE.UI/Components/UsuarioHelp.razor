@@ -1,4 +1,4 @@
-@page "/TramiteHelp/{ID:int?}"
+@page "/UsuarioHelp/{ID:int?}"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoAdmModificacion ModificacionUsuario
@@ -6,10 +6,6 @@
 @inject IServicioAutorizacion autorizacion
 @inject CasoDeUsoUsuarioBuscarPorID BuscarPorID
 
-@if(error)
-{
-    <h2>@mensajeError</h2>
-}
 
 <h1>Ingrese los siguientes datos</h1>
 <div>
