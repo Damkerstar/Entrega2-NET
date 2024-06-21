@@ -12,12 +12,13 @@
 }
 
 .dialogo-contenido{
-    width: 50%;
-    padding: 20px;
+    width: 40%;
+    padding: 10px;
     background-color: white;
 }
-.dialogo-contenido h3{
+div {
     text-align: center;
+    border-radius: 25px;
 }
 .separacion{
     margin-top: 20px;
