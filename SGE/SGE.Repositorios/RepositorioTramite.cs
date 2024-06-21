@@ -11,12 +11,6 @@ public class RepositorioTramite : ITramiteRepositorio
         
         using (var context = new DatosContext()) 
         {
-            Expediente expediente = new Expediente("wdas", 1);
-            context.Add(expediente);
-            context.SaveChanges();
-            Tramite tramite1 = new Tramite("sdas", 1, 1);
-            context.Add(tramite1);
-            context.SaveChanges();
             context.Add(tramite);
             context.SaveChanges();
         }
